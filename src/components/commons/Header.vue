@@ -6,7 +6,7 @@
 
     <nav>
       <img class="nav-icon" src="@/assets/icons/bell.png" alt="알림" />
-      <img class="nav-icon" src="@/assets/icons/hamberger.png" alt="메뉴" />
+      <img class="nav-icon" src="@/assets/icons/hamburger.png" alt="메뉴" />
     </nav>
   </div>
 </template>
