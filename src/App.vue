@@ -1,18 +1,26 @@
 <script setup>
+import { useRoute } from 'vue-router'
 import Footer from './components/commons/Footer.vue'
 import Header from './components/commons/Header.vue'
+import { computed } from 'vue'
+
+const route = useRoute()
+
+const showLayout = computed(() => {
+  return route.meta.layout !== 'none'
+})
 </script>
 
 <template>
   <div class="align-center">
     <div class="container">
-      <header>
+      <header v-if="showLayout">
         <Header />
       </header>
 
       <RouterView />
 
-      <footer>
+      <footer v-if="showLayout">
         <Footer />
       </footer>
     </div>
