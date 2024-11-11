@@ -1,4 +1,5 @@
 <script setup>
+import formatNumber from '@/utils/formatNumber'
 import { ref } from 'vue'
 
 const props = defineProps({
@@ -6,10 +7,6 @@ const props = defineProps({
 })
 
 const isPositive = ref(props.account.difference > 0 ? true : false)
-
-const formatNumber = (number) => {
-  return Math.abs(number).toLocaleString()
-}
 </script>
 
 <template>
@@ -72,13 +69,5 @@ const formatNumber = (number) => {
 .difference > img {
   width: 1rem;
   height: 0.875rem;
-}
-
-.text-blue {
-  color: #3396f4;
-}
-
-.text-red {
-  color: #ff0000;
 }
 </style>

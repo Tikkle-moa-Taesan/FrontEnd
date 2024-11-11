@@ -3,3 +3,11 @@
 body {
   font-family: 'Poppins', sans-serif;
 }
+
+.text-blue {
+  color: #3396f4;
+}
+
+.text-red {
+  color: #ff0000;
+}

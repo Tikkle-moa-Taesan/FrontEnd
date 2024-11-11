@@ -1,17 +1,17 @@
 <script setup>
-import { computed, ref } from 'vue'
+import formatNumber from '@/utils/formatNumber'
+import { ref } from 'vue'
 
 const userName = ref('소샤이')
 
 const totalBalance = ref(1234567890)
-const formattedTotalBalance = computed(() => totalBalance.value.toLocaleString())
 </script>
 
 <template>
   <div class="total-balance-container">
     <div class="info-container">
       <span class="title">{{ userName }}님의 총 자산</span>
-      <span class="total-balance">{{ formattedTotalBalance }} 원</span>
+      <span class="total-balance">{{ formatNumber(totalBalance) }} 원</span>
     </div>
 
     <div class="img-container"></div>

@@ -49,6 +49,10 @@ const accounts = ref([
   border-radius: 10px;
 }
 
+.major-accounts-container > h2 {
+  font-weight: 600;
+}
+
 .major-accounts-container > span {
   text-align: end;
   font-size: 0.875rem;
