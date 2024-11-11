@@ -70,6 +70,7 @@ const chartData = ref({
 
 const chartOptions = ref({
   maintainAspectRatio: false,
+  radius: 100,
   plugins: {
     legend: {
       position: 'bottom',
@@ -93,6 +94,7 @@ Chart.register(centerTextPlugin)
 
 <style scoped>
 .doughnut-container {
-  width: 45%;
+  background-color: #f2f2f2;
+  border-radius: 10px;
 }
 </style>
