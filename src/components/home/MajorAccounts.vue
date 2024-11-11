@@ -1,8 +1,9 @@
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import MajorAccountDetail from './MajorAccountDetail.vue'
+import formatNumber from '@/utils/formatNumber'
 
-const accounts = ref([
+const response = ref([
   {
     accountId: 1,
     balance: 1300000,
@@ -24,7 +25,35 @@ const accounts = ref([
     accountName: '어피치 분홍통장',
     difference: 15120,
   },
+  {
+    accountId: 4,
+    balance: 51254,
+    bankName: '은행1',
+    accountName: '통장1',
+    difference: -87322,
+  },
+  {
+    accountId: 5,
+    balance: 394554,
+    bankName: '은행2',
+    accountName: '통장2',
+    difference: 15120,
+  },
+  {
+    accountId: 6,
+    balance: 1963552,
+    bankName: '은행3',
+    accountName: '통장3',
+    difference: 15120,
+  },
 ])
+
+const majorAccountList = computed(() => response.value.slice(0, 3))
+const restAccountList = computed(() => response.value.slice(3))
+
+const restTotalBalance = computed(() =>
+  restAccountList.value.reduce((sum, account) => sum + account.balance, 0),
+)
 </script>
 
 <template>
@@ -34,7 +63,19 @@ const accounts = ref([
     <span>전날 대비</span>
 
     <div class="account-list">
-      <MajorAccountDetail v-for="account in accounts" :key="account.accountId" :account="account" />
+      <MajorAccountDetail
+        v-for="account in majorAccountList"
+        :key="account.accountId"
+        :account="account"
+      />
+
+      <div class="rest-info-container">
+        <img class="etc-img" src="@/assets/images/etc.png" alt="기타" />
+        <div class="rest-info">
+          <span>{{ formatNumber(restTotalBalance) }} 원</span>
+          <span class="rest-count">그 외 {{ restAccountList.length }}개</span>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -63,5 +104,26 @@ const accounts = ref([
   display: flex;
   flex-direction: column;
   gap: 2rem;
+}
+
+.rest-info-container {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.rest-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.rest-info .rest-count {
+  color: #646464;
+}
+
+.etc-img {
+  width: 2.75rem;
+  height: 2.75rem;
 }
 </style>
