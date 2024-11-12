@@ -1,10 +1,18 @@
 <script setup>
-import FreeAccount from './account.vue'
+import router from '@/router'
+import Account from './account.vue'
+import { computed } from 'vue'
 
-defineProps({
+const props = defineProps({
   title: String,
   accounts: Object,
 })
+
+const type = computed(() => (props.title === '자유 입출금 계좌' ? 'free' : 'saving'))
+
+const handleAccountClick = (accountId) => {
+  router.push({ name: 'asset-detail', params: { type: type.value, id: accountId } })
+}
 </script>
 
 <template>
@@ -12,7 +20,12 @@ defineProps({
     <h2>{{ title }}</h2>
 
     <div class="account-list">
-      <FreeAccount v-for="account in accounts" :key="account.accountId" :account="account" />
+      <Account
+        v-for="account in accounts"
+        @click="handleAccountClick(account.accountId)"
+        :key="account.accountId"
+        :account="account"
+      />
     </div>
   </div>
 </template>
