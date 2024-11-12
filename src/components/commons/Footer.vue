@@ -2,8 +2,10 @@
 
 <template>
   <div class="footer-container">
-    <img src="@/assets/icons/wallet.png" alt="자산" />
-    <RouterLink class="link" :to="{ name: home }">
+    <RouterLink class="link" :to="{ name: 'asset' }">
+      <img src="@/assets/icons/wallet.png" alt="자산" />
+    </RouterLink>
+    <RouterLink class="link" :to="{ name: 'home' }">
       <img src="@/assets/icons/home.png" alt="홈" />
     </RouterLink>
     <img src="@/assets/icons/calendar.png" alt="가계부" />

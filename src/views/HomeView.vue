@@ -5,7 +5,7 @@ import ToTalBalance from '@/components/home/TotalBalance.vue'
 </script>
 
 <template>
-  <div class="home-container">
+  <div class="page-container">
     <ToTalBalance />
     <MajorAccounts />
     <SpendingStatistic />
@@ -13,7 +13,7 @@ import ToTalBalance from '@/components/home/TotalBalance.vue'
 </template>
 
 <style scoped>
-.home-container {
+.page-container {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
