@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 
-import Account from '@/components/asset/accounts.vue'
+import Account from '@/components/asset/Accounts.vue'
 import TotalBalance from '@/components/home/TotalBalance.vue'
 
 const freeAccounts = ref([

@@ -1,6 +1,6 @@
 <script setup>
 import router from '@/router'
-import Account from './account.vue'
+import Account from './Account.vue'
 import { computed } from 'vue'
 
 const props = defineProps({
