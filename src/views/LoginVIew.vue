@@ -1,9 +1,11 @@
 <script setup>
-const kakaoKey = import.meta.env.VITE_KAKAO_KEY
-const kakaoRedirectUri = 'http://localhost:5173/login/kakao/code'
+const BASE_URL = import.meta.env.VITE_BASE_URL
+const KAKAO_KEY = import.meta.env.VITE_KAKAO_KEY
+
+const kakaoRedirectUri = `${BASE_URL}/login/kakao/code`
 
 const handleKakaoBtnClick = () => {
-  location.href = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${kakaoKey}&redirect_uri=${kakaoRedirectUri}&scope=openid`
+  location.href = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${KAKAO_KEY}&redirect_uri=${kakaoRedirectUri}&scope=openid`
 }
 </script>
 

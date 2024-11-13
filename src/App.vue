@@ -22,7 +22,7 @@ const isHome = computed(() => {
       <header v-if="showLayout && isHome">
         <HeaderHome />
       </header>
-      <header v-else="showLayout">
+      <header v-else-if="showLayout">
         <HeaderPage />
       </header>
 
