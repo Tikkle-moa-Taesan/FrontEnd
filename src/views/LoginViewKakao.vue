@@ -1,6 +1,6 @@
 <script setup>
 import router from '@/router'
-import { loginInstance } from '@/utils/instance'
+import instance from '@/utils/instance'
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 
@@ -9,7 +9,7 @@ const code = ref(route.query.code)
 
 onMounted(async () => {
   try {
-    await loginInstance.get(`/api/oauth/kakao/login/${code.value}`)
+    await instance.get(`/api/oauth/kakao/login/${code.value}`)
   } catch (error) {
     console.error(error)
   }
