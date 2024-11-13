@@ -1,21 +1,29 @@
 <script setup>
+import { computed, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import Footer from './components/commons/Footer.vue'
-import Header from './components/commons/Header.vue'
-import { computed } from 'vue'
+import HeaderHome from './components/commons/HeaderHome.vue'
+import HeaderPage from './components/commons/HeaderPage.vue'
 
 const route = useRoute()
 
 const showLayout = computed(() => {
   return route.meta.layout !== 'none'
 })
+
+const isHome = computed(() => {
+  return route.meta.isHome == true
+})
 </script>
 
 <template>
   <div class="align-center">
     <div class="container">
-      <header v-if="showLayout">
-        <Header />
+      <header v-if="showLayout && isHome">
+        <HeaderHome />
+      </header>
+      <header v-else="showLayout">
+        <HeaderPage />
       </header>
 
       <RouterView />

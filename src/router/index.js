@@ -1,16 +1,35 @@
+import AssetDetailView from '@/views/AssetDetailView.vue'
+import AssetView from '@/views/AssetView.vue'
 import HomeView from '@/views/HomeView.vue'
-import LoginVIew from '@/views/LoginVIew.vue'
+import LoginView from '@/views/LoginView.vue'
 import LoginViewKakao from '@/views/LoginViewKakao.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    { path: '/', name: 'home', component: HomeView },
+    {
+      path: '/',
+      name: 'home',
+      component: HomeView,
+      meta: {
+        isHome: true,
+      },
+    },
+    {
+      path: '/asset',
+      name: 'asset',
+      component: AssetView,
+    },
+    {
+      path: '/asset/:type/:id',
+      name: 'asset-detail',
+      component: AssetDetailView,
+    },
     {
       path: '/login',
       name: 'login',
-      component: LoginVIew,
+      component: LoginView,
       meta: { layout: 'none' },
     },
     {
