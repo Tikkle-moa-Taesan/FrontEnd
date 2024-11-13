@@ -78,7 +78,7 @@ const accountInfo = ref({
 .saving-account-detail {
   display: flex;
   gap: 3.75rem;
-  padding: 0.5rem;
+  padding: 0.75rem 0.5rem;
   border-radius: 5px;
   background-color: #f2f2f2;
 }
