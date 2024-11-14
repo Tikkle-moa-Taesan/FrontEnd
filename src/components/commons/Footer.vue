@@ -8,7 +8,7 @@
     <RouterLink class="link" :to="{ name: 'home' }">
       <img src="@/assets/icons/home.png" alt="홈" />
     </RouterLink>
-    <RouterLink class="link" :to="{ name: 'financial-ledger' }">
+    <RouterLink class="link" :to="{ name: 'financial-ledger-list' }">
       <img src="@/assets/icons/calendar.png" alt="가계부" />
     </RouterLink>
   </div>
