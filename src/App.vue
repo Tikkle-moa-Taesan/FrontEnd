@@ -40,9 +40,12 @@ const isHome = computed(() => {
   display: flex;
   flex-direction: column;
   align-items: center;
+  min-height: 100vh;
 }
 
 .container {
+  display: flex;
+  flex-direction: column;
   width: 100%;
   max-width: 430px;
   min-height: 100vh;

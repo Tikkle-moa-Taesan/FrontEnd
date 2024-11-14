@@ -14,6 +14,7 @@ import ToTalBalance from '@/components/home/TotalBalance.vue'
 
 <style scoped>
 .page-container {
+  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
