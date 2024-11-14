@@ -8,7 +8,9 @@
     <RouterLink class="link" :to="{ name: 'home' }">
       <img src="@/assets/icons/home.png" alt="홈" />
     </RouterLink>
-    <img src="@/assets/icons/calendar.png" alt="가계부" />
+    <RouterLink class="link" :to="{ name: 'financial-ledger-list' }">
+      <img src="@/assets/icons/calendar.png" alt="가계부" />
+    </RouterLink>
   </div>
 </template>
 
@@ -22,11 +24,6 @@
 }
 
 .link {
-  width: 1.875rem;
-  height: 1.875rem;
-}
-
-.footer-container > img {
   width: 1.875rem;
   height: 1.875rem;
 }
