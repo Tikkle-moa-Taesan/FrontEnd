@@ -1,5 +1,6 @@
 import AssetDetailView from '@/views/AssetDetailView.vue'
 import AssetView from '@/views/AssetView.vue'
+import FinancialLedgerView from '@/views/FinancialLedgerView.vue'
 import HomeView from '@/views/HomeView.vue'
 import LoginView from '@/views/LoginView.vue'
 import LoginViewKakao from '@/views/LoginViewKakao.vue'
@@ -25,6 +26,11 @@ const router = createRouter({
       path: '/asset/:type/:id',
       name: 'asset-detail',
       component: AssetDetailView,
+    },
+    {
+      path: '/financial-ledger',
+      name: 'financial-ledger',
+      component: FinancialLedgerView,
     },
     {
       path: '/login',
