@@ -1,8 +1,8 @@
 <script setup>
-const BASE_URL = import.meta.env.VITE_BASE_URL
+const BASE_FE_URL = import.meta.env.VITE_BASE_FE_URL
 const KAKAO_KEY = import.meta.env.VITE_KAKAO_KEY
 
-const kakaoRedirectUri = `${BASE_URL}/login/kakao/code`
+const kakaoRedirectUri = `${BASE_FE_URL}/login/kakao/code`
 
 const handleKakaoBtnClick = () => {
   location.href = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${KAKAO_KEY}&redirect_uri=${kakaoRedirectUri}&scope=openid`
