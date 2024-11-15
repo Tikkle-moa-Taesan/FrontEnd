@@ -1,14 +1,10 @@
 <script setup>
 import formatNumber from '@/utils/formatNumber'
-import { ref } from 'vue'
-import { useRoute } from 'vue-router'
 
 defineProps({
+  accountType: String,
   accountInfo: Object,
 })
-
-const route = useRoute()
-const accountType = ref(route.params.type)
 </script>
 
 <template>
