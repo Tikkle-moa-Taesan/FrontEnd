@@ -16,6 +16,8 @@ export const getFreeAccountList = async () => {
 
     return response.data
   } catch (error) {
+    if (error.status == 403) location.href = '/login'
+
     console.error(error)
   }
 }
@@ -26,6 +28,8 @@ export const getFreeAccount = async (accountId) => {
 
     return response.data
   } catch (error) {
+    if (error.status == 403) location.href = '/login'
+
     console.error(error)
   }
 }
@@ -36,6 +40,8 @@ export const getSavingAccountList = async () => {
 
     return response.data
   } catch (error) {
+    if (error.status == 403) location.href = '/login'
+
     console.error(error)
   }
 }
@@ -46,6 +52,8 @@ export const getSavingAccount = async (accountId) => {
 
     return response.data
   } catch (error) {
+    if (error.status == 403) location.href = '/login'
+
     console.error(error)
   }
 }
@@ -56,6 +64,8 @@ export const getExpenseStatistic = async () => {
 
     return response.data
   } catch (error) {
+    if (error.status == 403) location.href = '/login'
+
     console.error(error)
   }
 }
@@ -66,6 +76,8 @@ export const getBudgetStatistic = async () => {
 
     return response.data
   } catch (error) {
+    if (error.status == 403) location.href = '/login'
+
     console.error(error)
   }
 }
