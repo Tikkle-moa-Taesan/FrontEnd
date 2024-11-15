@@ -42,7 +42,7 @@ const restTotalBalance = computed(() =>
         :account="account"
       />
 
-      <div class="rest-info-container">
+      <div v-if="restAccountList.length > 0" class="rest-info-container">
         <img class="etc-img" src="@/assets/images/etc.png" alt="기타" />
         <div class="rest-info">
           <span>{{ formatNumber(restTotalBalance) }} 원</span>
