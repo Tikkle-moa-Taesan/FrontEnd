@@ -20,6 +20,16 @@ export const getFreeAccountList = async () => {
   }
 }
 
+export const getSavingAccountList = async () => {
+  try {
+    const response = await instance.get('/api/account/savings')
+
+    return response.data
+  } catch (error) {
+    console.error(error)
+  }
+}
+
 export const getExpenseStatistic = async () => {
   try {
     const response = await instance.get('/api/budget/expense')
