@@ -3,20 +3,12 @@ import formatNumber from '@/utils/formatNumber'
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 
-const route = useRoute()
-
-const accountType = ref(route.params.type)
-const accountId = ref(route.params.id)
-
-const accountInfo = ref({
-  accountId: 1,
-  balance: 7730000,
-  bankName: '하나은행',
-  difference: 50000,
-  maturityDate: '2025-11-12',
-  interestRate: 4.3,
-  accountName: '뱅크월렛 카카오통장',
+defineProps({
+  accountInfo: Object,
 })
+
+const route = useRoute()
+const accountType = ref(route.params.type)
 </script>
 
 <template>
@@ -27,7 +19,12 @@ const accountInfo = ref({
     </div>
 
     <span class="account-detail">
-      {{ accountInfo.bankName }}
+      <span>
+        {{ accountInfo.bankName }}
+      </span>
+      <span>
+        {{ accountInfo.accountNumber }}
+      </span>
     </span>
 
     <div v-if="accountType === 'saving'" class="saving-account-detail">
@@ -71,6 +68,8 @@ const accountInfo = ref({
 }
 
 .account-detail {
+  display: flex;
+  gap: 0.5rem;
   font-size: 14px;
   color: #646464;
 }
