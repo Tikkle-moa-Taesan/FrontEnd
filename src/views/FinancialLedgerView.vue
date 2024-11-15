@@ -22,4 +22,12 @@ import MonthlySummary from '@/components/financialLedger/MonthlySummary.vue'
   padding: 1.25rem;
   background-color: #f2f2f2;
 }
+
+.floating-nav {
+  position: fixed;
+  bottom: 5rem;
+  left: 50%;
+  transform: translate(-50%, 0);
+  width: max-content;
+}
 </style>
