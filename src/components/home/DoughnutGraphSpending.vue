@@ -4,7 +4,7 @@ import { ArcElement, Chart, Legend, Tooltip } from 'chart.js'
 import { computed, ref } from 'vue'
 
 const props = defineProps({
-  monthlyExpenses: Object,
+  categoryExpenses: Object,
 })
 
 Chart.register(ArcElement, Tooltip, Legend)
@@ -35,7 +35,7 @@ const chartLabels = ref([
   '반려동물',
   '경조/선물',
 ])
-const chartDatasets = computed(() => Object.values(props.monthlyExpenses.category))
+const chartDatasets = computed(() => Object.values(props.categoryExpenses))
 
 const chartData = ref({
   labels: chartLabels.value,
