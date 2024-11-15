@@ -1,55 +1,28 @@
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import MajorAccountDetail from './MajorAccountDetail.vue'
 import formatNumber from '@/utils/formatNumber'
+import { getFreeAccountList } from '@/utils/api'
 
-const response = ref([
-  {
-    accountId: 1,
-    balance: 1300000,
-    bankName: '하나은행',
-    accountName: '뱅크월렛 카카오통장',
-    difference: -26000,
-  },
-  {
-    accountId: 2,
-    balance: 500000,
-    bankName: '우리은행',
-    accountName: 'WEWE 우리통장',
-    difference: 3000,
-  },
-  {
-    accountId: 3,
-    balance: 84651254,
-    bankName: '카카오뱅크',
-    accountName: '어피치 분홍통장',
-    difference: 15120,
-  },
-  {
-    accountId: 4,
-    balance: 51254,
-    bankName: '은행1',
-    accountName: '통장1',
-    difference: -87322,
-  },
-  {
-    accountId: 5,
-    balance: 394554,
-    bankName: '은행2',
-    accountName: '통장2',
-    difference: 15120,
-  },
-  {
-    accountId: 6,
-    balance: 1963552,
-    bankName: '은행3',
-    accountName: '통장3',
-    difference: 15120,
-  },
-])
+const freeAccountList = ref()
 
-const majorAccountList = computed(() => response.value.slice(0, 3))
-const restAccountList = computed(() => response.value.slice(3))
+const fetchFreeAccountList = async () => {
+  try {
+    freeAccountList.value = await getFreeAccountList()
+  } catch (error) {
+    console.error('자유 입출금 계좌 데이터를 불러오는 데 실패했습니다.', error)
+  }
+}
+
+onMounted(fetchFreeAccountList)
+
+const majorAccountList = computed(() => {
+  return freeAccountList.value ? freeAccountList.value.slice(0, 3) : []
+})
+
+const restAccountList = computed(() => {
+  return freeAccountList.value ? freeAccountList.value.slice(3) : []
+})
 
 const restTotalBalance = computed(() =>
   restAccountList.value.reduce((sum, account) => sum + account.balance, 0),

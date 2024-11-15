@@ -24,7 +24,7 @@ const isPositive = ref(props.account.difference > 0 ? true : false)
       <img v-if="isPositive" src="@/assets/icons/triangle-up.png" alt="상향삼각형" />
       <img v-else src="@/assets/icons/triangle-down.png" alt="하향삼각형" />
       <span :class="isPositive ? 'text-blue' : 'text-red'">{{
-        formatNumber(account.difference)
+        formatNumber(account.balanceDifference)
       }}</span>
     </div>
   </div>
