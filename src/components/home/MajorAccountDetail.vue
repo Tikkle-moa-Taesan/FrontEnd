@@ -1,4 +1,5 @@
 <script setup>
+import router from '@/router'
 import formatNumber from '@/utils/formatNumber'
 import { ref } from 'vue'
 
@@ -6,11 +7,15 @@ const props = defineProps({
   account: Object,
 })
 
+const handleAccountClick = () => {
+  router.push({ name: 'asset-detail', params: { type: 'free', id: props.account.accountId } })
+}
+
 const isPositive = ref(props.account.difference > 0 ? true : false)
 </script>
 
 <template>
-  <div class="account-container">
+  <div @click="handleAccountClick" class="account-container">
     <div class="account-info-container">
       <div class="bank-img-container"></div>
 

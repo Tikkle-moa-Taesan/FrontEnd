@@ -1,8 +1,11 @@
 <script setup>
 import { computed, onMounted, ref } from 'vue'
+import router from '@/router'
+
 import MajorAccountDetail from './MajorAccountDetail.vue'
-import formatNumber from '@/utils/formatNumber'
+
 import { getFreeAccountList } from '@/utils/api'
+import formatNumber from '@/utils/formatNumber'
 
 const freeAccountList = ref()
 
@@ -27,6 +30,10 @@ const restAccountList = computed(() => {
 const restTotalBalance = computed(() =>
   restAccountList.value.reduce((sum, account) => sum + account.balance, 0),
 )
+
+const handleEtcClick = () => {
+  router.push({ name: 'asset' })
+}
 </script>
 
 <template>
@@ -42,7 +49,7 @@ const restTotalBalance = computed(() =>
         :account="account"
       />
 
-      <div v-if="restAccountList.length > 0" class="rest-info-container">
+      <div v-if="restAccountList.length > 0" @click="handleEtcClick" class="rest-info-container">
         <img class="etc-img" src="@/assets/images/etc.png" alt="기타" />
         <div class="rest-info">
           <span>{{ formatNumber(restTotalBalance) }} 원</span>
