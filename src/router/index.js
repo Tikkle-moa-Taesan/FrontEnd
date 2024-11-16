@@ -9,6 +9,8 @@ import FinancialLedgerView from '@/views/FinancialLedgerView.vue'
 import HomeView from '@/views/HomeView.vue'
 import LoginView from '@/views/LoginView.vue'
 import LoginViewKakao from '@/views/LoginViewKakao.vue'
+import TotalBudgetSetView from '@/views/TotalBudgetSetView.vue'
+import { postBudgetUpdate } from '@/utils/api'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -46,9 +48,18 @@ const router = createRouter({
           path: 'budget',
           name: 'financial-ledger-budget',
           component: FinancialLedgerBudgetView,
+          beforeEnter: async () => {
+            await postBudgetUpdate()
+          },
           meta: { isBudget: true },
         },
       ],
+    },
+    {
+      path: '/budget-set',
+      name: 'total-budget-set',
+      component: TotalBudgetSetView,
+      meta: { isBudget: true },
     },
     {
       path: '/login',

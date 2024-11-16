@@ -1,7 +1,7 @@
 <script setup>
-import Calendar from '@/components/financialLedger/Calendar.vue'
-import formatNumber from '@/utils/formatNumber'
 import { ref } from 'vue'
+
+import Calendar from '@/components/financialLedger/Calendar.vue'
 
 const financialData = ref({
   1: { income: 100000, expense: 50000 },

@@ -14,17 +14,18 @@ const fetchExpenseStatistic = async () => {
   }
 }
 
-// const fetchBudgetStatistic = async () => {
-//   try {
-//     const budgetStatistic = await getBudgetStatistic()
-//     console.log(budgetStatistic)
-//   } catch (error) {
-//     console.error(error)
-//   }
-// }
+const fetchBudgetStatistic = async () => {
+  try {
+    const budgetStatistic = await getBudgetStatistic()
+    console.log(budgetStatistic)
+  } catch (error) {
+    console.error(error)
+  }
+}
 
 onMounted(() => {
   fetchExpenseStatistic()
+  // fetchBudgetStatistic()
 })
 
 // mock data
