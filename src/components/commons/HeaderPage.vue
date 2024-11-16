@@ -1,8 +1,21 @@
-<script setup></script>
+<script setup>
+import router from '@/router'
+
+const handleBackClick = () => {
+  router.go(-1)
+}
+</script>
 
 <template>
   <div class="header-container">
-    <div></div>
+    <div class="arrow-container">
+      <img
+        @click="handleBackClick"
+        class="arrow-left"
+        src="@/assets/icons/arrow-left.png"
+        alt="화살표"
+      />
+    </div>
 
     <nav>
       <img class="nav-icon" src="@/assets/icons/search.png" alt="검색" />
@@ -20,6 +33,15 @@
   padding: 1rem 1.25rem;
   background-color: #f2f2f2;
   box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.arrow-container {
+  display: flex;
+  align-items: center;
+}
+
+.arrow-left {
+  height: 1.25rem;
 }
 
 .main-logo {
