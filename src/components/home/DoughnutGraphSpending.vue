@@ -35,37 +35,41 @@ const chartLabels = ref([
   '반려동물',
   '경조/선물',
 ])
-const chartDatasets = computed(() => Object.values(props.categoryExpenses))
+const chartDatasets = computed(() =>
+  props.categoryExpenses ? Object.values(props.categoryExpenses) : [],
+)
 
-const chartData = ref({
-  labels: chartLabels.value,
-  datasets: [
-    {
-      data: chartDatasets.value,
-      backgroundColor: [
-        '#4BC0C0',
-        '#36A2EB',
-        '#FF6384',
-        '#FF9F40',
-        '#FFCD56',
-        '#C9CBCF',
-        '#9966FF',
-        '#FF9F40',
-        '#FF6384',
-      ],
-      hoverBackgroundColor: [
-        '#4BC0C0',
-        '#36A2EB',
-        '#FF6384',
-        '#FF9F40',
-        '#FFCD56',
-        '#C9CBCF',
-        '#9966FF',
-        '#FF9F40',
-        '#FF6384',
-      ],
-    },
-  ],
+const chartData = computed(() => {
+  return {
+    labels: chartLabels.value,
+    datasets: [
+      {
+        data: chartDatasets.value,
+        backgroundColor: [
+          '#4BC0C0',
+          '#36A2EB',
+          '#FF6384',
+          '#FF9F40',
+          '#FFCD56',
+          '#C9CBCF',
+          '#9966FF',
+          '#FF9F40',
+          '#FF6384',
+        ],
+        hoverBackgroundColor: [
+          '#4BC0C0',
+          '#36A2EB',
+          '#FF6384',
+          '#FF9F40',
+          '#FFCD56',
+          '#C9CBCF',
+          '#9966FF',
+          '#FF9F40',
+          '#FF6384',
+        ],
+      },
+    ],
+  }
 })
 
 const chartOptions = ref({

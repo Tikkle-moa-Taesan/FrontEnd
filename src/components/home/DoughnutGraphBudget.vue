@@ -7,9 +7,11 @@ const props = defineProps({
   monthlyBudget: Object,
 })
 
-const restBudget = computed(
-  () => props.monthlyBudget.thisMonthBudget - props.monthlyBudget.thisMonthExpense,
-)
+const restBudget = computed(() => {
+  return props.monthlyBudget
+    ? props.monthlyBudget.thisMonthBudget - props.monthlyBudget.thisMonthExpense
+    : 0
+})
 
 Chart.register(ArcElement, Tooltip, Legend)
 
@@ -30,15 +32,17 @@ const centerTextPlugin = {
 
 const chartLabels = ref(['남은 예산', '지출'])
 
-const chartData = ref({
-  labels: chartLabels.value,
-  datasets: [
-    {
-      data: [restBudget.value, props.monthlyBudget.thisMonthExpense],
-      backgroundColor: ['#36A2EB', '#646464'],
-      hoverBackgroundColor: ['#36A2EB', '#646464'],
-    },
-  ],
+const chartData = computed(() => {
+  return {
+    labels: chartLabels.value,
+    datasets: [
+      {
+        data: [restBudget.value, props.monthlyBudget ? props.monthlyBudget.thisMonthExpense : 0],
+        backgroundColor: ['#36A2EB', '#646464'],
+        hoverBackgroundColor: ['#36A2EB', '#646464'],
+      },
+    ],
+  }
 })
 
 const chartOptions = ref({
