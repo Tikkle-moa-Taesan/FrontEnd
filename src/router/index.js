@@ -1,3 +1,5 @@
+import { createRouter, createWebHistory } from 'vue-router'
+
 import AssetDetailView from '@/views/AssetDetailView.vue'
 import AssetView from '@/views/AssetView.vue'
 import FinancialLedgerBudgetView from '@/views/FinancialLedgerBudgetView.vue'
@@ -7,7 +9,6 @@ import FinancialLedgerView from '@/views/FinancialLedgerView.vue'
 import HomeView from '@/views/HomeView.vue'
 import LoginView from '@/views/LoginView.vue'
 import LoginViewKakao from '@/views/LoginViewKakao.vue'
-import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
