@@ -1,5 +1,11 @@
-<script setup></script>
+<script setup>
+import LineGraphBudget from '@/components/financialLedger/LineGraphBudget.vue'
+</script>
 
-<template></template>
+<template>
+  <div>
+    <LineGraphBudget />
+  </div>
+</template>
 
 <style scoped></style>

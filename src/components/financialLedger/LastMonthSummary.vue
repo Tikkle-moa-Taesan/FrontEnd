@@ -1,38 +1,23 @@
 <script setup>
 import formatNumber from '@/utils/formatNumber'
-import { ref } from 'vue'
-
-const month = ref(new Date().getMonth() + 1)
-
-const data = ref({
-  income: 3000000,
-  expense: 2500000,
-})
 </script>
 
 <template>
   <div class="summary-container">
-    <div class="title">
-      <span> {{ month }}월 내역 </span>
-      <img class="arrow-img" src="@/assets/icons/arrow-down.png" alt="화살표" />
-    </div>
+    <span class="title">지난 달 내역</span>
 
     <div class="income-and-expense">
       <div class="value-container">
         <span>지출</span>
         <span>
-          <span class="expense-value">
-            {{ formatNumber(data.expense) }}
-          </span>
+          <span class="expense-value"> {{ formatNumber(2000000) }} </span>
           원
         </span>
       </div>
       <div class="value-container">
         <span>수입</span>
         <span>
-          <span class="income-value">
-            {{ formatNumber(data.income) }}
-          </span>
+          <span class="income-value"> {{ formatNumber(1000000) }} </span>
           원
         </span>
       </div>
@@ -52,19 +37,13 @@ const data = ref({
 }
 
 .summary-container .title {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
   font-size: 1.25rem;
   font-weight: 700;
-}
-
-.summary-container .arrow-img {
-  width: 1rem;
-  height: 0.7rem;
+  color: #646464;
 }
 
 .income-and-expense {
+  width: fit-content;
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
@@ -73,7 +52,9 @@ const data = ref({
 
 .value-container {
   display: flex;
+  justify-content: space-between;
   gap: 1rem;
+  color: #646464;
 }
 
 .value-container .expense-value {

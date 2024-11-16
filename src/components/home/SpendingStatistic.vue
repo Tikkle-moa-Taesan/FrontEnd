@@ -1,60 +1,43 @@
 <script setup>
 import { computed, onMounted, ref } from 'vue'
-import formatNumber from '@/utils/formatNumber'
+
 import DoughnutGraphSpending from './DoughnutGraphSpending.vue'
 import DoughnutGraphBudget from './DoughnutGraphBudget.vue'
+
+import formatNumber from '@/utils/formatNumber'
 import { getBudgetStatistic, getExpenseStatistic } from '@/utils/api'
+
+const monthlySpending = ref(null)
+const monthlyBudget = ref(null)
 
 const fetchExpenseStatistic = async () => {
   try {
     const expenseStatistic = await getExpenseStatistic()
-    console.log(expenseStatistic)
+    monthlySpending.value = expenseStatistic
   } catch (error) {
     console.error(error)
   }
 }
 
-// const fetchBudgetStatistic = async () => {
-//   try {
-//     const budgetStatistic = await getBudgetStatistic()
-//     console.log(budgetStatistic)
-//   } catch (error) {
-//     console.error(error)
-//   }
-// }
+const fetchBudgetStatistic = async () => {
+  try {
+    const budgetStatistic = await getBudgetStatistic()
+    monthlyBudget.value = budgetStatistic
+  } catch (error) {
+    console.error(error)
+  }
+}
 
 onMounted(() => {
   fetchExpenseStatistic()
+  fetchBudgetStatistic()
 })
 
-// mock data
-const monthlyExpenses = ref({
-  lastMonthExpense: 1248800,
-  thisMonthExpense: 2548600,
-  lastWeekExpense: 128000,
-  thisWeekExpense: 15485,
-  categoryExpense: {
-    foodExpense: 200000,
-    livingExpense: 350000,
-    housingCommunicationExpense: 500000,
-    financeExpense: 250000,
-    transportationExpense: 85000,
-    childcareExpense: 6123,
-    leisureCultureExpense: 150000,
-    petExpense: 75000,
-    eventGiftExpense: 50000,
-  },
-})
+const monthlyDifference = computed(() => {
+  if (!monthlySpending.value) return 0
 
-const monthlyBudget = ref({
-  thisMonthBudget: 2000000,
-  thisMonthExpense: 1600000,
-  rate: 80,
+  return monthlySpending.value.thisMonthExpense - monthlySpending.value.lastMonthExpense
 })
-
-const monthlyDifference = computed(
-  () => monthlyExpenses.value.thisMonthExpense - monthlyExpenses.value.lastMonthExpense,
-)
 
 const differenceString = computed(() => (monthlyDifference.value > 0 ? '적게' : '많이'))
 </script>
@@ -71,7 +54,7 @@ const differenceString = computed(() => (monthlyDifference.value > 0 ? '적게' 
     </p>
 
     <div class="graph-container">
-      <DoughnutGraphSpending :category-expenses="monthlyExpenses.categoryExpense" />
+      <DoughnutGraphSpending :category-expenses="monthlySpending?.categoryExpense" />
       <DoughnutGraphBudget :monthly-budget="monthlyBudget" />
     </div>
   </div>
