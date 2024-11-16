@@ -10,6 +10,30 @@ export const getLogin = async (code) => {
   }
 }
 
+export const getProfile = async () => {
+  try {
+    const response = await instance.get('/api/member/profile')
+
+    return response.data
+  } catch (error) {
+    if (error.status == 403) location.href = '/login'
+
+    console.error(error)
+  }
+}
+
+export const getTotalBalance = async () => {
+  try {
+    const response = await instance.get('/api/account/balance')
+
+    return response.data
+  } catch (error) {
+    if (error.status == 403) location.href = '/login'
+
+    console.error(error)
+  }
+}
+
 export const getFreeAccountList = async () => {
   try {
     const response = await instance.get('/api/account/free')
