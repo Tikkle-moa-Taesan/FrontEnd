@@ -7,8 +7,8 @@ import DoughnutGraphBudget from './DoughnutGraphBudget.vue'
 import formatNumber from '@/utils/formatNumber'
 import { getBudgetStatistic, getExpenseStatistic } from '@/utils/api'
 
-const monthlySpending = ref()
-const monthlyBudget = ref()
+const monthlySpending = ref(null)
+const monthlyBudget = ref(null)
 
 const fetchExpenseStatistic = async () => {
   try {
@@ -34,9 +34,9 @@ onMounted(() => {
 })
 
 const monthlyDifference = computed(() => {
-  return monthlySpending.value
-    ? monthlySpending.value.thisMonthExpense - monthlySpending.value.lastMonthExpense
-    : 0
+  if (!monthlySpending.value) return 0
+
+  return monthlySpending.value.thisMonthExpense - monthlySpending.value.lastMonthExpense
 })
 
 const differenceString = computed(() => (monthlyDifference.value > 0 ? '적게' : '많이'))

@@ -35,9 +35,11 @@ const chartLabels = ref([
   '반려동물',
   '경조/선물',
 ])
-const chartDatasets = computed(() =>
-  props.categoryExpenses ? Object.values(props.categoryExpenses) : [],
-)
+const chartDatasets = computed(() => {
+  if (!props.categoryExpenses) return []
+
+  return Object.values(props.categoryExpenses)
+})
 
 const chartData = computed(() => {
   return {

@@ -8,9 +8,9 @@ const props = defineProps({
 })
 
 const restBudget = computed(() => {
-  return props.monthlyBudget
-    ? props.monthlyBudget.thisMonthBudget - props.monthlyBudget.thisMonthExpense
-    : 0
+  if (!props.monthlyBudget) return 0
+
+  return props.monthlyBudget.thisMonthBudget - props.monthlyBudget.thisMonthExpense
 })
 
 Chart.register(ArcElement, Tooltip, Legend)
@@ -37,7 +37,7 @@ const chartData = computed(() => {
     labels: chartLabels.value,
     datasets: [
       {
-        data: [restBudget.value, props.monthlyBudget ? props.monthlyBudget.thisMonthExpense : 0],
+        data: [restBudget.value, props.monthlyBudget?.thisMonthExpense || 0],
         backgroundColor: ['#36A2EB', '#646464'],
         hoverBackgroundColor: ['#36A2EB', '#646464'],
       },
