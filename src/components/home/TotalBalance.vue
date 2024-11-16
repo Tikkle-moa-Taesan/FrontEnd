@@ -1,20 +1,44 @@
 <script setup>
+import { getProfile, getTotalBalance } from '@/utils/api'
 import formatNumber from '@/utils/formatNumber'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 
-const userName = ref('소샤이')
+const profile = ref(null)
+const totalBalance = ref(0)
 
-const totalBalance = ref(1234567890)
+const fetchProfile = async () => {
+  try {
+    profile.value = await getProfile()
+  } catch (error) {
+    console.error('프로필 데이터를 불러오는 데 실패하였습니다.', error)
+  }
+}
+
+const fetchTotalBalance = async () => {
+  try {
+    const balanceData = await getTotalBalance()
+    totalBalance.value = balanceData.total
+  } catch (error) {
+    console.error('총 자산 데이터를 불러오는 데 실패하였습니다.', error)
+  }
+}
+
+onMounted(() => {
+  fetchProfile()
+  fetchTotalBalance()
+})
 </script>
 
 <template>
   <div class="total-balance-container">
     <div class="info-container">
-      <span class="title">{{ userName }}님의 총 자산</span>
+      <span class="title">{{ profile?.memberName }}님의 총 자산</span>
       <span class="total-balance">{{ formatNumber(totalBalance) }} 원</span>
     </div>
 
-    <div class="img-container"></div>
+    <div class="img-container">
+      <img class="profile-img" :src="profile?.picture" alt="프로필 사진" />
+    </div>
   </div>
 </template>
 
@@ -48,5 +72,10 @@ const totalBalance = ref(1234567890)
   height: 3.25rem;
   border-radius: 999px;
   background-color: white;
+  overflow: hidden;
+}
+
+.profile-img {
+  width: 100%;
 }
 </style>
