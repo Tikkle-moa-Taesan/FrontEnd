@@ -42,7 +42,12 @@ const router = createRouter({
           name: 'financial-ledger-calendar',
           component: FinancialLedgerCalendarView,
         },
-        { path: 'budget', name: 'financial-ledger-budget', component: FinancialLedgerBudgetView },
+        {
+          path: 'budget',
+          name: 'financial-ledger-budget',
+          component: FinancialLedgerBudgetView,
+          meta: { isBudget: true },
+        },
       ],
     },
     {

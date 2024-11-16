@@ -7,13 +7,9 @@ import HeaderPage from './components/commons/HeaderPage.vue'
 
 const route = useRoute()
 
-const showLayout = computed(() => {
-  return route.meta.layout !== 'none'
-})
+const showLayout = computed(() => route.meta.layout !== 'none')
 
-const isHome = computed(() => {
-  return route.meta.isHome == true
-})
+const isHome = computed(() => route.meta.isHome == true)
 </script>
 
 <template>

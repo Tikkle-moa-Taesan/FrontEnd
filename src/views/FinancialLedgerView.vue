@@ -1,11 +1,18 @@
 <script setup>
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
+
 import FloatingNav from '@/components/commons/FloatingNav.vue'
 import MonthlySummary from '@/components/financialLedger/MonthlySummary.vue'
+
+const route = useRoute()
+
+const isBudget = computed(() => route.meta.isBudget == true)
 </script>
 
 <template>
   <div class="page-container">
-    <MonthlySummary />
+    <MonthlySummary v-if="!isBudget" />
 
     <RouterView />
 

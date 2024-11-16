@@ -12,10 +12,10 @@ const data = ref({
 
 <template>
   <div class="summary-container">
-    <h2 class="title">
+    <div class="title">
       <span> {{ month }}월 내역 </span>
       <img class="arrow-img" src="@/assets/icons/arrow-down.png" alt="화살표" />
-    </h2>
+    </div>
 
     <div class="income-and-expense">
       <div class="value-container">
