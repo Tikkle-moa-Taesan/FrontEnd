@@ -82,6 +82,18 @@ export const getBudgetStatistic = async () => {
   }
 }
 
+export const postBudgetCreate = async (monthBudget) => {
+  try {
+    await instance.post('/api/budget/create', {
+      monthBudget: monthBudget,
+    })
+  } catch (error) {
+    if (error.status == 403) location.href = '/login'
+
+    console.error(error)
+  }
+}
+
 export const postBudgetUpdate = async () => {
   try {
     const response = await instance.post('/api/budget/download')

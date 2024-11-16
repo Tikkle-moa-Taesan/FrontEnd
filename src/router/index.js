@@ -10,6 +10,7 @@ import HomeView from '@/views/HomeView.vue'
 import LoginView from '@/views/LoginView.vue'
 import LoginViewKakao from '@/views/LoginViewKakao.vue'
 import TotalBudgetSetView from '@/views/TotalBudgetSetView.vue'
+
 import { postBudgetUpdate } from '@/utils/api'
 
 const router = createRouter({
