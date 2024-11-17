@@ -1,8 +1,6 @@
 <script setup>
 import AccountTransactionDayDetail from './AccountTransactionDayDetail.vue'
 
-import { formatDate } from '@/utils/formatDate'
-
 defineProps({
   date: String,
   transactions: Array,
@@ -11,7 +9,7 @@ defineProps({
 
 <template>
   <div class="day-transaction-container">
-    <span class="date">{{ formatDate(date) }}</span>
+    <span class="date">{{ date }}</span>
 
     <div class="day-transaction-list">
       <AccountTransactionDayDetail
