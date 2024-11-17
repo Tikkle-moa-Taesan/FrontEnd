@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue'
 import AccountTransactionDay from './AccountTransactionDay.vue'
+import { formatDate } from '@/utils/formatDate'
 
 const props = defineProps({
   accountTransaction: Array,
@@ -8,7 +9,7 @@ const props = defineProps({
 
 const groupingByDate = (transactions) => {
   return transactions.reduce((acc, transactions) => {
-    const date = transactions.transactionDatetime
+    const date = formatDate(transactions.transactionDatetime)
 
     if (!acc[date]) acc[date] = []
 
