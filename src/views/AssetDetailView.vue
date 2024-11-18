@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 
 import AccountInfo from '@/components/asset/AccountInfo.vue'
@@ -12,27 +12,59 @@ const route = useRoute()
 const accountType = ref(route.params.type)
 const accountId = ref(route.params.id)
 
-const account = ref()
+const account = ref({ accountDetail: {}, transactions: [] })
 
-const fetchFreeAccount = async () => {
+const page = ref(0)
+
+const isLoading = ref(false)
+const hasMoreData = ref(true)
+
+const handleInfiniteScroll = async (fetchFunction) => {
+  if (isLoading.value || !hasMoreData.value) return
+
+  isLoading.value = true
+
   try {
-    account.value = await getFreeAccount(accountId.value)
+    const res = await fetchFunction(accountId.value, page.value)
+
+    if (page.value === 0) account.value.accountDetail = res.accountDetail
+
+    if (res.transactions.length === 0) {
+      hasMoreData.value = false
+      return
+    }
+
+    account.value.transactions.push(...res.transactions)
+
+    page.value++
   } catch (error) {
     console.error(error)
+  } finally {
+    isLoading.value = false
   }
 }
 
-const fetchSavingAccount = async () => {
-  try {
-    account.value = await getSavingAccount(accountId.value)
-  } catch (error) {
-    console.error(error)
-  }
+const fetchAccount = async () => {
+  const fetchFunction = accountType.value === 'free' ? getFreeAccount : getSavingAccount
+
+  await handleInfiniteScroll(fetchFunction)
+}
+
+const onScroll = () => {
+  const scrollPosition = scrollY + innerHeight
+  const bottomPosition = document.documentElement.scrollHeight
+
+  if (scrollPosition >= bottomPosition - 100 && !isLoading.value) fetchAccount()
 }
 
 onMounted(() => {
-  if (accountType.value == 'free') fetchFreeAccount()
-  else fetchSavingAccount()
+  fetchAccount()
+
+  addEventListener('scroll', onScroll)
+})
+
+onUnmounted(() => {
+  removeEventListener('scroll', onScroll)
 })
 </script>
 
@@ -40,6 +72,7 @@ onMounted(() => {
   <div v-if="account" class="page-container">
     <AccountInfo :account-type="accountType" :account-info="account.accountDetail" />
     <AccountTransaction :account-transaction="account.transactions" />
+    <div v-if="isLoading" class="is-loading">loading...</div>
   </div>
 </template>
 
@@ -51,5 +84,11 @@ onMounted(() => {
   gap: 1.5rem;
   padding: 1.25rem;
   background-color: #f2f2f2;
+}
+
+.is-loading {
+  margin: 0.5rem 0;
+  color: #646464;
+  text-align: center;
 }
 </style>
