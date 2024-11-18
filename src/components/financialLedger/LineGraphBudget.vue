@@ -13,6 +13,10 @@ import {
   Tooltip,
 } from 'chart.js'
 
+const props = defineProps({
+  centerText: String,
+})
+
 Chart.register(Title, Tooltip, Legend, LineElement, PointElement, CategoryScale, LinearScale)
 
 const chartData = ref({
@@ -41,6 +45,9 @@ const chartOptions = ref({
   plugins: {
     legend: {
       position: 'top',
+    },
+    centerText: {
+      text: props.centerText,
     },
   },
   scales: {

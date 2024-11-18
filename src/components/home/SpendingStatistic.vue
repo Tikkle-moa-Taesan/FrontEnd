@@ -54,8 +54,11 @@ const differenceString = computed(() => (monthlyDifference.value > 0 ? '적게' 
     </p>
 
     <div class="graph-container">
-      <DoughnutGraphSpending :category-expenses="monthlySpending?.categoryExpense" />
-      <DoughnutGraphBudget :monthly-budget="monthlyBudget" />
+      <DoughnutGraphSpending
+        :category-expenses="monthlySpending?.categoryExpense"
+        center-text="지출"
+      />
+      <DoughnutGraphBudget :monthly-budget="monthlyBudget" center-text="예산" />
     </div>
   </div>
 </template>
