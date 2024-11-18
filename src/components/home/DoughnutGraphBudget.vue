@@ -5,6 +5,7 @@ import { computed, ref } from 'vue'
 
 const props = defineProps({
   monthlyBudget: Object,
+  centerText: String,
 })
 
 const restBudget = computed(() => {
@@ -14,21 +15,6 @@ const restBudget = computed(() => {
 })
 
 Chart.register(ArcElement, Tooltip, Legend)
-
-const centerTextPlugin = {
-  id: 'centerText',
-  beforeDraw(chart) {
-    const ctx = chart.ctx
-    const { width, height } = chart.chartArea
-    ctx.save()
-    ctx.font = '14px Poppins'
-    ctx.fillStyle = '#646464'
-    ctx.textAlign = 'center'
-    ctx.textBaseline = 'middle'
-    ctx.fillText('예산', width / 2, height / 2)
-    ctx.restore()
-  },
-}
 
 const chartLabels = ref(['남은 예산', '지출'])
 
@@ -56,9 +42,32 @@ const chartOptions = ref({
         pointStyle: 'circle',
       },
     },
-    centerText: {},
+    centerText: {
+      text: props.centerText,
+    },
   },
 })
+
+const centerTextPlugin = {
+  id: 'centerText',
+  beforeDraw: (chart) => {
+    const { ctx, chartArea, config } = chart
+
+    ctx.restore()
+
+    ctx.font = `1rem Pretendard-Regular`
+    ctx.fillStyle = '#646464'
+    ctx.textAlign = 'center'
+    ctx.textBaseline = 'middle'
+
+    const text = config.options.plugins.centerText.text
+    const textX = (chartArea.left + chartArea.right) / 2
+    const textY = (chartArea.top + chartArea.bottom) / 2
+
+    ctx.fillText(text, textX, textY)
+    ctx.save()
+  },
+}
 
 Chart.register(centerTextPlugin)
 </script>

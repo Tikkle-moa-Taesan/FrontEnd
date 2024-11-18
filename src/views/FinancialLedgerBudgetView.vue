@@ -4,7 +4,7 @@ import LineGraphBudget from '@/components/financialLedger/LineGraphBudget.vue'
 
 <template>
   <div>
-    <LineGraphBudget />
+    <LineGraphBudget center-text="" />
   </div>
 </template>
 
