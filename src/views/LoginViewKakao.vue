@@ -18,7 +18,39 @@ onMounted(async () => {
 </script>
 
 <template>
-  <h1>카카오 인가코드 확인 페이지</h1>
+  <div class="login-loading-container">
+    <img class="ghost-img" src="@/assets/images/ghost.png" alt="유령" />
+    <span class="loading-msg">잠시만 기다려주세요</span>
+  </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.login-loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3rem;
+  height: 100vh;
+  padding-top: 50%;
+  background-color: #f2f2f2;
+}
+
+.loading-msg {
+  font-weight: 600;
+}
+
+.ghost-img {
+  width: 13rem;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+}
+</style>
