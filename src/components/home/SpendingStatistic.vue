@@ -39,19 +39,35 @@ const monthlyDifference = computed(() => {
   return monthlySpending.value.thisMonthExpense - monthlySpending.value.lastMonthExpense
 })
 
-const differenceString = computed(() => (monthlyDifference.value > 0 ? '적게' : '많이'))
+const weeklyDifference = computed(() => {
+  if (!monthlySpending.value) return 0
+
+  return monthlySpending.value.thisWeekExpense - monthlySpending.value.lastWeekExpense
+})
+
+const differenceString = (diff) => {
+  return diff > 0 ? '적게' : '많이'
+}
 </script>
 
 <template>
   <div class="spending-statistic-container">
     <h2>지출 통계</h2>
 
-    <p class="difference-info">
-      지난 달보다
-      <span class="difference" :class="monthlyDifference > 0 ? 'text-blue' : 'text-red'">
-        {{ formatNumber(monthlyDifference) }} </span
-      >원 <span>{{ differenceString }}</span> 사용했어요.
-    </p>
+    <div class="difference-container">
+      <p class="difference-info">
+        지난 달보다
+        <span class="difference" :class="monthlyDifference > 0 ? 'text-blue' : 'text-red'">
+          {{ formatNumber(monthlyDifference) }} </span
+        >원 <span>{{ differenceString(monthlyDifference) }}</span> 사용했어요.
+      </p>
+      <p class="difference-info">
+        지난 주보다
+        <span class="difference" :class="weeklyDifference > 0 ? 'text-blue' : 'text-red'">
+          {{ formatNumber(weeklyDifference) }} </span
+        >원 <span>{{ differenceString(weeklyDifference) }}</span> 사용했어요.
+      </p>
+    </div>
 
     <div class="graph-container">
       <DoughnutGraphSpending
@@ -75,6 +91,12 @@ h2 {
   padding: 1rem;
   background-color: white;
   border-radius: 10px;
+}
+
+.difference-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .difference-info {
