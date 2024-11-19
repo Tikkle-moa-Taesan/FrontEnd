@@ -56,7 +56,7 @@ const data = ref({
   align-items: center;
   gap: 0.75rem;
   font-size: 1.25rem;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .summary-container .arrow-img {
@@ -68,7 +68,6 @@ const data = ref({
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-  font-weight: 600;
 }
 
 .value-container {

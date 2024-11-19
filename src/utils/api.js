@@ -130,3 +130,27 @@ export const postBudgetUpdate = async () => {
     console.log(error)
   }
 }
+
+export const getFinancialLedgerId = async (date) => {
+  try {
+    const response = await instance.get(`/api/budget/date/${date}`)
+
+    return response.data
+  } catch (error) {
+    if (error.status == 403) location.href = '/login'
+
+    console.error(error)
+  }
+}
+
+export const getFinancialLedger = async (budgetId, page) => {
+  try {
+    const response = await instance.get(`/api/budget/${budgetId}?page=${page}`)
+
+    return response.data
+  } catch (error) {
+    if (error.status == 403) location.href = '/login'
+
+    console.error(error)
+  }
+}
