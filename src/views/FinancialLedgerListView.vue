@@ -49,6 +49,7 @@ const onScroll = () => {
 }
 
 onMounted(() => {
+  fetchFinancialLedger()
   addEventListener('scroll', onScroll)
 })
 
