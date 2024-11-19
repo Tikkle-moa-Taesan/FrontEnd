@@ -1,13 +1,13 @@
 <script setup>
-import formatNumber from '@/utils/formatNumber'
 import { ref } from 'vue'
 
-const month = ref(new Date().getMonth() + 1)
+import formatNumber from '@/utils/formatNumber'
 
-const data = ref({
-  income: 3000000,
-  expense: 2500000,
+defineProps({
+  financialLedgerInfo: Object,
 })
+
+const month = ref(new Date().getMonth() + 1)
 </script>
 
 <template>
@@ -22,7 +22,7 @@ const data = ref({
         <span>지출</span>
         <span>
           <span class="expense-value">
-            {{ formatNumber(data.expense) }}
+            {{ formatNumber(financialLedgerInfo?.monthExpense || 0) }}
           </span>
           원
         </span>
@@ -31,7 +31,7 @@ const data = ref({
         <span>수입</span>
         <span>
           <span class="income-value">
-            {{ formatNumber(data.income) }}
+            {{ formatNumber(financialLedgerInfo?.monthIncome || 0) }}
           </span>
           원
         </span>
@@ -56,7 +56,7 @@ const data = ref({
   align-items: center;
   gap: 0.75rem;
   font-size: 1.25rem;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .summary-container .arrow-img {
@@ -68,7 +68,6 @@ const data = ref({
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-  font-weight: 600;
 }
 
 .value-container {

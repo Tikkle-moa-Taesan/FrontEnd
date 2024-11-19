@@ -4,7 +4,7 @@ export const formatDate = (dateString) => {
   const formattedDate = new Date(dateString)
 
   const year = formattedDate.getFullYear()
-  const month = formattedDate.getMonth()
+  const month = formattedDate.getMonth() + 1
   const date = formattedDate.getDate()
   const day = formattedDate.getDay()
 
