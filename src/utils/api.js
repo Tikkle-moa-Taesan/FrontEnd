@@ -48,7 +48,7 @@ export const getFreeAccountList = async () => {
 
 export const getFreeAccount = async (accountId, page) => {
   try {
-    const response = await instance.get(`/api/account/free/${accountId}?page=${page}`)
+    const response = await instance.post(`/api/account/free/${accountId}?page=${page}`)
 
     return response.data
   } catch (error) {
@@ -72,7 +72,7 @@ export const getSavingAccountList = async () => {
 
 export const getSavingAccount = async (accountId, page) => {
   try {
-    const response = await instance.get(`/api/account/savings/${accountId}?page=${page}`)
+    const response = await instance.post(`/api/account/savings/${accountId}?page=${page}`)
 
     return response.data
   } catch (error) {
