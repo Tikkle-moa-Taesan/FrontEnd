@@ -68,6 +68,7 @@ const month = ref(new Date().getMonth() + 1)
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+  font-weight: 500;
 }
 
 .value-container {
