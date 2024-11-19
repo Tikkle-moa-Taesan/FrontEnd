@@ -1,9 +1,10 @@
 <script setup>
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 
 import FloatingNav from '@/components/commons/FloatingNav.vue'
 import MonthlySummary from '@/components/financialLedger/MonthlySummary.vue'
+
 import { getFinancialLedgerId } from '@/utils/api'
 
 const route = useRoute()
@@ -29,7 +30,7 @@ onMounted(() => {
 
 <template>
   <div class="page-container">
-    <MonthlySummary v-if="!isBudget" />
+    <MonthlySummary v-if="!isBudget" :financial-ledger-info="financialLedgerInfo" />
 
     <RouterView :financial-ledger-id="financialLedgerInfo?.budgetId" />
 
