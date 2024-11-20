@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import Footer from './components/commons/Footer.vue'
 import HeaderHome from './components/commons/HeaderHome.vue'

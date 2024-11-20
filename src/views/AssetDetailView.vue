@@ -1,18 +1,48 @@
 <script setup>
-import { onMounted, onUnmounted, ref } from 'vue'
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 
 import AccountInfo from '@/components/asset/AccountInfo.vue'
 import AccountTransaction from '@/components/asset/AccountTransaction.vue'
+import FilterModal from '@/components/financialLedger/FilterModal.vue'
 
-import { getFreeAccount, getSavingAccount } from '@/utils/api'
+import { postFreeAccount, postSavingAccount } from '@/utils/api'
 
 const route = useRoute()
+
+const isModalShown = ref(false)
 
 const accountType = ref(route.params.type)
 const accountId = ref(route.params.id)
 
 const account = ref({ accountDetail: {}, transactions: [] })
+
+const filterCondition = ref({
+  period: 0,
+  transactionType: null,
+})
+
+const periodText = computed(() => {
+  switch (filterCondition.value.period) {
+    case 0:
+      return '이번 달'
+    case 3:
+      return '3개월'
+    case 6:
+      return '6개월'
+  }
+})
+
+const transactionTypeText = computed(() => {
+  switch (filterCondition.value.transactionType) {
+    case null:
+      return '입출금 전체'
+    case 'expense':
+      return '출금만'
+    case 'income':
+      return '입금만'
+  }
+})
 
 const page = ref(0)
 
@@ -25,7 +55,7 @@ const handleInfiniteScroll = async (fetchFunction) => {
   isLoading.value = true
 
   try {
-    const res = await fetchFunction(accountId.value, page.value)
+    const res = await fetchFunction(accountId.value, page.value, filterCondition.value)
 
     if (page.value === 0) account.value.accountDetail = res.accountDetail
 
@@ -45,7 +75,7 @@ const handleInfiniteScroll = async (fetchFunction) => {
 }
 
 const fetchAccount = async () => {
-  const fetchFunction = accountType.value === 'free' ? getFreeAccount : getSavingAccount
+  const fetchFunction = accountType.value === 'free' ? postFreeAccount : postSavingAccount
 
   await handleInfiniteScroll(fetchFunction)
 }
@@ -57,10 +87,34 @@ const onScroll = () => {
   if (scrollPosition >= bottomPosition - 100 && !isLoading.value) fetchAccount()
 }
 
+const handleSettingClick = () => {
+  isModalShown.value = true
+}
+
+const handleSettingBtnClick = (condition) => {
+  filterCondition.value = condition
+
+  if (condition.transactionType === 'null') filterCondition.value.transactionType = null
+
+  isModalShown.value = false
+}
+
+const handleCloseIconClick = () => {
+  isModalShown.value = false
+}
+
 onMounted(() => {
   fetchAccount()
 
   addEventListener('scroll', onScroll)
+})
+
+watch(filterCondition, async () => {
+  page.value = 0
+  account.value.transactions = []
+  hasMoreData.value = true
+
+  await fetchAccount()
 })
 
 onUnmounted(() => {
@@ -71,8 +125,24 @@ onUnmounted(() => {
 <template>
   <div v-if="account" class="page-container">
     <AccountInfo :account-type="accountType" :account-info="account.accountDetail" />
-    <AccountTransaction :account-transaction="account.transactions" />
+
+    <div class="transactions-container">
+      <div class="filter-container">
+        <div class="filter-text">{{ transactionTypeText }} | {{ periodText }}</div>
+        <img
+          class="setting-icon"
+          @click="handleSettingClick"
+          src="@/assets/icons/setting.png"
+          alt="설정"
+        />
+      </div>
+      <AccountTransaction :account-transaction="account.transactions" />
+    </div>
     <div v-if="isLoading" class="is-loading">loading...</div>
+  </div>
+
+  <div v-if="isModalShown" class="modal-wrapper">
+    <FilterModal ref="modalRef" @click="handleSettingBtnClick" @closeModal="handleCloseIconClick" />
   </div>
 </template>
 
@@ -90,5 +160,37 @@ onUnmounted(() => {
   margin: 0.5rem 0;
   color: #646464;
   text-align: center;
+}
+
+.transactions-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.filter-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.filter-text {
+  font-size: 14px;
+  color: #646464;
+}
+
+.setting-icon {
+  width: 1.25rem;
+}
+
+.modal-wrapper {
+  z-index: 999;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  max-width: 430px;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
 }
 </style>
