@@ -147,15 +147,6 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
-.page-container {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  padding: 1.25rem;
-  background-color: #f2f2f2;
-}
-
 .is-loading {
   margin: 0.5rem 0;
   color: #646464;

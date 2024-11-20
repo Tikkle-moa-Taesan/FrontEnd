@@ -130,7 +130,7 @@ export const postBudgetUpdate = async () => {
     return response.data
   } catch (error) {
     if (error.status == 403) location.href = '/login'
-    else if (error.status == 404) location.href = '/budget-set'
+    else if (error.status == 404) location.href = '/budget/set/total'
 
     console.log(error)
   }

@@ -12,6 +12,7 @@ import LoginViewKakao from '@/views/LoginViewKakao.vue'
 import TotalBudgetSetView from '@/views/TotalBudgetSetView.vue'
 
 import { postBudgetUpdate } from '@/utils/api'
+import CategoryBudgetSetView from '@/views/CategoryBudgetSetView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -57,9 +58,15 @@ const router = createRouter({
       ],
     },
     {
-      path: '/budget-set',
+      path: '/budget/set/total',
       name: 'total-budget-set',
       component: TotalBudgetSetView,
+      meta: { isBudget: true },
+    },
+    {
+      path: '/budget/set/category',
+      name: 'category-budget-set',
+      component: CategoryBudgetSetView,
       meta: { isBudget: true },
     },
     {
