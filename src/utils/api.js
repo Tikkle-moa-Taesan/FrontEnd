@@ -91,7 +91,8 @@ export const getExpenseStatistic = async () => {
 
     return response.data
   } catch (error) {
-    // if (error.status == 403) location.href = '/login'
+    if (error.status == 403) location.href = '/login'
+    else if (error.status == 404) return -1
 
     console.error(error)
   }
@@ -103,7 +104,8 @@ export const getBudgetStatistic = async () => {
 
     return response.data
   } catch (error) {
-    // if (error.status == 403) location.href = '/login'
+    if (error.status == 403) location.href = '/login'
+    else if (error.status == 404) return -1
 
     console.error(error)
   }
@@ -128,7 +130,7 @@ export const postBudgetUpdate = async () => {
     return response.data
   } catch (error) {
     if (error.status == 403) location.href = '/login'
-    else if (error.response.data == 'Failed to update transactions') location.href = '/budget-set'
+    else if (error.status == 404) location.href = '/budget-set'
 
     console.log(error)
   }
