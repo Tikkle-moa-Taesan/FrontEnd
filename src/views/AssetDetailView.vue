@@ -174,14 +174,4 @@ onUnmounted(() => {
 .setting-icon {
   width: 1.25rem;
 }
-
-.modal-wrapper {
-  z-index: 999;
-  position: fixed;
-  top: 0;
-  width: 100%;
-  max-width: 430px;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.4);
-}
 </style>
