@@ -56,25 +56,6 @@ const handleCloseIconClick = () => {
 </template>
 
 <style scoped>
-.modal-container {
-  position: fixed;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  max-width: 430px;
-  left: 50%;
-  transform: translate(-50%, 0);
-
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  padding: 2rem 1.5rem;
-  background-color: white;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-}
-
 .title {
   display: flex;
   justify-content: space-between;

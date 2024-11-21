@@ -2,18 +2,44 @@
 import { ref } from 'vue'
 
 import formatNumber from '@/utils/formatNumber'
+import SelectMonthModal from './SelectMonthModal.vue'
 
 defineProps({
   financialLedgerInfo: Object,
 })
 
+const model = defineModel()
+
+const isModalShown = ref(false)
+
+const currYear = new Date().getFullYear()
+
+const year = ref(new Date().getFullYear())
 const month = ref(new Date().getMonth() + 1)
+
+const handleMonthClick = () => {
+  isModalShown.value = true
+}
+
+const handleCloseModal = () => {
+  isModalShown.value = false
+}
+
+const handleSelectDate = (date) => {
+  model.value = date
+
+  month.value = date[1]
+
+  isModalShown.value = false
+}
 </script>
 
 <template>
   <div class="summary-container">
-    <div class="title">
-      <span> {{ month }}월 내역 </span>
+    <div @click="handleMonthClick" class="title">
+      <div>
+        <span v-if="currYear !== year">{{ year }}년</span> {{ month }}월 내역
+      </div>
       <img class="arrow-img" src="@/assets/icons/arrow-down.png" alt="화살표" />
     </div>
 
@@ -37,6 +63,10 @@ const month = ref(new Date().getMonth() + 1)
         </span>
       </div>
     </div>
+  </div>
+
+  <div v-if="isModalShown" class="modal-wrapper">
+    <SelectMonthModal @close-modal="handleCloseModal" @select-date="handleSelectDate" />
   </div>
 </template>
 

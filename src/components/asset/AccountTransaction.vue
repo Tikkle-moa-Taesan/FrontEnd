@@ -1,6 +1,9 @@
 <script setup>
 import { computed } from 'vue'
+
 import AccountTransactionDay from './AccountTransactionDay.vue'
+import Loading from '../commons/Loading.vue'
+
 import { formatDate } from '@/utils/formatDate'
 
 const props = defineProps({
@@ -37,9 +40,8 @@ const groupedTransaction = computed(() => {
       :transactions="transactions"
     />
 
-    <div v-else class="no-transaction">
-      <img class="ghost-img" src="@/assets/images/ghost.png" alt="유령" />
-      <span class="msg">아직 거래내역이 없어요</span>
+    <div v-else>
+      <Loading msg="아직 거래 내역이 없어요." />
     </div>
   </div>
 </template>
@@ -57,20 +59,5 @@ const groupedTransaction = computed(() => {
 .no-content {
   flex: 1;
   justify-content: center;
-}
-
-.no-transaction {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2rem;
-}
-
-.no-transaction .ghost-img {
-  width: 10rem;
-}
-
-.no-transaction .msg {
-  color: #646464;
 }
 </style>

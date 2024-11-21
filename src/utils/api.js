@@ -147,11 +147,16 @@ export const putCategoryBudget = async (budget) => {
 }
 
 export const getFinancialLedgerId = async (date) => {
+  const currDate = Number(`${new Date().getFullYear()}${new Date().getMonth() + 1}`)
+  const inputDate = Number(date)
+
   try {
     const response = await instance.get(`/api/budget/date/${date}`)
 
     return response.data
   } catch (error) {
+    if (inputDate < currDate && error.status == 404) return 'empty'
+
     if (error.status == 403) location.href = '/login'
     else if (error.status == 404) return -1
 
