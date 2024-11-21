@@ -37,7 +37,7 @@ import formatNumber from '@/utils/formatNumber'
 }
 
 .summary-container .title {
-  font-size: 1.25rem;
+  font-size: 1.125rem;
   font-weight: 700;
   color: #646464;
 }

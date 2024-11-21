@@ -136,6 +136,16 @@ export const postBudgetUpdate = async () => {
   }
 }
 
+export const putCategoryBudget = async (budget) => {
+  try {
+    const response = await instance.put('/api/budget/category', budget)
+
+    return response.data
+  } catch (error) {
+    if (error.status == 403) location.href = '/login'
+  }
+}
+
 export const getFinancialLedgerId = async (date) => {
   try {
     const response = await instance.get(`/api/budget/date/${date}`)
@@ -143,6 +153,7 @@ export const getFinancialLedgerId = async (date) => {
     return response.data
   } catch (error) {
     if (error.status == 403) location.href = '/login'
+    else if (error.status == 404) return -1
 
     console.error(error)
   }
@@ -150,6 +161,8 @@ export const getFinancialLedgerId = async (date) => {
 
 export const getFinancialLedger = async (budgetId, page) => {
   try {
+    await postBudgetUpdate()
+
     const response = await instance.get(`/api/budget/${budgetId}?page=${page}`)
 
     return response.data
