@@ -2,14 +2,18 @@
 import { computed, ref, watch } from 'vue'
 
 import Calendar from '@/components/financialLedger/Calendar.vue'
+import LedgerTransactionDay from '@/components/financialLedger/LedgerTransactionDay.vue'
 
 import { getAllFinancialLedger } from '@/utils/api'
+import { formatDate } from '@/utils/formatDate'
 
 const props = defineProps({
   financialLedgerId: Number,
 })
 
 const allTransactions = ref([])
+
+const selectedDate = ref(null)
 
 const fetchAllFinancialLedger = async () => {
   if (!props.financialLedgerId) return
@@ -20,6 +24,18 @@ const fetchAllFinancialLedger = async () => {
   } catch (error) {
     console.error('가계부 내역을 불러오는 데 실패하였습니다.', error)
   }
+}
+
+const groupingByDate = (transactions) => {
+  return transactions.reduce((acc, transactions) => {
+    const date = formatDate(transactions.transactionDatetime)
+
+    if (!acc[date]) acc[date] = []
+
+    acc[date].push(transactions)
+
+    return acc
+  }, {})
 }
 
 const calculatingByDate = (transactions) => {
@@ -35,9 +51,17 @@ const calculatingByDate = (transactions) => {
   }, {})
 }
 
+const groupedTransaction = computed(() => {
+  return groupingByDate(allTransactions?.value || [])
+})
+
 const financialData = computed(() => {
   return calculatingByDate(allTransactions?.value || [])
 })
+
+const handleDateClick = (date) => {
+  selectedDate.value = date
+}
 
 watch(
   props,
@@ -50,8 +74,20 @@ watch(
 
 <template>
   <div class="calendar-page-container">
-    <Calendar :financial-data="financialData" />
+    <Calendar @click-date="handleDateClick" :financial-data="financialData" />
+  </div>
+
+  <div v-if="selectedDate" class="transition-container">
+    <LedgerTransactionDay :date="selectedDate" :transactions="groupedTransaction[selectedDate]" />
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.transition-container {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  background-color: white;
+  border-radius: 10px;
+}
+</style>
