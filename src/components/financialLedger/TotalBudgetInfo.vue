@@ -1,7 +1,7 @@
 <script setup>
 import { computed, onMounted, ref, watch } from 'vue'
-import router from '@/router'
 
+import router from '@/router'
 import { getBudgetStatistic } from '@/utils/api'
 
 const totalBudgetInfo = ref({
@@ -132,7 +132,7 @@ onMounted(() => {
 
 .last {
   padding-bottom: 0.75rem;
-  border-bottom: 2px dashed #dadada;
+  border-bottom: 2px dashed #b0afaf;
 }
 
 .modify-btn {

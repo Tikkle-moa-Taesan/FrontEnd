@@ -1,4 +1,5 @@
 <script setup>
+import CategoryBudgetInfo from '@/components/financialLedger/CategoryBudgetInfo.vue'
 import LineGraphBudget from '@/components/financialLedger/LineGraphBudget.vue'
 import TotalBudgetInfo from '@/components/financialLedger/TotalBudgetInfo.vue'
 </script>
@@ -8,6 +9,8 @@ import TotalBudgetInfo from '@/components/financialLedger/TotalBudgetInfo.vue'
     <LineGraphBudget center-text="" />
 
     <TotalBudgetInfo />
+
+    <CategoryBudgetInfo />
   </div>
 </template>
 

@@ -136,6 +136,18 @@ export const postBudgetUpdate = async () => {
   }
 }
 
+export const getCategoryBudget = async () => {
+  try {
+    const response = await instance.get('/api/budget/category')
+
+    return response.data
+  } catch (error) {
+    if (error.status == 403) location.href = '/login'
+
+    console.log(error)
+  }
+}
+
 export const putCategoryBudget = async (budget) => {
   try {
     const response = await instance.put('/api/budget/category', budget)
@@ -143,6 +155,8 @@ export const putCategoryBudget = async (budget) => {
     return response.data
   } catch (error) {
     if (error.status == 403) location.href = '/login'
+
+    console.log(error)
   }
 }
 
