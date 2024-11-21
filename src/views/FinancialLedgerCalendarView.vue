@@ -1,40 +1,67 @@
 <script setup>
-import { ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 
 import Calendar from '@/components/financialLedger/Calendar.vue'
 
-const financialData = ref({
-  1: { income: 100000, expense: 50000 },
-  2: { income: 0, expense: 25000 },
-  3: { income: 50000, expense: 0 },
-  4: { income: 200000, expense: 100000 },
-  5: { income: 0, expense: 50000 },
-  6: { income: 150000, expense: 75000 },
-  7: { income: 0, expense: 30000 },
-  8: { income: 70000, expense: 20000 },
-  9: { income: 0, expense: 5000 },
-  10: { income: 120000, expense: 80000 },
-  11: { income: 0, expense: 10000 },
-  12: { income: 90000, expense: 40000 },
-  13: { income: 0, expense: 15000 },
-  14: { income: 130000, expense: 95000 },
-  15: { income: 0, expense: 35000 },
-  16: { income: 200000, expense: 110000 },
-  17: { income: 0, expense: 60000 },
-  18: { income: 80000, expense: 30000 },
-  19: { income: 0, expense: 500000 },
-  20: { income: 50000, expense: 0 },
-  21: { income: 0, expense: 45000 },
-  22: { income: 140000, expense: 85000 },
-  23: { income: 0, expense: 25000 },
-  24: { income: 160000, expense: 105000 },
-  25: { income: 0, expense: 50000 },
-  26: { income: 190000, expense: 85000 },
-  27: { income: 0, expense: 30000 },
-  28: { income: 220000, expense: 115000 },
-  29: { income: 0, expense: 40000 },
-  30: { income: 180000, expense: 95000 },
+import { getAllFinancialLedger } from '@/utils/api'
+import { formatDate } from '@/utils/formatDate'
+
+const props = defineProps({
+  financialLedgerId: Number,
 })
+
+const allTransactions = ref([])
+
+const fetchAllFinancialLedger = async () => {
+  try {
+    const res = await getAllFinancialLedger(props.financialLedgerId)
+    console.log(res)
+    allTransactions.value = res.budgetTransactions
+  } catch (error) {
+    console.error('가계부 내역을 불러오는 데 실패하였습니다.', error)
+  }
+}
+
+const groupingByDate = (transactions) => {
+  return transactions.reduce((acc, transaction) => {
+    const formattedDate = formatDate(transaction.transactionDatetime)
+
+    if (!acc[formattedDate]) acc[formattedDate] = []
+
+    acc[formattedDate].push(transactions)
+
+    return acc
+  }, {})
+}
+
+const calculatingByDate = (transactions) => {
+  return transactions.reduce((acc, transaction) => {
+    const date = new Date(transaction.transactionDatetime).getDate()
+
+    if (!acc[date]) acc[date] = { income: 0, expense: 0 }
+
+    if (transaction.transactionType === 'income') acc[date].income += transaction.amount
+    else if (transaction.transactionType === 'expense') acc[date].expense += transaction.amount
+
+    return acc
+  }, {})
+}
+
+const groupedTransaction = computed(() => {
+  return groupingByDate(allTransactions?.value || [])
+})
+
+const financialData = computed(() => {
+  return calculatingByDate(allTransactions?.value || [])
+})
+
+watch(
+  props,
+  () => {
+    fetchAllFinancialLedger()
+  },
+  { immediate: true },
+)
 </script>
 
 <template>

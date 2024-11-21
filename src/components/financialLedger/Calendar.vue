@@ -2,7 +2,7 @@
 import formatNumber from '@/utils/formatNumber'
 import { onMounted, ref, watch } from 'vue'
 
-defineProps({
+const props = defineProps({
   financialData: Object,
 })
 
@@ -25,7 +25,7 @@ const updateCalendar = () => {
   )
 }
 
-onMounted(() => {
+watch(props, () => {
   updateCalendar()
 })
 
