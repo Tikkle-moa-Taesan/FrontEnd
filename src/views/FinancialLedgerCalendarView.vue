@@ -75,14 +75,20 @@ watch(
 <template>
   <div class="calendar-page-container">
     <Calendar @click-date="handleDateClick" :financial-data="financialData" />
-  </div>
 
-  <div v-if="selectedDate" class="transition-container">
-    <LedgerTransactionDay :date="selectedDate" :transactions="groupedTransaction[selectedDate]" />
+    <div v-if="selectedDate" class="transition-container">
+      <LedgerTransactionDay :date="selectedDate" :transactions="groupedTransaction[selectedDate]" />
+    </div>
   </div>
 </template>
 
 <style scoped>
+.calendar-page-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
 .transition-container {
   display: flex;
   flex-direction: column;
