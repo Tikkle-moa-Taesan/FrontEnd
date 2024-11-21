@@ -1,5 +1,6 @@
 <script setup>
 import { computed, onMounted, ref, watch } from 'vue'
+import router from '@/router'
 
 import { getBudgetStatistic } from '@/utils/api'
 
@@ -34,6 +35,10 @@ const animateProgress = (rate) => {
       progress.value = currRate
     }
   }, 10)
+}
+
+const handleModifyBtnClick = () => {
+  router.push({ name: 'total-budget-set' })
 }
 
 watch(totalBudgetInfo, (newValue) => {
@@ -72,7 +77,7 @@ onMounted(() => {
       </div>
     </div>
 
-    <button class="modify-btn">예산 수정</button>
+    <button @click="handleModifyBtnClick" class="modify-btn" type="button">예산 수정</button>
   </div>
 </template>
 
