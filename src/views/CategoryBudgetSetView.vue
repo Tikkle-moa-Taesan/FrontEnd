@@ -4,6 +4,7 @@ import CategoryBudgetForm from '@/components/financialLedger/CategoryBudgetForm.
 import { onMounted, ref } from 'vue'
 
 import { getBudgetStatistic } from '@/utils/api'
+import router from '@/router'
 
 const totalBudget = ref(0)
 
@@ -23,6 +24,8 @@ const categoryBudget = ref({
 // TODO: API 연결 필요
 const handleBudgetFormSubmit = () => {
   console.log(categoryBudget.value)
+
+  router.push({ name: 'financial-ledger-budget' })
 }
 
 onMounted(async () => {
