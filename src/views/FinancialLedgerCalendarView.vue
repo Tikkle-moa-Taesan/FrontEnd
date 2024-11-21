@@ -4,7 +4,6 @@ import { computed, ref, watch } from 'vue'
 import Calendar from '@/components/financialLedger/Calendar.vue'
 
 import { getAllFinancialLedger } from '@/utils/api'
-import { formatDate } from '@/utils/formatDate'
 
 const props = defineProps({
   financialLedgerId: Number,
@@ -13,25 +12,14 @@ const props = defineProps({
 const allTransactions = ref([])
 
 const fetchAllFinancialLedger = async () => {
+  if (!props.financialLedgerId) return
+
   try {
     const res = await getAllFinancialLedger(props.financialLedgerId)
-    console.log(res)
     allTransactions.value = res.budgetTransactions
   } catch (error) {
     console.error('가계부 내역을 불러오는 데 실패하였습니다.', error)
   }
-}
-
-const groupingByDate = (transactions) => {
-  return transactions.reduce((acc, transaction) => {
-    const formattedDate = formatDate(transaction.transactionDatetime)
-
-    if (!acc[formattedDate]) acc[formattedDate] = []
-
-    acc[formattedDate].push(transactions)
-
-    return acc
-  }, {})
 }
 
 const calculatingByDate = (transactions) => {
@@ -46,10 +34,6 @@ const calculatingByDate = (transactions) => {
     return acc
   }, {})
 }
-
-const groupedTransaction = computed(() => {
-  return groupingByDate(allTransactions?.value || [])
-})
 
 const financialData = computed(() => {
   return calculatingByDate(allTransactions?.value || [])
