@@ -43,7 +43,7 @@ onMounted(async () => {
     <CategoryBudgetForm
       v-model="categoryBudget"
       :total-budget="totalBudget"
-      @submit="handleBudgetFormSubmit"
+      @submit-form="handleBudgetFormSubmit"
     />
   </div>
 </template>

@@ -7,7 +7,7 @@ const props = defineProps({
   totalBudget: Number,
 })
 
-const emits = defineEmits(['submit'])
+const emits = defineEmits(['submitForm'])
 
 const labels = [
   '식비',
@@ -43,7 +43,7 @@ const handleInput = (e, key) => {
 const handleBudgetFormSubmit = () => {
   if (isSame.value || isBigger.value) return
 
-  emits('submit')
+  emits('submitForm')
 }
 
 watch(

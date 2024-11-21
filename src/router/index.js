@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 import AssetDetailView from '@/views/AssetDetailView.vue'
 import AssetView from '@/views/AssetView.vue'
+import CategoryBudgetSetView from '@/views/CategoryBudgetSetView.vue'
 import FinancialLedgerBudgetView from '@/views/FinancialLedgerBudgetView.vue'
 import FinancialLedgerCalendarView from '@/views/FinancialLedgerCalendarView.vue'
 import FinancialLedgerListView from '@/views/FinancialLedgerListView.vue'
@@ -12,7 +13,6 @@ import LoginViewKakao from '@/views/LoginViewKakao.vue'
 import TotalBudgetSetView from '@/views/TotalBudgetSetView.vue'
 
 import { postBudgetUpdate } from '@/utils/api'
-import CategoryBudgetSetView from '@/views/CategoryBudgetSetView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
