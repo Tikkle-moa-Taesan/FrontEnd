@@ -47,6 +47,7 @@ onMounted(() => {
   bottom: 5rem;
   left: 50%;
   transform: translate(-50%, 0);
-  width: max-content;
+  width: 90%;
+  max-width: calc(430px - 3rem);
 }
 </style>

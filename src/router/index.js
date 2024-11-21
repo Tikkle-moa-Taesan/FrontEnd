@@ -40,11 +40,21 @@ const router = createRouter({
       name: 'financial-ledger',
       component: FinancialLedgerView,
       children: [
-        { path: 'list', name: 'financial-ledger-list', component: FinancialLedgerListView },
+        {
+          path: 'list',
+          name: 'financial-ledger-list',
+          component: FinancialLedgerListView,
+          beforeEnter: async () => {
+            await postBudgetUpdate()
+          },
+        },
         {
           path: 'calendar',
           name: 'financial-ledger-calendar',
           component: FinancialLedgerCalendarView,
+          beforeEnter: async () => {
+            await postBudgetUpdate()
+          },
         },
         {
           path: 'budget',

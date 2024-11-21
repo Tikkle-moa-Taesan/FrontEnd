@@ -161,9 +161,19 @@ export const getFinancialLedgerId = async (date) => {
 
 export const getFinancialLedger = async (budgetId, page) => {
   try {
-    await postBudgetUpdate()
-
     const response = await instance.get(`/api/budget/${budgetId}?page=${page}`)
+
+    return response.data
+  } catch (error) {
+    if (error.status == 403) location.href = '/login'
+
+    console.error(error)
+  }
+}
+
+export const getAllFinancialLedger = async (budgetId) => {
+  try {
+    const response = await instance.get(`/api/budget/${budgetId}/all`)
 
     return response.data
   } catch (error) {
