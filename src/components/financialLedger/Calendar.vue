@@ -82,7 +82,7 @@ watch([selectedYear, selectedMonth], updateCalendar)
 
 <style scoped>
 .calendar-container {
-  padding: 0.5rem 0;
+  padding-top: 0.5rem;
   border-radius: 10px;
   background-color: white;
 }
@@ -108,6 +108,9 @@ watch([selectedYear, selectedMonth], updateCalendar)
   display: flex;
   flex-direction: column;
   height: 4rem;
+  transition:
+    background-color 0.5s ease,
+    border 0.5s ease;
 }
 
 .date .date-value {
@@ -140,5 +143,10 @@ watch([selectedYear, selectedMonth], updateCalendar)
 
 .is-selected {
   background-color: #f2f2f2;
+  border: 1px solid #646464;
+  border-radius: 5px;
+  transition:
+    background-color 0.5s ease,
+    border 0.5s ease;
 }
 </style>
