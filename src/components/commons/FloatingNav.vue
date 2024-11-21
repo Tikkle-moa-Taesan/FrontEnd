@@ -23,7 +23,7 @@ const isSelected = (path) => route.path.endsWith(path)
 <style scoped>
 .floating-nav-container {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   padding: 0.1rem;
   border-radius: 40px;
   background-color: #f2f2f2;
@@ -31,14 +31,16 @@ const isSelected = (path) => route.path.endsWith(path)
 }
 
 .floating-nav-container .link {
+  flex: 1;
   text-decoration: none;
   color: #a5a5a5;
   font-weight: 600;
 }
 
 .floating-nav-container .text {
-  padding: 0.75rem 2.25rem;
+  padding: 0.75rem;
   border-radius: 40px;
+  text-align: center;
 }
 
 .selected {
