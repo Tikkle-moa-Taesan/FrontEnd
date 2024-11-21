@@ -150,7 +150,7 @@ onMounted(() => {
 }
 
 .is-green {
-  background-color: #91d076;
+  background-color: #afd79d;
 }
 
 .is-red {
