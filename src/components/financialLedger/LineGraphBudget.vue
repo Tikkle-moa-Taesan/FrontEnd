@@ -74,4 +74,13 @@ const chartOptions = ref({
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.line-graph-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 1rem;
+  background-color: white;
+  border-radius: 10px;
+}
+</style>
