@@ -124,16 +124,16 @@ onUnmounted(() => {
 
 <template>
   <div v-if="account" class="page-container">
-    <AccountInfo :account-type="accountType" :account-info="account.accountDetail" />
+    <AccountInfo :account-info="account.accountDetail" :account-type="accountType" />
 
     <div class="transactions-container">
       <div class="filter-container">
         <div class="filter-text">{{ transactionTypeText }} | {{ periodText }}</div>
         <img
-          class="setting-icon"
-          @click="handleSettingClick"
-          src="@/assets/icons/setting.png"
           alt="설정"
+          class="setting-icon"
+          src="@/assets/icons/setting.png"
+          @click="handleSettingClick"
         />
       </div>
       <AccountTransaction :account-transaction="account.transactions" />
@@ -147,15 +147,6 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
-.page-container {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  padding: 1.25rem;
-  background-color: #f2f2f2;
-}
-
 .is-loading {
   margin: 0.5rem 0;
   color: #646464;

@@ -16,7 +16,7 @@ const fetchBudgetCreate = async () => {
   try {
     await postBudgetCreate(totalBudgetNumber.value)
 
-    router.replace({ name: 'financial-ledger-budget' })
+    router.replace({ name: 'category-budget-set' })
   } catch (error) {
     console.error('가계부 생성에 실패하였습니다.', error)
   }

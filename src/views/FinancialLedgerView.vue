@@ -6,6 +6,7 @@ import FloatingNav from '@/components/commons/FloatingNav.vue'
 import MonthlySummary from '@/components/financialLedger/MonthlySummary.vue'
 
 import { getFinancialLedgerId } from '@/utils/api'
+import router from '@/router'
 
 const route = useRoute()
 
@@ -18,6 +19,8 @@ const financialLedgerInfo = ref(null)
 const fetchFinancialLedgerInfo = async () => {
   try {
     financialLedgerInfo.value = await getFinancialLedgerId(date.value)
+
+    if (financialLedgerInfo.value === -1) router.push({ name: 'total-budget-set' })
   } catch (error) {
     console.error('가계부 ID를 불러오는 데 실패하였습니다.', error)
   }
@@ -39,15 +42,6 @@ onMounted(() => {
 </template>
 
 <style scoped>
-.page-container {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  padding: 1.25rem;
-  background-color: #f2f2f2;
-}
-
 .floating-nav {
   position: fixed;
   bottom: 5rem;

@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 import AssetDetailView from '@/views/AssetDetailView.vue'
 import AssetView from '@/views/AssetView.vue'
+import CategoryBudgetSetView from '@/views/CategoryBudgetSetView.vue'
 import FinancialLedgerBudgetView from '@/views/FinancialLedgerBudgetView.vue'
 import FinancialLedgerCalendarView from '@/views/FinancialLedgerCalendarView.vue'
 import FinancialLedgerListView from '@/views/FinancialLedgerListView.vue'
@@ -57,9 +58,15 @@ const router = createRouter({
       ],
     },
     {
-      path: '/budget-set',
+      path: '/budget/set/total',
       name: 'total-budget-set',
       component: TotalBudgetSetView,
+      meta: { isBudget: true },
+    },
+    {
+      path: '/budget/set/category',
+      name: 'category-budget-set',
+      component: CategoryBudgetSetView,
       meta: { isBudget: true },
     },
     {
