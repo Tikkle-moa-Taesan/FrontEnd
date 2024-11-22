@@ -3,18 +3,7 @@ import { computed, onMounted, ref, watch } from 'vue'
 
 import { getCategoryBudget, getExpenseStatistic } from '@/utils/api'
 import formatNumber from '@/utils/formatNumber'
-
-const CATEGORIES = {
-  food: '식비',
-  living: '생활',
-  housingCommunication: '주거/통신',
-  finance: '금융',
-  transportation: '교통',
-  childcare: '육아',
-  leisureCulture: '문화/여가',
-  pet: '반려동물',
-  eventGift: '경조/선물',
-}
+import CATEGORIES from '@/constants/category'
 
 const categoryBudget = ref({
   foodBudget: 0,
@@ -41,28 +30,28 @@ const categoryExpense = ref({
 })
 
 const categoryRest = computed(() => {
-  return Object.keys(CATEGORIES).reduce((acc, key) => {
-    acc[key] = categoryBudget.value[`${key}Budget`] - categoryExpense.value[`${key}Expense`]
+  return CATEGORIES.reduce((acc, { eng }) => {
+    acc[eng] = categoryBudget.value[`${eng}Budget`] - categoryExpense.value[`${eng}Expense`]
 
     return acc
   }, {})
 })
 
 const categoryExpenseRatio = computed(() => {
-  return Object.keys(CATEGORIES).reduce((acc, key) => {
-    let budget = categoryBudget.value[`${key}Budget`]
-    const expense = categoryExpense.value[`${key}Expense`]
+  return CATEGORIES.reduce((acc, { eng }) => {
+    let budget = categoryBudget.value[`${eng}Budget`]
+    const expense = categoryExpense.value[`${eng}Expense`]
 
-    if (budget === 0) acc[key] = 100
-    else acc[key] = Math.round(Math.min((expense / budget) * 100, 100))
+    if (budget === 0) acc[eng] = 100
+    else acc[eng] = Math.round(Math.min((expense / budget) * 100, 100))
 
     return acc
   }, {})
 })
 
 const progress = ref(
-  Object.keys(CATEGORIES).reduce((acc, key) => {
-    acc[key] = 0
+  CATEGORIES.reduce((acc, { eng }) => {
+    acc[eng] = 0
 
     return acc
   }, {}),
@@ -100,8 +89,8 @@ const animateProgress = (key, rate) => {
 }
 
 watch(categoryExpenseRatio, (newValue) => {
-  Object.keys(CATEGORIES).forEach((key) => {
-    animateProgress(key, newValue[key])
+  CATEGORIES.forEach(({ eng }) => {
+    animateProgress(eng, newValue[eng])
   })
 })
 
@@ -116,26 +105,26 @@ onMounted(() => {
     <span class="title">카테고리 별 사용 예산</span>
 
     <div class="expense-ratio-container">
-      <div class="category-container" v-for="(category, key) in CATEGORIES" :key="category">
+      <div class="category-container" v-for="{ kor, eng } in CATEGORIES" :key="eng">
         <div class="info-container">
           <div class="category-info">
-            <span>{{ category }}</span>
+            <span>{{ kor }}</span>
             <div class="rest-value">
-              {{ formatNumber(categoryRest[key]) }}원
-              <span v-if="categoryRest[key] >= 0">남음</span>
+              {{ formatNumber(categoryRest[eng]) }}원
+              <span v-if="categoryRest[eng] >= 0">남음</span>
               <span v-else>초과</span>
             </div>
           </div>
-          <span>{{ categoryExpenseRatio[key] }}%</span>
+          <span>{{ categoryExpenseRatio[eng] }}%</span>
         </div>
         <div class="budget-bar-container">
           <div
             class="expense-bar"
-            :style="{ width: progress[key] + '%' }"
+            :style="{ width: progress[eng] + '%' }"
             :class="{
-              'is-red': progress[key] >= 90,
-              'is-green': progress[key] >= 80,
-              'is-blue': progress[key] >= 20,
+              'is-red': progress[eng] >= 90,
+              'is-green': progress[eng] >= 80,
+              'is-blue': progress[eng] >= 20,
             }"
           ></div>
         </div>

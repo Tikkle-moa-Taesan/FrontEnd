@@ -84,6 +84,7 @@ const handleEtcClick = () => {
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  font-size: 0.875rem;
 }
 
 .rest-info-container {
@@ -95,7 +96,7 @@ const handleEtcClick = () => {
 .rest-info {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 0.5rem;
 }
 
 .rest-info .rest-count {

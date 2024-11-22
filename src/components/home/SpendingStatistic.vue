@@ -123,7 +123,8 @@ h2 {
 .difference-container {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.6rem;
+  font-size: 0.875rem;
 }
 
 .difference-info {

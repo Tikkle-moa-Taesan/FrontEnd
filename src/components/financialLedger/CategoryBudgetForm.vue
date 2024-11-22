@@ -2,6 +2,7 @@
 import { computed, onMounted, ref, watch } from 'vue'
 
 import Loading from '../commons/Loading.vue'
+import CATEGORIES from '@/constants/category'
 
 const model = defineModel()
 
@@ -10,18 +11,6 @@ const props = defineProps({
 })
 
 const emits = defineEmits(['submitForm'])
-
-const labels = [
-  '식비',
-  '생활',
-  '주거/통신',
-  '금융',
-  '교통',
-  '육아',
-  '문화/여가',
-  '반려동물',
-  '경조/선물',
-]
 
 const isLoading = ref(true)
 
@@ -82,15 +71,20 @@ onMounted(() => {
     <h2>카테고리 별 예산을 설정해주세요.</h2>
 
     <form class="category-budget-form" @submit.prevent="handleBudgetFormSubmit">
-      <div v-for="(value, key, idx) in model" class="category">
-        <label :for="key">{{ labels[idx] }}</label>
+      <div v-for="{ eng, kor, src } in CATEGORIES" class="category">
+        <div class="label-container">
+          <div class="img-container">
+            <img :src="src" alt="카테고리" />
+          </div>
+          <label :for="eng">{{ kor }}</label>
+        </div>
         <div class="input-container">
           <input
-            :id="key"
-            :value="budgetString[key]"
+            :id="eng"
+            :value="budgetString[`${eng}Budget`]"
             placeholder="0"
             type="text"
-            @input="handleInput($event, key)"
+            @input="handleInput($event, `${eng}Budget`)"
           />원
         </div>
       </div>
@@ -141,6 +135,27 @@ h2 {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.label-container {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.img-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 999px;
+  background-color: #d9d9d9;
+  overflow: hidden;
+}
+
+.img-container img {
+  width: 70%;
 }
 
 .category .input-container {

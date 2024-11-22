@@ -48,5 +48,6 @@ const handleAccountClick = (accountId) => {
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  font-size: 0.875rem;
 }
 </style>
