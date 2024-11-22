@@ -14,9 +14,6 @@ const isModalShown = inject('isModalShown')
 
 const currYear = new Date().getFullYear()
 
-const year = ref(new Date().getFullYear())
-const month = ref(new Date().getMonth() + 1)
-
 const handleOpenModal = () => {
   isModalShown.value = true
 }
@@ -27,7 +24,6 @@ const handleCloseModal = () => {
 
 const handleSelectDate = (date) => {
   model.value = date
-  month.value = date[1]
 
   isModalShown.value = false
 }
@@ -37,7 +33,7 @@ const handleSelectDate = (date) => {
   <div class="summary-container">
     <div @click="handleOpenModal" class="title">
       <div>
-        <span v-if="currYear !== year">{{ year }}년</span> {{ month }}월 내역
+        <span v-if="currYear !== model[0]">{{ model[0] }}년</span> {{ model[1] }}월 내역
       </div>
       <img class="arrow-img" src="@/assets/icons/arrow-down.png" alt="화살표" />
     </div>

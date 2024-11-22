@@ -16,7 +16,6 @@ const isBudget = computed(() => route.meta.isBudget == true)
 const date = ref([new Date().getFullYear(), new Date().getMonth() + 1])
 
 const financialLedgerInfo = ref(null)
-const isEmpty = ref(false)
 
 const fetchFinancialLedgerInfo = async () => {
   try {
@@ -30,12 +29,11 @@ const fetchFinancialLedgerInfo = async () => {
     }
 
     if (res === 'empty') {
-      isEmpty.value = true
+      financialLedgerInfo.value = null
       return
     }
 
     financialLedgerInfo.value = res
-    isEmpty.value = false
   } catch (error) {
     console.error('가계부 ID를 불러오는 데 실패하였습니다.', error)
   }
@@ -54,7 +52,7 @@ watch(
   <div class="page-container">
     <MonthlySummary v-if="!isBudget" v-model="date" :financial-ledger-info="financialLedgerInfo" />
 
-    <div v-if="!isEmpty">
+    <div v-if="financialLedgerInfo != null">
       <RouterView :financial-ledger-id="financialLedgerInfo?.budgetId" />
     </div>
     <div v-else class="empty">
