@@ -1,7 +1,10 @@
 <script setup>
+import { onMounted, ref } from 'vue'
+
 import { getProfile, getTotalBalance } from '@/utils/api'
 import formatNumber from '@/utils/formatNumber'
-import { onMounted, ref } from 'vue'
+
+import defaultProfileImg from '@/assets/images/ghost.png'
 
 const profile = ref(null)
 const totalBalance = ref(0)
@@ -37,7 +40,7 @@ onMounted(() => {
     </div>
 
     <div class="img-container">
-      <img class="profile-img" :src="profile?.picture" alt="프로필 사진" />
+      <img class="profile-img" :src="profile?.picture || defaultProfileImg" alt="프로필 사진" />
     </div>
   </div>
 </template>
