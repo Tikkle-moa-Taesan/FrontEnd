@@ -58,7 +58,7 @@ const isPositive = ref(props.account.difference > 0 ? true : false)
 .account-info {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 0.5rem;
 }
 
 .account-info .account-name {
