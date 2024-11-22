@@ -120,6 +120,7 @@ onMounted(() => {
   width: 100%;
   display: flex;
   flex-direction: column;
+  overflow-y: scroll;
 }
 
 .date-container {

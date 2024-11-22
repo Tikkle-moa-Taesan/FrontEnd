@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { inject, ref } from 'vue'
 
 import formatNumber from '@/utils/formatNumber'
 import SelectMonthModal from './SelectMonthModal.vue'
@@ -10,14 +10,14 @@ defineProps({
 
 const model = defineModel()
 
-const isModalShown = ref(false)
+const isModalShown = inject('isModalShown')
 
 const currYear = new Date().getFullYear()
 
 const year = ref(new Date().getFullYear())
 const month = ref(new Date().getMonth() + 1)
 
-const handleMonthClick = () => {
+const handleOpenModal = () => {
   isModalShown.value = true
 }
 
@@ -27,7 +27,6 @@ const handleCloseModal = () => {
 
 const handleSelectDate = (date) => {
   model.value = date
-
   month.value = date[1]
 
   isModalShown.value = false
@@ -36,7 +35,7 @@ const handleSelectDate = (date) => {
 
 <template>
   <div class="summary-container">
-    <div @click="handleMonthClick" class="title">
+    <div @click="handleOpenModal" class="title">
       <div>
         <span v-if="currYear !== year">{{ year }}년</span> {{ month }}월 내역
       </div>
@@ -65,7 +64,7 @@ const handleSelectDate = (date) => {
     </div>
   </div>
 
-  <div v-if="isModalShown" class="modal-wrapper">
+  <div @click.self="handleCloseModal" v-if="isModalShown" class="modal-wrapper">
     <SelectMonthModal @close-modal="handleCloseModal" @select-date="handleSelectDate" />
   </div>
 </template>
