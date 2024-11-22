@@ -54,7 +54,7 @@ const categoryExpenseRatio = computed(() => {
     const expense = categoryExpense.value[`${key}Expense`]
 
     if (budget === 0) acc[key] = 100
-    else acc[key] = Math.min((expense / budget) * 100, 100)
+    else acc[key] = Math.round(Math.min((expense / budget) * 100, 100))
 
     return acc
   }, {})
@@ -96,7 +96,7 @@ const animateProgress = (key, rate) => {
       currRate++
       progress.value[key] = currRate
     }
-  }, 10)
+  }, 15)
 }
 
 watch(categoryExpenseRatio, (newValue) => {
@@ -162,6 +162,7 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
+  font-size: 0.875rem;
 }
 
 .category-container {
@@ -181,7 +182,6 @@ onMounted(() => {
 }
 
 .rest-value {
-  font-size: 0.875rem;
   color: #646464;
 }
 
@@ -204,7 +204,7 @@ onMounted(() => {
 }
 
 .is-green {
-  background-color: #afd79d;
+  background-color: #6d8662;
 }
 
 .is-red {
