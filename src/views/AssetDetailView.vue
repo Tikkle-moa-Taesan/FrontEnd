@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
+import { computed, inject, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 
 import AccountInfo from '@/components/asset/AccountInfo.vue'
@@ -10,7 +10,7 @@ import { postFreeAccount, postSavingAccount } from '@/utils/api'
 
 const route = useRoute()
 
-const isModalShown = ref(false)
+const isModalShown = inject('isModalShown')
 
 const accountType = ref(route.params.type)
 const accountId = ref(route.params.id)
@@ -99,7 +99,7 @@ const handleSettingBtnClick = (condition) => {
   isModalShown.value = false
 }
 
-const handleCloseIconClick = () => {
+const handleCloseModal = () => {
   isModalShown.value = false
 }
 
@@ -141,8 +141,8 @@ onUnmounted(() => {
     <div v-if="isLoading" class="is-loading">loading...</div>
   </div>
 
-  <div v-if="isModalShown" class="modal-wrapper">
-    <FilterModal ref="modalRef" @click="handleSettingBtnClick" @closeModal="handleCloseIconClick" />
+  <div @click.self="handleCloseModal" v-if="isModalShown" class="modal-wrapper">
+    <FilterModal ref="modalRef" @click="handleSettingBtnClick" @closeModal="handleCloseModal" />
   </div>
 </template>
 

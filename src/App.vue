@@ -1,9 +1,12 @@
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, provide, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import Footer from './components/commons/Footer.vue'
 import HeaderHome from './components/commons/HeaderHome.vue'
 import HeaderPage from './components/commons/HeaderPage.vue'
+
+const isModalShown = ref(false)
+provide('isModalShown', isModalShown)
 
 const route = useRoute()
 
@@ -13,7 +16,7 @@ const isHome = computed(() => route.meta.isHome == true)
 </script>
 
 <template>
-  <div class="align-center">
+  <div class="align-center" :class="{ 'is-modal-open': isModalShown }">
     <div class="container">
       <header v-if="showLayout && isHome">
         <HeaderHome />
@@ -58,5 +61,10 @@ footer {
   position: sticky;
   bottom: 0;
   width: 100%;
+}
+
+.is-modal-open {
+  height: 100vh;
+  overflow: hidden;
 }
 </style>
