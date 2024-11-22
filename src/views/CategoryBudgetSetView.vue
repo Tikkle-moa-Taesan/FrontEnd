@@ -1,14 +1,13 @@
 <script setup>
-import CategoryBudgetForm from '@/components/financialLedger/CategoryBudgetForm.vue'
-
 import { onMounted, ref } from 'vue'
 
-import { getBudgetStatistic } from '@/utils/api'
+import CategoryBudgetForm from '@/components/financialLedger/CategoryBudgetForm.vue'
+
 import router from '@/router'
+import { getBudgetStatistic, getCategoryBudget, putCategoryBudget } from '@/utils/api'
 
 const totalBudget = ref(0)
 
-// TODO: 저장된 카테고리 예산이 있다면, 해당 값으로 재할당 필요
 const categoryBudget = ref({
   foodBudget: 0,
   livingBudget: 0,
@@ -21,17 +20,38 @@ const categoryBudget = ref({
   eventGiftBudget: 0,
 })
 
-// TODO: API 연결 필요
-const handleBudgetFormSubmit = () => {
-  console.log(categoryBudget.value)
+const fetchTotalBudget = async () => {
+  try {
+    const res = await getBudgetStatistic()
 
-  router.push({ name: 'financial-ledger-budget' })
+    totalBudget.value = res.thisMonthBudget
+  } catch (error) {
+    console.error('총 예산을 불러오는 데 실패하였습니다.', error)
+  }
+}
+
+const fetchCategoryBudget = async () => {
+  try {
+    categoryBudget.value = await getCategoryBudget()
+  } catch (error) {
+    console.error('카테고리 별 예산 정보를 불러오는 데 실패하였습니다.', error)
+  }
+}
+
+const handleBudgetFormSubmit = async () => {
+  try {
+    await putCategoryBudget(categoryBudget.value)
+
+    router.push({ name: 'financial-ledger-budget' })
+  } catch (error) {
+    console.error('카테고리 별 예산을 업데이트 하는 데 실패하였습니다.', error)
+  }
 }
 
 onMounted(async () => {
   try {
-    const res = await getBudgetStatistic()
-    totalBudget.value = res.thisMonthBudget
+    await fetchTotalBudget()
+    await fetchCategoryBudget()
   } catch (error) {
     console.error('이번 달 예산 금액을 불러오는 데 실패하였습니다.', error)
   }

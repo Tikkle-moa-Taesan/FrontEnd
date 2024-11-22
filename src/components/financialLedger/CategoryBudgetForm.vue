@@ -1,6 +1,8 @@
 <script setup>
 import { computed, onMounted, ref, watch } from 'vue'
 
+import Loading from '../commons/Loading.vue'
+
 const model = defineModel()
 
 const props = defineProps({
@@ -21,12 +23,14 @@ const labels = [
   '경조/선물',
 ]
 
-const previousBudget = JSON.stringify({ ...model.value })
+const isLoading = ref(true)
+
+const previousBudget = ref({})
 
 const budgetString = ref({})
 
 const sumOfInput = computed(() => {
-  return Object.values(model.value).reduce((sum, budget) => sum + budget, 0)
+  return Object.values(model.value || {}).reduce((sum, budget) => sum + budget, 0)
 })
 
 const isSame = ref(true)
@@ -48,8 +52,18 @@ const handleBudgetFormSubmit = () => {
 
 watch(
   model,
-  (newValue) => {
-    isSame.value = JSON.stringify(newValue) === previousBudget
+  (newValue, oldValue) => {
+    if (isLoading.value && newValue != oldValue) {
+      previousBudget.value = newValue
+
+      Object.keys(newValue).forEach((key) => {
+        budgetString.value[key] = newValue[key].toLocaleString()
+      })
+
+      isLoading.value = false
+    }
+
+    isSame.value = JSON.stringify(newValue) === previousBudget.value
   },
   { deep: true },
 )
@@ -62,7 +76,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="form-container">
+  <div v-if="!isLoading" class="form-container">
     <h2>카테고리 별 예산을 설정해주세요.</h2>
 
     <form class="category-budget-form" @submit.prevent="handleBudgetFormSubmit">
@@ -92,6 +106,10 @@ onMounted(() => {
         </div>
       </button>
     </form>
+  </div>
+
+  <div v-else class="loading-container">
+    <Loading msg="정보를 불러오고 있어요" />
   </div>
 </template>
 
@@ -175,5 +193,15 @@ h2 {
 
 .is-bigger {
   background-color: #ff4a4a;
+}
+
+.loading-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem 1.5rem;
+  background-color: white;
+  border-radius: 10px;
 }
 </style>
