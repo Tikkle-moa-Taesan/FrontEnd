@@ -61,6 +61,8 @@ watch(
       })
 
       isLoading.value = false
+
+      return
     }
 
     isSame.value = JSON.stringify(newValue) === previousBudget.value
