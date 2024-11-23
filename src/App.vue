@@ -1,6 +1,7 @@
 <script setup>
 import { computed, provide, ref } from 'vue'
 import { useRoute } from 'vue-router'
+
 import Footer from './components/commons/Footer.vue'
 import HeaderHome from './components/commons/HeaderHome.vue'
 import HeaderPage from './components/commons/HeaderPage.vue'
