@@ -6,7 +6,7 @@ defineProps({
 
 <template>
   <div class="loading-container">
-    <img class="ghost-img" src="@/assets/images/ghost.png" alt="유령" />
+    <img class="ghost-img" src="@/assets/images/ghost.webp" alt="유령" />
     <span class="msg">{{ msg }}</span>
   </div>
 </template>
@@ -19,11 +19,22 @@ defineProps({
   gap: 2rem;
 }
 
-.ghost-img {
-  width: 10rem;
-}
-
 .msg {
   color: #646464;
+}
+
+.ghost-img {
+  width: 11rem;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
 }
 </style>

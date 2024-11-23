@@ -50,7 +50,7 @@ const handleEtcClick = () => {
       />
 
       <div v-if="restAccountList.length > 0" @click="handleEtcClick" class="rest-info-container">
-        <img class="etc-img" src="@/assets/images/etc.png" alt="기타" />
+        <img class="etc-img" src="@/assets/images/etc.webp" alt="기타" />
         <div class="rest-info">
           <span>{{ formatNumber(restTotalBalance) }} 원</span>
           <span class="rest-count">그 외 {{ restAccountList.length }}개</span>

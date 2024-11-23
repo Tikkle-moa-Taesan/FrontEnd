@@ -12,13 +12,13 @@ const handleKakaoBtnClick = () => {
 <template>
   <div class="container">
     <div class="img-container">
-      <img class="logo" src="@/assets/images/TmT.png" alt="logo" />
-      <img class="ghost" src="@/assets/images/ghost.png" alt="유령" />
+      <img class="logo" src="@/assets/images/TmT.webp" alt="logo" />
+      <img class="ghost" src="@/assets/images/ghost.webp" alt="유령" />
     </div>
 
     <div class="btn-container">
       <button @click="handleKakaoBtnClick" class="kakao-btn">
-        <img src="@/assets/images/kakao-logo.png" alt="카카오" />
+        <img src="@/assets/images/kakao-logo.webp" alt="카카오" />
         <span>카카오 로그인</span>
       </button>
     </div>
@@ -34,7 +34,7 @@ const handleKakaoBtnClick = () => {
   gap: 4rem;
   padding: 8rem 5rem;
   height: 100vh;
-  background-image: url('@/assets/images/login-background.png');
+  background-image: url('@/assets/images/login-background.webp');
   background-size: cover;
 }
 

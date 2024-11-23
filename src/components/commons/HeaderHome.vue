@@ -2,7 +2,7 @@
 
 <template>
   <div class="header-container">
-    <img class="main-logo" src="@/assets/images/main-logo.png" alt="메인로고" />
+    <img class="main-logo" src="@/assets/images/main-logo.webp" alt="메인로고" />
 
     <nav>
       <img class="nav-icon" src="@/assets/icons/bell.png" alt="알림" />

@@ -19,7 +19,7 @@ onMounted(async () => {
 
 <template>
   <div class="login-loading-container">
-    <img class="ghost-img" src="@/assets/images/ghost.png" alt="유령" />
+    <img class="ghost-img" src="@/assets/images/ghost.webp" alt="유령" />
     <span class="loading-msg">잠시만 기다려주세요</span>
   </div>
 </template>

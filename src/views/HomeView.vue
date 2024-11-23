@@ -1,22 +1,28 @@
 <script setup>
+import { onMounted, ref } from 'vue'
+
 import MajorAccounts from '@/components/home/MajorAccounts.vue'
 import SpendingStatistic from '@/components/home/SpendingStatistic.vue'
 import ToTalBalance from '@/components/home/TotalBalance.vue'
-import { postBudgetUpdate } from '@/utils/api'
-import { onMounted } from 'vue'
+
+import { getProfile, getTotalBalance, postBudgetUpdate } from '@/utils/api'
+
+const profile = ref(null)
+const totalBalance = ref(null)
 
 onMounted(async () => {
-  try {
-    await postBudgetUpdate()
-  } catch (error) {
-    console.error('가계부 업데이트에 실패하였습니다.', error)
-  }
+  await postBudgetUpdate()
+
+  profile.value = await getProfile()
+
+  const balance = await getTotalBalance()
+  totalBalance.value = balance.total
 })
 </script>
 
 <template>
   <div class="page-container">
-    <ToTalBalance />
+    <ToTalBalance :profile="profile" :total-balance="totalBalance" />
     <MajorAccounts />
     <SpendingStatistic />
   </div>

@@ -1,7 +1,11 @@
 <script setup>
+import { ref } from 'vue'
+
 import router from '@/router'
 import formatNumber from '@/utils/formatNumber'
-import { ref } from 'vue'
+
+import BANK from '@/constants/bank'
+import ghostFace from '@/assets/images/ghost-face.webp'
 
 const props = defineProps({
   account: Object,
@@ -17,7 +21,9 @@ const isPositive = ref(props.account.difference > 0 ? true : false)
 <template>
   <div @click="handleAccountClick" class="account-container">
     <div class="account-info-container">
-      <div class="bank-img-container"></div>
+      <div class="bank-img-container">
+        <img :src="BANK[account.bankName] || ghostFace" alt="은행아이콘" />
+      </div>
 
       <div class="account-info">
         <span>{{ formatNumber(account.balance) }}원</span>
@@ -49,10 +55,17 @@ const isPositive = ref(props.account.difference > 0 ? true : false)
 }
 
 .bank-img-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 2.75rem;
   height: 2.75rem;
   border-radius: 999px;
   background-color: #e8e8e8;
+}
+
+.bank-img-container img {
+  width: 60%;
 }
 
 .account-info {

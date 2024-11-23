@@ -149,7 +149,7 @@ h2 {
   border-radius: 10px;
 
   aspect-ratio: 3 / 2;
-  background-image: url('/src/assets/images/no-statistic.png');
+  background-image: url('/src/assets/images/no-statistic.webp');
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;

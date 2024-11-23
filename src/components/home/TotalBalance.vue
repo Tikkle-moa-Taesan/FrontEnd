@@ -1,34 +1,11 @@
 <script setup>
-import { onMounted, ref } from 'vue'
-
-import { getProfile, getTotalBalance } from '@/utils/api'
 import formatNumber from '@/utils/formatNumber'
 
-import defaultProfileImg from '@/assets/images/ghost.png'
+import defaultProfileImg from '@/assets/images/ghost.webp'
 
-const profile = ref(null)
-const totalBalance = ref(0)
-
-const fetchProfile = async () => {
-  try {
-    profile.value = await getProfile()
-  } catch (error) {
-    console.error('프로필 데이터를 불러오는 데 실패하였습니다.', error)
-  }
-}
-
-const fetchTotalBalance = async () => {
-  try {
-    const balanceData = await getTotalBalance()
-    totalBalance.value = balanceData.total
-  } catch (error) {
-    console.error('총 자산 데이터를 불러오는 데 실패하였습니다.', error)
-  }
-}
-
-onMounted(() => {
-  fetchProfile()
-  fetchTotalBalance()
+defineProps({
+  profile: Object,
+  totalBalance: Number,
 })
 </script>
 
