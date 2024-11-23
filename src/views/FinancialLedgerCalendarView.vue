@@ -72,9 +72,14 @@ watch(
   <div class="calendar-page-container">
     <Calendar @click-date="handleDateClick" :financial-data="financialData" />
 
-    <div v-if="selectedDate" class="transition-container">
-      <LedgerTransactionDay :date="selectedDate" :transactions="groupedTransaction[selectedDate]" />
-    </div>
+    <Transition>
+      <div v-if="selectedDate" class="transition-container">
+        <LedgerTransactionDay
+          :date="selectedDate"
+          :transactions="groupedTransaction[selectedDate]"
+        />
+      </div>
+    </Transition>
   </div>
 </template>
 
@@ -91,5 +96,16 @@ watch(
   padding: 1rem;
   background-color: white;
   border-radius: 10px;
+}
+
+.v-enter-active {
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease;
+}
+
+.v-enter-from {
+  opacity: 0;
+  transform: translateY(5%);
 }
 </style>
