@@ -26,9 +26,11 @@ const isHomeHeader = computed(() => route.meta.header == 'home')
         <HeaderPage />
       </header>
 
-      <Transition>
-        <RouterView />
-      </Transition>
+      <RouterView v-slot="{ Component }">
+        <Transition>
+          <component :is="Component" />
+        </Transition>
+      </RouterView>
 
       <footer v-if="showLayout">
         <Footer />

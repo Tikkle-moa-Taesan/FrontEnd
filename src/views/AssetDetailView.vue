@@ -123,30 +123,36 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div v-if="account" class="page-container">
-    <AccountInfo :account-info="account.accountDetail" :account-type="accountType" />
+  <div class="flex-one">
+    <div v-if="account" class="page-container">
+      <AccountInfo :account-info="account.accountDetail" :account-type="accountType" />
 
-    <div class="transactions-container">
-      <div class="filter-container">
-        <div class="filter-text">{{ transactionTypeText }} | {{ periodText }}</div>
-        <img
-          alt="설정"
-          class="setting-icon"
-          src="@/assets/icons/setting.png"
-          @click="handleSettingClick"
-        />
+      <div class="transactions-container">
+        <div class="filter-container">
+          <div class="filter-text">{{ transactionTypeText }} | {{ periodText }}</div>
+          <img
+            alt="설정"
+            class="setting-icon"
+            src="@/assets/icons/setting.png"
+            @click="handleSettingClick"
+          />
+        </div>
+        <AccountTransaction :account-transaction="account.transactions" />
       </div>
-      <AccountTransaction :account-transaction="account.transactions" />
+      <div v-if="isLoading" class="is-loading">loading...</div>
     </div>
-    <div v-if="isLoading" class="is-loading">loading...</div>
-  </div>
 
-  <div @click.self="handleCloseModal" v-if="isModalShown" class="modal-wrapper">
-    <FilterModal ref="modalRef" @click="handleSettingBtnClick" @closeModal="handleCloseModal" />
+    <div @click.self="handleCloseModal" v-if="isModalShown" class="modal-wrapper">
+      <FilterModal ref="modalRef" @click="handleSettingBtnClick" @closeModal="handleCloseModal" />
+    </div>
   </div>
 </template>
 
 <style scoped>
+.flex-one {
+  display: flex;
+}
+
 .is-loading {
   margin: 0.5rem 0;
   color: #646464;
