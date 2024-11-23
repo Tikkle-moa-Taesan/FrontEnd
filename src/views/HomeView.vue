@@ -1,9 +1,11 @@
 <script setup>
+import { onMounted } from 'vue'
+
 import MajorAccounts from '@/components/home/MajorAccounts.vue'
 import SpendingStatistic from '@/components/home/SpendingStatistic.vue'
 import ToTalBalance from '@/components/home/TotalBalance.vue'
+
 import { postBudgetUpdate } from '@/utils/api'
-import { onMounted } from 'vue'
 
 onMounted(async () => {
   try {
