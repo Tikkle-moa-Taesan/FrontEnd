@@ -21,6 +21,10 @@ body {
   color: #ff0000;
 }
 
+.flex-one {
+  flex: 1;
+}
+
 .page-container {
   flex: 1;
   display: flex;

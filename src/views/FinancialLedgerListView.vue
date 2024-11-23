@@ -9,19 +9,21 @@ const props = defineProps({
   financialLedgerId: Number,
 })
 
+const isLoading = ref(true)
+
 const transactions = ref({ budgetTransactions: [] })
 
 const page = ref(0)
 
-const isLoading = ref(false)
+const isAvailableScroll = ref(false)
 const hasMoreData = ref(true)
 
 const fetchFinancialLedger = async () => {
   if (props.financialLedgerId === undefined) return
 
-  if (isLoading.value || !hasMoreData.value) return
+  if (isAvailableScroll.value || !hasMoreData.value) return
 
-  isLoading.value = true
+  isAvailableScroll.value = true
 
   try {
     const res = await getFinancialLedger(props.financialLedgerId, page.value)
@@ -37,7 +39,7 @@ const fetchFinancialLedger = async () => {
   } catch (error) {
     console.error('가계부 내역을 불러오는 데 실패하였습니다.', error)
   } finally {
-    isLoading.value = false
+    isAvailableScroll.value = false
   }
 }
 
@@ -45,17 +47,22 @@ const onScroll = () => {
   const scrollPosition = scrollY + innerHeight
   const bottomPosition = document.documentElement.scrollHeight
 
-  if (scrollPosition >= bottomPosition - 100 && !isLoading.value) fetchFinancialLedger()
+  if (scrollPosition >= bottomPosition - 100 && !isAvailableScroll.value) fetchFinancialLedger()
 }
 
 onMounted(() => {
-  fetchFinancialLedger()
   addEventListener('scroll', onScroll)
 })
 
 watch(
   () => props.financialLedgerId,
-  () => fetchFinancialLedger(),
+  () => {
+    fetchFinancialLedger()
+    isLoading.value = false
+  },
+  {
+    immediate: true,
+  },
 )
 
 onUnmounted(() => {
@@ -64,9 +71,9 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div>
+  <div v-if="!isLoading">
     <LedgerTransaction :transactions="transactions.budgetTransactions" />
-    <div v-if="isLoading" class="is-loading">loading...</div>
+    <div v-if="isAvailableScroll" class="is-loading">loading...</div>
   </div>
 </template>
 

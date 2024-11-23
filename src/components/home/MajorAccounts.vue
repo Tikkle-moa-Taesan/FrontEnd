@@ -1,30 +1,21 @@
 <script setup>
-import { computed, onMounted, ref } from 'vue'
+import { computed } from 'vue'
 import router from '@/router'
 
 import MajorAccountDetail from './MajorAccountDetail.vue'
 
-import { getFreeAccountList } from '@/utils/api'
 import formatNumber from '@/utils/formatNumber'
 
-const freeAccountList = ref()
-
-const fetchFreeAccountList = async () => {
-  try {
-    freeAccountList.value = await getFreeAccountList()
-  } catch (error) {
-    console.error('자유 입출금 계좌 데이터를 불러오는 데 실패했습니다.', error)
-  }
-}
-
-onMounted(fetchFreeAccountList)
+const props = defineProps({
+  freeAccountList: Array,
+})
 
 const majorAccountList = computed(() => {
-  return freeAccountList.value ? freeAccountList.value.slice(0, 3) : []
+  return props.freeAccountList ? props.freeAccountList.slice(0, 3) : []
 })
 
 const restAccountList = computed(() => {
-  return freeAccountList.value ? freeAccountList.value.slice(3) : []
+  return props.freeAccountList ? props.freeAccountList.slice(3) : []
 })
 
 const restTotalBalance = computed(() =>

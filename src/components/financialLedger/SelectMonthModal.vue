@@ -59,33 +59,35 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="modal-container">
-    <div class="title">
-      <span>날짜 선택</span>
-      <img
-        @click="handleCloseIconClick"
-        class="close-icon"
-        src="@/assets/icons/close.png"
-        alt="닫기"
-      />
-    </div>
+  <div>
+    <div class="modal-container">
+      <div class="title">
+        <span>날짜 선택</span>
+        <img
+          @click="handleCloseIconClick"
+          class="close-icon"
+          src="@/assets/icons/close.png"
+          alt="닫기"
+        />
+      </div>
 
-    <div class="date-list-wrapper">
-      <div class="date-list">
-        <div
-          @click="handleDateClick(date, idx)"
-          class="date-container"
-          :class="{ 'is-selected': selectedIdx === idx }"
-          v-for="(date, idx) in generatedMonthList"
-          :key="date"
-        >
-          <span>{{ date[0] }}년</span>
-          <span>{{ date[1] }}월</span>
+      <div class="date-list-wrapper">
+        <div class="date-list">
+          <div
+            @click="handleDateClick(date, idx)"
+            class="date-container"
+            :class="{ 'is-selected': selectedIdx === idx }"
+            v-for="(date, idx) in generatedMonthList"
+            :key="date"
+          >
+            <span>{{ date[0] }}년</span>
+            <span>{{ date[1] }}월</span>
+          </div>
         </div>
       </div>
-    </div>
 
-    <button @click="handleSettingBtnClick">설정</button>
+      <button @click="handleSettingBtnClick">설정</button>
+    </div>
   </div>
 </template>
 

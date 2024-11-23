@@ -1,37 +1,17 @@
 <script setup>
 import { computed, onMounted, ref, watch } from 'vue'
 
-import { getCategoryBudget, getExpenseStatistic } from '@/utils/api'
 import formatNumber from '@/utils/formatNumber'
 import CATEGORIES from '@/constants/category'
 
-const categoryBudget = ref({
-  foodBudget: 0,
-  livingBudget: 0,
-  housingCommunicationBudget: 0,
-  financeBudget: 0,
-  transportationBudget: 0,
-  childcareBudget: 0,
-  leisureCultureBudget: 0,
-  petBudget: 0,
-  eventGiftBudget: 0,
-})
-
-const categoryExpense = ref({
-  foodExpense: 0,
-  livingExpense: 0,
-  housingCommunicationExpense: 0,
-  financeExpense: 0,
-  transportationExpense: 0,
-  childcareExpense: 0,
-  leisureCultureExpense: 0,
-  petExpense: 0,
-  eventGiftExpense: 0,
+const props = defineProps({
+  categoryBudget: Object,
+  categoryExpense: Object,
 })
 
 const categoryRest = computed(() => {
   return CATEGORIES.reduce((acc, { eng }) => {
-    acc[eng] = categoryBudget.value[`${eng}Budget`] - categoryExpense.value[`${eng}Expense`]
+    acc[eng] = props.categoryBudget[`${eng}Budget`] - props.categoryExpense[`${eng}Expense`]
 
     return acc
   }, {})
@@ -39,8 +19,8 @@ const categoryRest = computed(() => {
 
 const categoryExpenseRatio = computed(() => {
   return CATEGORIES.reduce((acc, { eng }) => {
-    let budget = categoryBudget.value[`${eng}Budget`]
-    const expense = categoryExpense.value[`${eng}Expense`]
+    let budget = props.categoryBudget[`${eng}Budget`]
+    const expense = props.categoryExpense[`${eng}Expense`]
 
     if (budget === 0) acc[eng] = 100
     else acc[eng] = Math.round(Math.min((expense / budget) * 100, 100))
@@ -57,24 +37,6 @@ const progress = ref(
   }, {}),
 )
 
-const fetchCategoryBudget = async () => {
-  try {
-    categoryBudget.value = await getCategoryBudget()
-  } catch (error) {
-    console.error('카테고리 별 예산 조회에 실패하였습니다.', error)
-  }
-}
-
-const fetchCategoryExpense = async () => {
-  try {
-    const res = await getExpenseStatistic()
-
-    categoryExpense.value = res.categoryExpense
-  } catch (error) {
-    console.error('카테고리 별 지출 조회에 실패하였습니다.', error)
-  }
-}
-
 const animateProgress = (key, rate) => {
   let currRate = 0
 
@@ -88,16 +50,15 @@ const animateProgress = (key, rate) => {
   }, 15)
 }
 
-watch(categoryExpenseRatio, (newValue) => {
-  CATEGORIES.forEach(({ eng }) => {
-    animateProgress(eng, newValue[eng])
-  })
-})
-
-onMounted(() => {
-  fetchCategoryBudget()
-  fetchCategoryExpense()
-})
+watch(
+  categoryExpenseRatio,
+  (newValue) => {
+    CATEGORIES.forEach(({ eng }) => {
+      animateProgress(eng, newValue[eng])
+    })
+  },
+  { immediate: true },
+)
 </script>
 
 <template>

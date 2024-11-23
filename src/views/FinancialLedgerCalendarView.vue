@@ -18,12 +18,8 @@ const selectedDate = ref(null)
 const fetchAllFinancialLedger = async () => {
   if (!props.financialLedgerId) return
 
-  try {
-    const res = await getAllFinancialLedger(props.financialLedgerId)
-    allTransactions.value = res.budgetTransactions
-  } catch (error) {
-    console.error('가계부 내역을 불러오는 데 실패하였습니다.', error)
-  }
+  const res = await getAllFinancialLedger(props.financialLedgerId)
+  allTransactions.value = res.budgetTransactions
 }
 
 const groupingByDate = (transactions) => {

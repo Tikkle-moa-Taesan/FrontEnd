@@ -22,13 +22,16 @@ const router = createRouter({
       name: 'home',
       component: HomeView,
       meta: {
-        isHome: true,
+        header: 'home',
       },
     },
     {
       path: '/asset',
       name: 'asset',
       component: AssetView,
+      meta: {
+        header: 'home',
+      },
     },
     {
       path: '/asset/:type/:id',
@@ -39,6 +42,9 @@ const router = createRouter({
       path: '/financial-ledger',
       name: 'financial-ledger',
       component: FinancialLedgerView,
+      meta: {
+        header: 'home',
+      },
       children: [
         {
           path: 'list',

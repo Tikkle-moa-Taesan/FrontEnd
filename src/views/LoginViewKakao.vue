@@ -8,12 +8,11 @@ const route = useRoute()
 const code = ref(route.query.code)
 
 onMounted(async () => {
-  try {
-    await getLogin(code.value)
+  await getLogin(code.value)
+
+  setTimeout(() => {
     router.push({ name: 'home' })
-  } catch (error) {
-    console.error(error)
-  }
+  }, 1000)
 })
 </script>
 
@@ -28,10 +27,10 @@ onMounted(async () => {
 .login-loading-container {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
   gap: 3rem;
   height: 100vh;
-  padding-top: 50%;
   background-color: #f2f2f2;
 }
 

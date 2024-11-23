@@ -2,27 +2,16 @@
 import { computed, onMounted, ref, watch } from 'vue'
 
 import router from '@/router'
-import { getBudgetStatistic } from '@/utils/api'
 
-const totalBudgetInfo = ref({
-  thisMonthExpense: 0,
-  thisMonthBudget: 0,
-  rate: 0,
+const props = defineProps({
+  totalBudgetInfo: Object,
 })
 
 const thisMonthRest = computed(() => {
-  return totalBudgetInfo.value.thisMonthBudget - totalBudgetInfo.value.thisMonthExpense
+  return props.totalBudgetInfo.thisMonthBudget - props.totalBudgetInfo.thisMonthExpense
 })
 
 const progress = ref(0)
-
-const fetchBudgetStatistic = async () => {
-  try {
-    totalBudgetInfo.value = await getBudgetStatistic()
-  } catch (error) {
-    console.error('예산 통계 조회에 실패하였습니다.', error)
-  }
-}
 
 const animateProgress = (rate) => {
   let currRate = 0
@@ -41,12 +30,8 @@ const handleModifyBtnClick = () => {
   router.push({ name: 'total-budget-set' })
 }
 
-watch(totalBudgetInfo, (newValue) => {
-  animateProgress(newValue.rate)
-})
-
 onMounted(() => {
-  fetchBudgetStatistic()
+  animateProgress(props.totalBudgetInfo.rate)
 })
 </script>
 
