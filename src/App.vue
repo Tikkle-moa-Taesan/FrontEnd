@@ -71,7 +71,7 @@ footer {
 }
 
 .v-enter-active {
-  transition: opacity 1s ease;
+  transition: opacity 0.5s ease;
 }
 
 .v-enter-from {

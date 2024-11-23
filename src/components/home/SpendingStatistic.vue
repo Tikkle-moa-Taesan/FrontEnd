@@ -1,44 +1,27 @@
 <script setup>
-import { computed, onMounted, ref } from 'vue'
+import { computed } from 'vue'
 
 import DoughnutGraphSpending from './DoughnutGraphSpending.vue'
 import DoughnutGraphBudget from './DoughnutGraphBudget.vue'
 
 import formatNumber from '@/utils/formatNumber'
-import { getBudgetStatistic, getExpenseStatistic } from '@/utils/api'
 import router from '@/router'
 
-const monthlySpending = ref(null)
-const monthlyBudget = ref(null)
-
-const fetchExpenseStatistic = async () => {
-  try {
-    const expenseStatistic = await getExpenseStatistic()
-    monthlySpending.value = expenseStatistic
-  } catch (error) {
-    console.error(error)
-  }
-}
-
-const fetchBudgetStatistic = async () => {
-  try {
-    const budgetStatistic = await getBudgetStatistic()
-    monthlyBudget.value = budgetStatistic
-  } catch (error) {
-    console.error(error)
-  }
-}
+const props = defineProps({
+  monthlySpending: Object,
+  monthlyBudget: Object,
+})
 
 const monthlyDifference = computed(() => {
-  if (!monthlySpending.value) return 0
+  if (!props.monthlySpending) return 0
 
-  return monthlySpending.value.thisMonthExpense - monthlySpending.value.lastMonthExpense
+  return props.monthlySpending.thisMonthExpense - props.monthlySpending.lastMonthExpense
 })
 
 const weeklyDifference = computed(() => {
-  if (!monthlySpending.value) return 0
+  if (!props.monthlySpending) return 0
 
-  return monthlySpending.value.thisWeekExpense - monthlySpending.value.lastWeekExpense
+  return props.monthlySpending.thisWeekExpense - props.monthlySpending.lastWeekExpense
 })
 
 const differenceString = (diff) => {
@@ -46,17 +29,12 @@ const differenceString = (diff) => {
 }
 
 const hasStatisticData = computed(() => {
-  return monthlySpending.value !== -1 && monthlyBudget.value !== -1
+  return props.monthlySpending !== -1 && props.monthlyBudget !== -1
 })
 
 const handleRegisterBtnClick = () => {
   router.push({ name: 'total-budget-set' })
 }
-
-onMounted(() => {
-  fetchExpenseStatistic()
-  fetchBudgetStatistic()
-})
 </script>
 
 <template>
