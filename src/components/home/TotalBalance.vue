@@ -4,7 +4,7 @@ import { onMounted, ref } from 'vue'
 import { getProfile, getTotalBalance } from '@/utils/api'
 import formatNumber from '@/utils/formatNumber'
 
-import defaultProfileImg from '@/assets/images/ghost.png'
+import defaultProfileImg from '@/assets/images/ghost.webp'
 
 const profile = ref(null)
 const totalBalance = ref(0)
