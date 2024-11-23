@@ -73,7 +73,7 @@ watch(
     <Calendar @click-date="handleDateClick" :financial-data="financialData" />
 
     <Transition>
-      <div v-if="selectedDate" class="transition-container">
+      <div v-if="selectedDate" :key="selectedDate" class="transition-container">
         <LedgerTransactionDay
           :date="selectedDate"
           :transactions="groupedTransaction[selectedDate]"
