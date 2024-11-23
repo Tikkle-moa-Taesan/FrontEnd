@@ -12,13 +12,13 @@ const route = useRoute()
 
 const showLayout = computed(() => route.meta.layout !== 'none')
 
-const isHome = computed(() => route.meta.isHome == true)
+const isHomeHeader = computed(() => route.meta.header == 'home')
 </script>
 
 <template>
   <div class="align-center" :class="{ 'is-modal-open': isModalShown }">
     <div class="container">
-      <header v-if="showLayout && isHome">
+      <header v-if="showLayout && isHomeHeader">
         <HeaderHome />
       </header>
       <header v-else-if="showLayout">
