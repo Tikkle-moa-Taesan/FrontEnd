@@ -3,38 +3,30 @@ import { onMounted, ref } from 'vue'
 
 import Account from '@/components/asset/Accounts.vue'
 import TotalBalance from '@/components/home/TotalBalance.vue'
-
-import { getFreeAccountList, getSavingAccountList } from '@/utils/api'
 import Loading from '@/components/commons/Loading.vue'
+
+import { getFreeAccountList, getProfile, getSavingAccountList, getTotalBalance } from '@/utils/api'
+
+const MINIMUM_LOADING_TIME = 500
 
 const isLoading = ref(true)
 
-const MINIMUM_LOADING_TIME = 500
+const profile = ref(null)
+const totalBalance = ref(null)
 
 const freeAccountList = ref()
 const savingAccountList = ref()
 
-const fetchFreeAccountList = async () => {
-  try {
-    freeAccountList.value = await getFreeAccountList()
-  } catch (error) {
-    console.error('자유 입출금 계좌 데이터를 불러오는 데 실패하였습니다.', error)
-  }
-}
-
-const fetchSavingAccountList = async () => {
-  try {
-    savingAccountList.value = await getSavingAccountList()
-  } catch (error) {
-    console.error('적금 계좌 데이터를 불러오는 데 실패하였습니다.', error)
-  }
-}
-
 onMounted(async () => {
   const startTime = Date.now()
 
-  await fetchFreeAccountList()
-  await fetchSavingAccountList()
+  profile.value = await getProfile()
+
+  const balance = await getTotalBalance()
+  totalBalance.value = balance.total
+
+  freeAccountList.value = await getFreeAccountList()
+  savingAccountList.value = await getSavingAccountList()
 
   const elapsedTime = Date.now() - startTime
 
@@ -49,15 +41,19 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div v-if="!isLoading" class="page-container">
-    <TotalBalance />
-    <Account title="자유 입출금 계좌" :accounts="freeAccountList" />
-    <Account title="적금 계좌" :accounts="savingAccountList" />
-  </div>
+  <Transition name="content">
+    <div v-if="!isLoading" class="page-container">
+      <TotalBalance :profile="profile" :total-balance="totalBalance" />
+      <Account title="자유 입출금 계좌" :accounts="freeAccountList" />
+      <Account title="적금 계좌" :accounts="savingAccountList" />
+    </div>
+  </Transition>
 
-  <div v-else class="loading-wrapper">
-    <Loading msg="데이터를 가져오고 있어요." />
-  </div>
+  <Transition name="loading">
+    <div v-if="isLoading" class="loading-wrapper">
+      <Loading msg="데이터를 가져오고 있어요." />
+    </div>
+  </Transition>
 </template>
 
 <style scoped>
@@ -69,5 +65,15 @@ onMounted(async () => {
   padding: 2rem 1.5rem;
   background-color: #f2f2f2;
   border-radius: 10px;
+}
+
+.content-enter-active,
+.loading-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.content-enter-from,
+.loading-leave-to {
+  opacity: 0;
 }
 </style>
