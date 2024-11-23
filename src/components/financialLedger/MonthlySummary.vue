@@ -60,9 +60,11 @@ const handleSelectDate = (date) => {
     </div>
   </div>
 
-  <div @click.self="handleCloseModal" v-if="isModalShown" class="modal-wrapper">
-    <SelectMonthModal @close-modal="handleCloseModal" @select-date="handleSelectDate" />
-  </div>
+  <Transition>
+    <div @click.self="handleCloseModal" v-if="isModalShown" class="modal-wrapper">
+      <SelectMonthModal @close-modal="handleCloseModal" @select-date="handleSelectDate" />
+    </div>
+  </Transition>
 </template>
 
 <style scoped>
@@ -107,5 +109,18 @@ const handleSelectDate = (date) => {
 
 .value-container .income-value {
   color: #3396f4;
+}
+
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.v-enter-from {
+  opacity: 0;
+}
+
+.v-leave-to {
+  opacity: 0;
 }
 </style>

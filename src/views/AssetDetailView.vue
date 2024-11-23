@@ -142,9 +142,11 @@ onUnmounted(() => {
       <div v-if="isLoading" class="is-loading">loading...</div>
     </div>
 
-    <div @click.self="handleCloseModal" v-if="isModalShown" class="modal-wrapper">
-      <FilterModal ref="modalRef" @click="handleSettingBtnClick" @closeModal="handleCloseModal" />
-    </div>
+    <Transition>
+      <div v-if="isModalShown" @click.self="handleCloseModal" class="modal-wrapper">
+        <FilterModal ref="modalRef" @click="handleSettingBtnClick" @closeModal="handleCloseModal" />
+      </div>
+    </Transition>
   </div>
 </template>
 
@@ -179,5 +181,18 @@ onUnmounted(() => {
 
 .setting-icon {
   width: 1.25rem;
+}
+
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.v-enter-from {
+  opacity: 0;
+}
+
+.v-leave-to {
+  opacity: 0;
 }
 </style>
