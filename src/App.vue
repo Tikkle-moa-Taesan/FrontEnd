@@ -25,7 +25,9 @@ const isHome = computed(() => route.meta.isHome == true)
         <HeaderPage />
       </header>
 
-      <RouterView />
+      <Transition>
+        <RouterView />
+      </Transition>
 
       <footer v-if="showLayout">
         <Footer />
@@ -66,5 +68,13 @@ footer {
 .is-modal-open {
   height: 100vh;
   overflow: hidden;
+}
+
+.v-enter-active {
+  transition: opacity 1s ease;
+}
+
+.v-enter-from {
+  opacity: 0;
 }
 </style>
