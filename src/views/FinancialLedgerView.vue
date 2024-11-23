@@ -9,6 +9,8 @@ import Loading from '@/components/commons/Loading.vue'
 import { getFinancialLedgerId } from '@/utils/api'
 import router from '@/router'
 
+const isLoading = ref(true)
+
 const route = useRoute()
 
 const isBudget = computed(() => route.meta.isBudget == true)
@@ -18,52 +20,64 @@ const date = ref([new Date().getFullYear(), new Date().getMonth() + 1])
 const financialLedgerInfo = ref(null)
 
 const fetchFinancialLedgerInfo = async () => {
-  try {
-    const res = await getFinancialLedgerId(
-      `${date.value[0]}${date.value[1].toString().padStart(2, '0')}`,
-    )
+  const res = await getFinancialLedgerId(
+    `${date.value[0]}${date.value[1].toString().padStart(2, '0')}`,
+  )
 
-    if (res === -1) {
-      router.push({ name: 'total-budget-set' })
-      return
-    }
-
-    if (res === 'empty') {
-      financialLedgerInfo.value = null
-      return
-    }
-
-    financialLedgerInfo.value = res
-  } catch (error) {
-    console.error('가계부 ID를 불러오는 데 실패하였습니다.', error)
+  if (res === -1) {
+    router.push({ name: 'total-budget-set' })
+    return
   }
+
+  if (res === 'empty') {
+    financialLedgerInfo.value = null
+    return
+  }
+
+  financialLedgerInfo.value = res
 }
 
 watch(
   date,
   () => {
     fetchFinancialLedgerInfo()
+    isLoading.value = false
   },
   { immediate: true },
 )
 </script>
 
 <template>
-  <div class="page-container">
-    <MonthlySummary v-if="!isBudget" v-model="date" :financial-ledger-info="financialLedgerInfo" />
+  <div class="flex-one">
+    <div v-if="!isLoading" class="page-container">
+      <MonthlySummary
+        v-if="!isBudget"
+        v-model="date"
+        :financial-ledger-info="financialLedgerInfo"
+      />
 
-    <div v-if="financialLedgerInfo != null">
-      <RouterView :financial-ledger-id="financialLedgerInfo?.budgetId" />
-    </div>
-    <div v-else class="empty">
-      <Loading msg="가계부 내역이 존재하지 않아요." />
-    </div>
+      <div v-if="financialLedgerInfo != null">
+        <RouterView v-slot="{ Component }">
+          <Transition>
+            <component :is="Component" :financial-ledger-id="financialLedgerInfo?.budgetId" />
+          </Transition>
+        </RouterView>
+      </div>
+      <div v-else class="empty-container">
+        <Loading msg="가계부 내역이 존재하지 않아요." />
+      </div>
 
-    <FloatingNav class="floating-nav" />
+      <FloatingNav class="floating-nav" />
+    </div>
   </div>
 </template>
 
 <style scoped>
+.flex-one {
+  display: flex;
+  flex-direction: column;
+}
+
 .page-container {
   padding-bottom: 4rem;
 }
@@ -77,7 +91,7 @@ watch(
   max-width: calc(430px - 3rem);
 }
 
-.empty {
+.empty-container {
   flex: 1;
   justify-content: center;
   display: flex;
@@ -86,5 +100,16 @@ watch(
   padding: 1rem;
   background-color: white;
   border-radius: 10px;
+}
+
+.v-enter-active {
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease;
+}
+
+.v-enter-from {
+  opacity: 0;
+  transform: translateY(1%);
 }
 </style>
