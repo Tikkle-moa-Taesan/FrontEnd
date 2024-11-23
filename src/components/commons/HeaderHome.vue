@@ -2,7 +2,9 @@
 
 <template>
   <div class="header-container">
-    <img class="main-logo" src="@/assets/images/main-logo.webp" alt="메인로고" />
+    <RouterLink :to="{ name: 'home' }">
+      <img class="main-logo" src="@/assets/images/TmT-logo.webp" alt="메인로고" />
+    </RouterLink>
 
     <nav>
       <img class="nav-icon" src="@/assets/icons/bell.png" alt="알림" />
@@ -22,7 +24,6 @@
 }
 
 .main-logo {
-  width: 2.25rem;
   height: 2.25rem;
 }
 
