@@ -9,14 +9,12 @@ import {
   getBudgetStatistic,
   getExpenseStatistic,
   getFreeAccountList,
-  getProfile,
   getTotalBalance,
   postBudgetUpdate,
 } from '@/utils/api'
 
 const isLoading = ref(true)
 
-const profile = ref(null)
 const totalBalance = ref(0)
 
 const freeAccountList = ref([])
@@ -26,8 +24,6 @@ const monthlyBudget = ref({})
 
 onMounted(async () => {
   await postBudgetUpdate()
-
-  profile.value = await getProfile()
 
   const balance = await getTotalBalance()
   totalBalance.value = balance.total
@@ -44,7 +40,7 @@ onMounted(async () => {
 <template>
   <div class="flex-one">
     <div v-if="!isLoading" class="page-container">
-      <ToTalBalance :profile="profile" :total-balance="totalBalance" />
+      <ToTalBalance :total-balance="totalBalance" />
       <MajorAccounts :free-account-list="freeAccountList" />
       <SpendingStatistic :monthly-spending="monthlySpending" :monthly-budget="monthlyBudget" />
     </div>

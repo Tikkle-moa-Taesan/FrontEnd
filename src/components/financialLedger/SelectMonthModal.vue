@@ -1,20 +1,11 @@
 <script setup>
-import { computed, onMounted, ref } from 'vue'
-
-import { getProfile } from '@/utils/api'
+import { computed, inject, ref } from 'vue'
 
 const emits = defineEmits(['closeModal', 'selectDate'])
 
-const createdAt = ref(null)
+const profile = inject('profile')
 
-const fetchProfile = async () => {
-  try {
-    const res = await getProfile()
-    createdAt.value = res.createdAt
-  } catch (error) {
-    console.error('프로필 데이터를 불러오는 데 실패하였습니다.', error)
-  }
-}
+const createdAt = computed(() => profile.value.createdAt)
 
 const selectedIdx = ref(0)
 
@@ -52,10 +43,6 @@ const handleDateClick = (date, idx) => {
 const handleSettingBtnClick = () => {
   emits('selectDate', generatedMonthList.value[selectedIdx.value])
 }
-
-onMounted(() => {
-  fetchProfile()
-})
 </script>
 
 <template>

@@ -2,11 +2,13 @@
 import formatNumber from '@/utils/formatNumber'
 
 import defaultProfileImg from '@/assets/images/ghost.webp'
+import { inject } from 'vue'
 
 defineProps({
-  profile: Object,
   totalBalance: Number,
 })
+
+const profile = inject('profile')
 </script>
 
 <template>

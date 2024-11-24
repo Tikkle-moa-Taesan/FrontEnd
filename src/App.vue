@@ -1,9 +1,10 @@
 <script setup>
-import { computed, provide, ref } from 'vue'
+import { computed, onMounted, provide, ref } from 'vue'
 import { useRoute } from 'vue-router'
 
 import Footer from './components/commons/Footer.vue'
 import Header from './components/commons/Header.vue'
+import { getProfile } from './utils/api'
 
 const isModalShown = ref(false)
 provide('isModalShown', isModalShown)
@@ -11,9 +12,16 @@ provide('isModalShown', isModalShown)
 const isChatbotModalShown = ref(false)
 provide('isChatbotModalShown', isChatbotModalShown)
 
+const profile = ref(null)
+provide('profile', profile)
+
 const route = useRoute()
 
 const showLayout = computed(() => route.meta.layout !== 'none')
+
+onMounted(async () => {
+  profile.value = await getProfile()
+})
 </script>
 
 <template>

@@ -1,13 +1,17 @@
 <script setup>
+import { inject } from 'vue'
+
 defineProps({
   msg: String,
 })
+
+const profile = inject('profile')
 </script>
 
 <template>
   <div class="message-container">
     <div class="img-container">
-      <img src="@/assets/images/ghost.webp" alt="유령" />
+      <img :src="profile.picture" alt="프로필사진" />
     </div>
     <div class="text">{{ msg }}</div>
   </div>
@@ -42,6 +46,6 @@ defineProps({
 }
 
 .img-container img {
-  width: 70%;
+  width: 100%;
 }
 </style>
