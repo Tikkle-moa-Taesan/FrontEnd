@@ -1,10 +1,12 @@
 <script setup>
-import { nextTick, ref, watch } from 'vue'
+import { nextTick, onMounted, ref, watch } from 'vue'
 
 import BotMessage from './BotMessage.vue'
 import UserMessage from './UserMessage.vue'
 
 import { getChatbotForLatest, getChatbotForWhole } from '@/utils/api'
+
+const conversation = defineModel()
 
 const isLoading = ref(false)
 
@@ -12,12 +14,6 @@ const containerRef = ref(null)
 
 const selectedOption = ref(null)
 const answerOfChatbot = ref(null)
-
-const displayedMessages = ref([
-  { type: 'bot', modalType: 'text', msg: '안녕하세요. 저는 당신의 AI 비서 Teemo라고 해요!' },
-  { type: 'bot', modalType: 'text', msg: '원하시는 자산 분석 서비스를 선택해주세요.' },
-  { type: 'bot', modalType: 'select' },
-])
 
 const initialOptionsMessage = [
   { type: 'bot', modalType: 'text', msg: '원하시는 자산 분석 서비스를 선택해주세요.' },
@@ -32,12 +28,12 @@ watch(selectedOption, async (newValue) => {
   await nextTick()
   containerRef.value.scrollTop = containerRef.value.scrollHeight
 
-  displayedMessages.value.push({
+  conversation.value.push({
     type: 'user',
     msg: newValue,
   })
 
-  displayedMessages.value.push({
+  conversation.value.push({
     type: 'bot',
     modalType: 'text',
     msg: '데이터 분석중입니다. 잠시만 기다려주세요.',
@@ -53,7 +49,7 @@ watch(selectedOption, async (newValue) => {
       break
     case '전체 기간에 대한 자산 분석':
       const wholeData = await getChatbotForWhole()
-      answerOfChatbot.value = wholeData.choices[0].message.content
+      answerOfChatbot.value = wholeData.text
       break
   }
 
@@ -63,7 +59,7 @@ watch(selectedOption, async (newValue) => {
   isLoading.value = false
 
   if (answerOfChatbot.value) {
-    displayedMessages.value.push({
+    conversation.value.push({
       type: 'bot',
       modalType: 'text',
       msg: answerOfChatbot.value,
@@ -73,14 +69,18 @@ watch(selectedOption, async (newValue) => {
   await nextTick()
   containerRef.value.scrollTop = containerRef.value.scrollHeight
 
-  displayedMessages.value.push(...initialOptionsMessage)
+  conversation.value.push(...initialOptionsMessage)
   selectedOption.value = null
+})
+
+onMounted(() => {
+  containerRef.value.scrollTop = containerRef.value.scrollHeight
 })
 </script>
 
 <template>
   <div class="modal-container" ref="containerRef">
-    <div class="render-container" v-for="(message, idx) in displayedMessages" :key="idx">
+    <div class="render-container" v-for="(message, idx) in conversation" :key="idx">
       <UserMessage v-if="message.type === 'user'" :msg="message.msg" />
       <BotMessage
         v-if="message.type === 'bot' && message.modalType === 'text'"
