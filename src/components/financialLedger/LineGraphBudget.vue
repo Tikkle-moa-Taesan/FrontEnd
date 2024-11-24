@@ -122,7 +122,7 @@ const chartOptions = computed(() => {
         max: maxRange.value,
         ticks: {
           stepSize: stepSize.value,
-          callback: (value) => `${Math.round(value / 100000) * 10}만`,
+          callback: (value) => `${Math.round(value / 100000) * 10}만원`,
         },
       },
     },
