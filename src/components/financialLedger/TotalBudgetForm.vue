@@ -1,9 +1,14 @@
 <script setup>
-import router from '@/router'
-import { postBudgetCreate } from '@/utils/api'
 import { ref } from 'vue'
 
-const totalBudgetString = ref()
+import router from '@/router'
+import { postBudgetCreate } from '@/utils/api'
+
+const props = defineProps({
+  previousBudget: Number,
+})
+
+const totalBudgetString = ref(props.previousBudget.toLocaleString())
 const totalBudgetNumber = ref()
 
 const handleInput = (e) => {
@@ -41,7 +46,6 @@ const fetchBudgetCreate = async () => {
 
       <div class="btn-container">
         <button class="submit-btn" type="submit">예산 설정</button>
-        <button class="same-btn" type="button">지난 달 예산 그대로</button>
       </div>
     </form>
   </div>
@@ -49,10 +53,11 @@ const fetchBudgetCreate = async () => {
 
 <style scoped>
 .form-container {
+  flex: 1;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  gap: 1.25rem;
   padding: 4rem;
   background-color: white;
   border-radius: 10px;
@@ -61,6 +66,7 @@ const fetchBudgetCreate = async () => {
 .budget-set-form {
   display: flex;
   flex-direction: column;
+  justify-content: space-around;
   gap: 4rem;
 }
 
@@ -68,7 +74,7 @@ const fetchBudgetCreate = async () => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2.5rem;
+  gap: 3rem;
 }
 
 .input-container > label {
@@ -111,11 +117,5 @@ const fetchBudgetCreate = async () => {
   border: none;
   background-color: #3396f4;
   color: white;
-}
-
-.same-btn {
-  border: 1px solid #646464;
-  background-color: white;
-  color: #646464;
 }
 </style>

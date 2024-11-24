@@ -16,8 +16,6 @@ export const getProfile = async () => {
 
     return response.data
   } catch (error) {
-    if (error.status == 403) location.href = '/login'
-
     console.error(error)
   }
 }

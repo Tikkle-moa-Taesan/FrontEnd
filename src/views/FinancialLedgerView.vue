@@ -56,7 +56,7 @@ watch(
         :financial-ledger-info="financialLedgerInfo"
       />
 
-      <div v-if="financialLedgerInfo != null">
+      <div v-if="isBudget || financialLedgerInfo != null">
         <RouterView v-slot="{ Component }">
           <Transition>
             <component :is="Component" :financial-ledger-id="financialLedgerInfo?.budgetId" />
