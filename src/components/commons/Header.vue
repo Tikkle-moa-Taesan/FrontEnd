@@ -6,6 +6,7 @@ import { useRoute } from 'vue-router'
 const route = useRoute()
 
 const headerType = computed(() => route.meta.header)
+const hasSearch = computed(() => route.meta.hasSearch)
 
 const handleBackClick = () => {
   router.go(-1)
@@ -29,12 +30,7 @@ const handleBackClick = () => {
     </div>
 
     <nav>
-      <img
-        v-if="headerType !== 'home'"
-        class="nav-icon"
-        src="@/assets/icons/search.png"
-        alt="검색"
-      />
+      <img v-if="hasSearch" class="nav-icon" src="@/assets/icons/search.png" alt="검색" />
       <img class="nav-icon" src="@/assets/icons/bell.png" alt="알림" />
       <img class="nav-icon" src="@/assets/icons/hamburger.png" alt="메뉴" />
     </nav>
@@ -58,6 +54,7 @@ const handleBackClick = () => {
 .arrow-container {
   display: flex;
   align-items: center;
+  height: 2.25rem;
 }
 
 .arrow-left {

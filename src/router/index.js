@@ -37,6 +37,9 @@ const router = createRouter({
       path: '/asset/:type/:id',
       name: 'asset-detail',
       component: AssetDetailView,
+      meta: {
+        hasSearch: true,
+      },
     },
     {
       path: '/financial-ledger',
@@ -52,6 +55,9 @@ const router = createRouter({
           component: FinancialLedgerListView,
           beforeEnter: async () => {
             await postBudgetUpdate()
+          },
+          meta: {
+            hasSearch: true,
           },
         },
         {
