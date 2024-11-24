@@ -1,20 +1,11 @@
 <script setup>
-import { computed, onMounted, ref } from 'vue'
-
-import { getProfile } from '@/utils/api'
+import { computed, inject, ref } from 'vue'
 
 const emits = defineEmits(['closeModal', 'selectDate'])
 
-const createdAt = ref(null)
+const profile = inject('profile')
 
-const fetchProfile = async () => {
-  try {
-    const res = await getProfile()
-    createdAt.value = res.createdAt
-  } catch (error) {
-    console.error('프로필 데이터를 불러오는 데 실패하였습니다.', error)
-  }
-}
+const createdAt = computed(() => profile.value.createdAt)
 
 const selectedIdx = ref(0)
 
@@ -52,42 +43,36 @@ const handleDateClick = (date, idx) => {
 const handleSettingBtnClick = () => {
   emits('selectDate', generatedMonthList.value[selectedIdx.value])
 }
-
-onMounted(() => {
-  fetchProfile()
-})
 </script>
 
 <template>
-  <div>
-    <div class="modal-container">
-      <div class="title">
-        <span>날짜 선택</span>
-        <img
-          @click="handleCloseIconClick"
-          class="close-icon"
-          src="@/assets/icons/close.png"
-          alt="닫기"
-        />
-      </div>
+  <div class="modal-container">
+    <div class="title">
+      <span>날짜 선택</span>
+      <img
+        @click="handleCloseIconClick"
+        class="close-icon"
+        src="@/assets/icons/close.png"
+        alt="닫기"
+      />
+    </div>
 
-      <div class="date-list-wrapper">
-        <div class="date-list">
-          <div
-            @click="handleDateClick(date, idx)"
-            class="date-container"
-            :class="{ 'is-selected': selectedIdx === idx }"
-            v-for="(date, idx) in generatedMonthList"
-            :key="date"
-          >
-            <span>{{ date[0] }}년</span>
-            <span>{{ date[1] }}월</span>
-          </div>
+    <div class="date-list-wrapper">
+      <div class="date-list">
+        <div
+          @click="handleDateClick(date, idx)"
+          class="date-container"
+          :class="{ 'is-selected': selectedIdx === idx }"
+          v-for="(date, idx) in generatedMonthList"
+          :key="date"
+        >
+          <span>{{ date[0] }}년</span>
+          <span>{{ date[1] }}월</span>
         </div>
       </div>
-
-      <button @click="handleSettingBtnClick">설정</button>
     </div>
+
+    <button @click="handleSettingBtnClick">설정</button>
   </div>
 </template>
 

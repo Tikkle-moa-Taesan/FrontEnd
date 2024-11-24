@@ -1,29 +1,34 @@
 <script setup>
-import { computed, provide, ref } from 'vue'
+import { computed, onMounted, provide, ref } from 'vue'
 import { useRoute } from 'vue-router'
 
 import Footer from './components/commons/Footer.vue'
-import HeaderHome from './components/commons/HeaderHome.vue'
-import HeaderPage from './components/commons/HeaderPage.vue'
+import Header from './components/commons/Header.vue'
+import { getProfile } from './utils/api'
 
 const isModalShown = ref(false)
 provide('isModalShown', isModalShown)
+
+const isChatbotModalShown = ref(false)
+provide('isChatbotModalShown', isChatbotModalShown)
+
+const profile = ref(null)
+provide('profile', profile)
 
 const route = useRoute()
 
 const showLayout = computed(() => route.meta.layout !== 'none')
 
-const isHomeHeader = computed(() => route.meta.header == 'home')
+onMounted(async () => {
+  profile.value = await getProfile()
+})
 </script>
 
 <template>
-  <div class="align-center" :class="{ 'is-modal-open': isModalShown }">
+  <div class="align-center" :class="{ 'is-modal-open': isModalShown || isChatbotModalShown }">
     <div class="container">
-      <header v-if="showLayout && isHomeHeader">
-        <HeaderHome />
-      </header>
-      <header v-else-if="showLayout">
-        <HeaderPage />
+      <header v-if="showLayout">
+        <Header />
       </header>
 
       <RouterView v-slot="{ Component }">

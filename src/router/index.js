@@ -22,7 +22,7 @@ const router = createRouter({
       name: 'home',
       component: HomeView,
       meta: {
-        header: 'home',
+        hasLogo: true,
       },
     },
     {
@@ -30,20 +30,23 @@ const router = createRouter({
       name: 'asset',
       component: AssetView,
       meta: {
-        header: 'home',
+        hasLogo: true,
       },
     },
     {
       path: '/asset/:type/:id',
       name: 'asset-detail',
       component: AssetDetailView,
+      meta: {
+        hasSearch: true,
+      },
     },
     {
       path: '/financial-ledger',
       name: 'financial-ledger',
       component: FinancialLedgerView,
       meta: {
-        header: 'home',
+        hasLogo: true,
       },
       children: [
         {
@@ -52,6 +55,9 @@ const router = createRouter({
           component: FinancialLedgerListView,
           beforeEnter: async () => {
             await postBudgetUpdate()
+          },
+          meta: {
+            hasSearch: true,
           },
         },
         {
