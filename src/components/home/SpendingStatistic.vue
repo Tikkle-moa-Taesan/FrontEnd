@@ -8,8 +8,8 @@ import formatNumber from '@/utils/formatNumber'
 import router from '@/router'
 
 const props = defineProps({
-  monthlySpending: Object,
-  monthlyBudget: Object,
+  monthlySpending: [Object, Number],
+  monthlyBudget: [Object, Number],
 })
 
 const monthlyDifference = computed(() => {

@@ -57,6 +57,9 @@ watch(selectedOption, async (newValue) => {
       break
   }
 
+  if (!answerOfChatbot.value)
+    answerOfChatbot.value = '아직 가계부가 생성되지 않아 자산을 분석할 수 없어요ㅠㅠ'
+
   isLoading.value = false
 
   if (answerOfChatbot.value) {

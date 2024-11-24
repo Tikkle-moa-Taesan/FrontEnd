@@ -11,7 +11,8 @@ const previousBudget = ref(0)
 
 onMounted(async () => {
   const res = await getBudgetStatistic()
-  previousBudget.value = res.thisMonthBudget
+
+  if (res !== -1) previousBudget.value = res.thisMonthBudget
 
   isLoading.value = false
 })
