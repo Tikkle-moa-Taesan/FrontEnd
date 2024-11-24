@@ -90,7 +90,7 @@ export const getExpenseStatistic = async () => {
     return response.data
   } catch (error) {
     if (error.status == 403) location.href = '/login'
-    else if (error.status == 404) return -1
+    else if (error.response.data.code === 'B001') return -1
 
     console.error(error)
   }
@@ -103,7 +103,7 @@ export const getBudgetStatistic = async () => {
     return response.data
   } catch (error) {
     if (error.status == 403) location.href = '/login'
-    else if (error.status == 404) return -1
+    else if (error.response.data.code === 'B001') return -1
 
     console.error(error)
   }
@@ -128,7 +128,7 @@ export const postBudgetUpdate = async () => {
     return response.data
   } catch (error) {
     if (error.status == 403) location.href = '/login'
-    else if (error.status == 404) location.href = '/budget/set/total'
+    else if (error.response.data.code === 'B001') return -1
 
     console.log(error)
   }
@@ -182,7 +182,7 @@ export const getFinancialLedgerId = async (date) => {
     if (inputDate < currDate && error.status == 404) return 'empty'
 
     if (error.status == 403) location.href = '/login'
-    else if (error.status == 404) return -1
+    else if (error.response.data.code === 'B001') return -1
 
     console.error(error)
   }
@@ -219,6 +219,7 @@ export const getChatbotForLatest = async () => {
     return response.data
   } catch (error) {
     if (error.status == 403) location.href = '/login'
+    else if (error.response.data.code === 'B001') return -1
 
     console.error(error)
   }
@@ -231,6 +232,7 @@ export const getChatbotForWhole = async () => {
     return response.data
   } catch (error) {
     if (error.status == 403) location.href = '/login'
+    else if (error.response.data.code === 'B001') return -1
 
     console.error(error)
   }
