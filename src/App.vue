@@ -3,8 +3,7 @@ import { computed, provide, ref } from 'vue'
 import { useRoute } from 'vue-router'
 
 import Footer from './components/commons/Footer.vue'
-import HeaderHome from './components/commons/HeaderHome.vue'
-import HeaderPage from './components/commons/HeaderPage.vue'
+import Header from './components/commons/Header.vue'
 
 const isModalShown = ref(false)
 provide('isModalShown', isModalShown)
@@ -12,18 +11,13 @@ provide('isModalShown', isModalShown)
 const route = useRoute()
 
 const showLayout = computed(() => route.meta.layout !== 'none')
-
-const isHomeHeader = computed(() => route.meta.header == 'home')
 </script>
 
 <template>
   <div class="align-center" :class="{ 'is-modal-open': isModalShown }">
     <div class="container">
-      <header v-if="showLayout && isHomeHeader">
-        <HeaderHome />
-      </header>
-      <header v-else-if="showLayout">
-        <HeaderPage />
+      <header v-if="showLayout">
+        <Header />
       </header>
 
       <RouterView v-slot="{ Component }">

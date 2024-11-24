@@ -1,5 +1,11 @@
 <script setup>
 import router from '@/router'
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
+
+const headerType = computed(() => route.meta.header)
 
 const handleBackClick = () => {
   router.go(-1)
@@ -8,7 +14,12 @@ const handleBackClick = () => {
 
 <template>
   <div class="header-container">
-    <div class="arrow-container">
+    <div v-if="headerType === 'home'">
+      <RouterLink :to="{ name: 'home' }">
+        <img class="main-logo" src="@/assets/images/TmT-logo.webp" alt="메인로고" />
+      </RouterLink>
+    </div>
+    <div v-else class="arrow-container">
       <img
         @click="handleBackClick"
         class="arrow-left"
@@ -18,7 +29,12 @@ const handleBackClick = () => {
     </div>
 
     <nav>
-      <img class="nav-icon" src="@/assets/icons/search.png" alt="검색" />
+      <img
+        v-if="headerType !== 'home'"
+        class="nav-icon"
+        src="@/assets/icons/search.png"
+        alt="검색"
+      />
       <img class="nav-icon" src="@/assets/icons/bell.png" alt="알림" />
       <img class="nav-icon" src="@/assets/icons/hamburger.png" alt="메뉴" />
     </nav>
@@ -35,6 +51,10 @@ const handleBackClick = () => {
   box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.25);
 }
 
+.main-logo {
+  height: 2.25rem;
+}
+
 .arrow-container {
   display: flex;
   align-items: center;
@@ -44,16 +64,10 @@ const handleBackClick = () => {
   height: 1.25rem;
 }
 
-.main-logo {
-  width: 2.25rem;
-  height: 2.25rem;
-}
-
 nav {
   display: flex;
   align-items: center;
   gap: 1rem;
-  height: 2.25rem;
 }
 
 .nav-icon {
