@@ -160,6 +160,18 @@ export const putCategoryBudget = async (budget) => {
   }
 }
 
+export const getBudgetForSixMonths = async () => {
+  try {
+    const response = await instance.get('/api/budget/graph')
+
+    return response.data
+  } catch (error) {
+    if (error.status == 403) location.href = '/login'
+
+    console.log(error)
+  }
+}
+
 export const getFinancialLedgerId = async (date) => {
   const currDate = Number(`${new Date().getFullYear()}${new Date().getMonth() + 1}`)
   const inputDate = Number(date)

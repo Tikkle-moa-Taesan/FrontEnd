@@ -5,17 +5,26 @@ import CategoryBudgetInfo from '@/components/financialLedger/CategoryBudgetInfo.
 import LineGraphBudget from '@/components/financialLedger/LineGraphBudget.vue'
 import TotalBudgetInfo from '@/components/financialLedger/TotalBudgetInfo.vue'
 
-import { getBudgetStatistic, getCategoryBudget, getExpenseStatistic } from '@/utils/api'
+import {
+  getBudgetForSixMonths,
+  getBudgetStatistic,
+  getCategoryBudget,
+  getExpenseStatistic,
+} from '@/utils/api'
 
 const isLoading = ref(true)
 
 const totalBudgetInfo = ref({})
+
+const budgetForSixMonths = ref({})
 
 const categoryBudget = ref({})
 const categoryExpense = ref({})
 
 onMounted(async () => {
   totalBudgetInfo.value = await getBudgetStatistic()
+
+  budgetForSixMonths.value = await getBudgetForSixMonths()
 
   categoryBudget.value = await getCategoryBudget()
 
@@ -29,7 +38,7 @@ onMounted(async () => {
 <template>
   <div class="flex-one">
     <div v-if="!isLoading" class="budget-page-container">
-      <LineGraphBudget center-text="" />
+      <LineGraphBudget :budget-for-six-months="budgetForSixMonths" center-text="" />
 
       <TotalBudgetInfo :total-budget-info="totalBudgetInfo" />
 
