@@ -45,7 +45,7 @@ const handleCloseChatbotModal = () => {
       <!-- <img class="nav-icon" src="@/assets/icons/bell.png" alt="알림" /> -->
       <img
         @click="handleOpenChatbotModal"
-        class="nav-icon bot-icon"
+        class="bot-icon"
         src="@/assets/icons/chatbot.png"
         alt="챗봇"
       />
@@ -91,11 +91,12 @@ nav {
 }
 
 .nav-icon {
-  /* width: 1.5625rem; */
+  width: 1.5625rem;
   height: 1.5625rem;
 }
 
 .bot-icon {
+  height: 1.5rem;
   margin-left: -0.25rem;
 }
 
