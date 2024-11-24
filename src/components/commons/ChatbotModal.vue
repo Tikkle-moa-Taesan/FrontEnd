@@ -17,12 +17,13 @@ watch(selectedOption, async (newValue) => {
 
   switch (newValue) {
     case '최근 6개월에 대한 자산 분석':
-      const res = await getChatbotForLatest()
-      answerOfChatbot.value = res.text
+      const latestData = await getChatbotForLatest()
+      answerOfChatbot.value = latestData.text
       break
-    // case 'whole':
-    //   answerOfChatbot.value = await getChatbotForWhole()
-    //   break
+    case '전체 기간에 대한 자산 분석':
+      const wholeData = await getChatbotForWhole()
+      answerOfChatbot.value = wholeData.choices[0].message.content
+      break
     default:
       answerOfChatbot.value = null
   }
