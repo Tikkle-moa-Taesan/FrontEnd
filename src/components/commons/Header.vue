@@ -1,8 +1,10 @@
 <script setup>
-import router from '@/router'
-import { computed, inject } from 'vue'
+import { computed, inject, ref } from 'vue'
 import { useRoute } from 'vue-router'
+
 import ChatbotModal from './ChatbotModal.vue'
+
+import router from '@/router'
 
 const route = useRoute()
 
@@ -10,6 +12,12 @@ const hasLogo = computed(() => route.meta.hasLogo)
 const hasSearch = computed(() => route.meta.hasSearch)
 
 const isChatbotModalShown = inject('isChatbotModalShown')
+
+const chatbotConversation = ref([
+  { type: 'bot', modalType: 'text', msg: '안녕하세요. 저는 당신의 AI 비서 Teemo라고 해요!' },
+  { type: 'bot', modalType: 'text', msg: '원하시는 자산 분석 서비스를 선택해주세요.' },
+  { type: 'bot', modalType: 'select' },
+])
 
 const handleBackClick = () => {
   router.go(-1)
@@ -55,7 +63,7 @@ const handleCloseChatbotModal = () => {
 
   <Transition>
     <div @click.self="handleCloseChatbotModal" v-if="isChatbotModalShown" class="modal-wrapper">
-      <ChatbotModal />
+      <ChatbotModal v-model="chatbotConversation" />
     </div>
   </Transition>
 </template>
