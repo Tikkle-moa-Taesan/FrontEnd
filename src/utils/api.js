@@ -213,3 +213,27 @@ export const getAllFinancialLedger = async (budgetId) => {
     console.error(error)
   }
 }
+
+export const getChatbotForLatest = async () => {
+  try {
+    const response = await instance.get('/api/openAI/preview')
+
+    return response.data
+  } catch (error) {
+    if (error.status == 403) location.href = '/login'
+
+    console.error(error)
+  }
+}
+
+export const getChatbotForWhole = async () => {
+  try {
+    const response = await instance.get('/api/openAI/data')
+
+    return response.data
+  } catch (error) {
+    if (error.status == 403) location.href = '/login'
+
+    console.error(error)
+  }
+}

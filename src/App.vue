@@ -8,13 +8,16 @@ import Header from './components/commons/Header.vue'
 const isModalShown = ref(false)
 provide('isModalShown', isModalShown)
 
+const isChatbotModalShown = ref(false)
+provide('isChatbotModalShown', isChatbotModalShown)
+
 const route = useRoute()
 
 const showLayout = computed(() => route.meta.layout !== 'none')
 </script>
 
 <template>
-  <div class="align-center" :class="{ 'is-modal-open': isModalShown }">
+  <div class="align-center" :class="{ 'is-modal-open': isModalShown || isChatbotModalShown }">
     <div class="container">
       <header v-if="showLayout">
         <Header />

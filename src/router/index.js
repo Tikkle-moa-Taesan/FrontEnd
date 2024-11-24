@@ -22,7 +22,7 @@ const router = createRouter({
       name: 'home',
       component: HomeView,
       meta: {
-        header: 'home',
+        hasLogo: true,
       },
     },
     {
@@ -30,7 +30,7 @@ const router = createRouter({
       name: 'asset',
       component: AssetView,
       meta: {
-        header: 'home',
+        hasLogo: true,
       },
     },
     {
@@ -46,7 +46,7 @@ const router = createRouter({
       name: 'financial-ledger',
       component: FinancialLedgerView,
       meta: {
-        header: 'home',
+        hasLogo: true,
       },
       children: [
         {

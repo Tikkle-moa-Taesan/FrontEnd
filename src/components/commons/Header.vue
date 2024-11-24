@@ -1,21 +1,32 @@
 <script setup>
 import router from '@/router'
-import { computed } from 'vue'
+import { computed, inject } from 'vue'
 import { useRoute } from 'vue-router'
+import ChatbotModal from './ChatbotModal.vue'
 
 const route = useRoute()
 
-const headerType = computed(() => route.meta.header)
+const hasLogo = computed(() => route.meta.hasLogo)
 const hasSearch = computed(() => route.meta.hasSearch)
+
+const isChatbotModalShown = inject('isChatbotModalShown')
 
 const handleBackClick = () => {
   router.go(-1)
+}
+
+const handleOpenChatbotModal = () => {
+  isChatbotModalShown.value = true
+}
+
+const handleCloseChatbotModal = () => {
+  isChatbotModalShown.value = false
 }
 </script>
 
 <template>
   <div class="header-container">
-    <div v-if="headerType === 'home'">
+    <div v-if="hasLogo">
       <RouterLink :to="{ name: 'home' }">
         <img class="main-logo" src="@/assets/images/TmT-logo.webp" alt="메인로고" />
       </RouterLink>
@@ -31,10 +42,22 @@ const handleBackClick = () => {
 
     <nav>
       <img v-if="hasSearch" class="nav-icon" src="@/assets/icons/search.png" alt="검색" />
-      <img class="nav-icon" src="@/assets/icons/bell.png" alt="알림" />
-      <img class="nav-icon" src="@/assets/icons/hamburger.png" alt="메뉴" />
+      <!-- <img class="nav-icon" src="@/assets/icons/bell.png" alt="알림" /> -->
+      <img
+        @click="handleOpenChatbotModal"
+        class="nav-icon bot-icon"
+        src="@/assets/icons/chatbot.png"
+        alt="챗봇"
+      />
+      <!-- <img class="nav-icon" src="@/assets/icons/hamburger.png" alt="메뉴" /> -->
     </nav>
   </div>
+
+  <Transition>
+    <div @click.self="handleCloseChatbotModal" v-if="isChatbotModalShown" class="modal-wrapper">
+      <ChatbotModal />
+    </div>
+  </Transition>
 </template>
 
 <style scoped>
@@ -68,7 +91,24 @@ nav {
 }
 
 .nav-icon {
-  width: 1.5625rem;
+  /* width: 1.5625rem; */
   height: 1.5625rem;
+}
+
+.bot-icon {
+  margin-left: -0.25rem;
+}
+
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.v-enter-from {
+  opacity: 0;
+}
+
+.v-leave-to {
+  opacity: 0;
 }
 </style>
