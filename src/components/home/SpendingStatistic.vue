@@ -15,13 +15,13 @@ const props = defineProps({
 const monthlyDifference = computed(() => {
   if (!props.monthlySpending) return 0
 
-  return props.monthlySpending.thisMonthExpense - props.monthlySpending.lastMonthExpense
+  return props.monthlySpending.lastMonthExpense - props.monthlySpending.thisMonthExpense
 })
 
 const weeklyDifference = computed(() => {
   if (!props.monthlySpending) return 0
 
-  return props.monthlySpending.thisWeekExpense - props.monthlySpending.lastWeekExpense
+  return props.monthlySpending.lastWeekExpense - props.monthlySpending.thisWeekExpense
 })
 
 const differenceString = (diff) => {
