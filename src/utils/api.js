@@ -239,3 +239,16 @@ export const getChatbotForWhole = async () => {
     console.error(error)
   }
 }
+
+/**
+ * 관리자 권한으로 새로운 거래내역 생성
+ */
+export const postNewTransaction = async (transactionData) => {
+  try {
+    const response = await instance.post('/api/admin/transaction', transactionData)
+
+    return response.data
+  } catch (error) {
+    console.error(error)
+  }
+}

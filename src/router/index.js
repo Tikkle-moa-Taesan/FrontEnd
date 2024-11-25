@@ -13,6 +13,7 @@ import LoginViewKakao from '@/views/LoginViewKakao.vue'
 import TotalBudgetSetView from '@/views/TotalBudgetSetView.vue'
 
 import { postBudgetUpdate } from '@/utils/api'
+import AdminView from '@/views/AdminView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -102,6 +103,14 @@ const router = createRouter({
       name: 'login-kakao',
       component: LoginViewKakao,
       meta: { layout: 'none' },
+    },
+    {
+      path: '/admin',
+      name: 'admin',
+      component: AdminView,
+      meta: {
+        hasLogo: true,
+      },
     },
   ],
 })
