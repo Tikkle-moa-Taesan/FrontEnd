@@ -105,7 +105,7 @@ export const getExpenseStatistic = async () => {
  */
 export const deleteTransaction = async (budgetTransactionId) => {
   try {
-    const response = instance.delete(`/api/member/transaction/${budgetTransactionId}`)
+    const response = await instance.delete(`/api/member/transaction/${budgetTransactionId}`)
 
     return response.data
   } catch (error) {
