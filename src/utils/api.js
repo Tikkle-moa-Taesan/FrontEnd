@@ -279,7 +279,7 @@ export const postNewTransaction = async (transactionData) => {
  */
 export const postNewAccount = async (accountData) => {
   try {
-    const response = await instance.post('maturityDate', accountData)
+    const response = await instance.post('/api/admin/account', accountData)
 
     return response.data
   } catch (error) {
