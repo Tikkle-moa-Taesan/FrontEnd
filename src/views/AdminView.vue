@@ -1,4 +1,5 @@
 <script setup>
+import AddAccount from '@/components/admin/AddAccount.vue'
 import AddAssetTransaction from '@/components/admin/AddAssetTransaction.vue'
 import AddMock from '@/components/admin/AddMock.vue'
 </script>
@@ -7,6 +8,7 @@ import AddMock from '@/components/admin/AddMock.vue'
   <div class="page-container">
     <AddMock />
     <AddAssetTransaction />
+    <AddAccount />
   </div>
 </template>
 
