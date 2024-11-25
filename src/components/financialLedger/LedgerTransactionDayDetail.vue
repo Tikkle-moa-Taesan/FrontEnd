@@ -1,11 +1,14 @@
 <script setup>
 import CATEGORIES from '@/constants/category'
 import formatNumber from '@/utils/formatNumber'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
+import TransactionModal from '../commons/TransactionModal.vue'
 
 const props = defineProps({
   transaction: Object,
 })
+
+const isModalShown = ref(false)
 
 const type = computed(() => {
   return props.transaction.transactionType === 'expense' ? '-' : '+'
@@ -16,23 +19,41 @@ const findCategoryIcon = computed(() => {
 
   return categoryArr.src
 })
+
+const handleOpenModal = () => {
+  isModalShown.value = true
+}
+
+const handleCloseModal = () => {
+  isModalShown.value = false
+}
 </script>
 
 <template>
-  <div class="detail-container">
-    <div class="description-container">
-      <div class="img-container">
-        <img :src="findCategoryIcon" alt="" />
+  <div>
+    <div @click="handleOpenModal" class="detail-container">
+      <div class="description-container">
+        <div class="img-container">
+          <img :src="findCategoryIcon" alt="" />
+        </div>
+        <div class="description">
+          <span>{{ transaction.merchantName }}</span>
+          <span class="text-gray"
+            >{{ transaction.categoryName }} | {{ transaction.accountName }}</span
+          >
+        </div>
       </div>
-      <div class="description">
-        <span>{{ transaction.merchantName }}</span>
-        <span class="text-gray">{{ transaction.categoryName }}</span>
+      <div class="money">
+        <span class="spending-money" :class="{ 'text-blue': type === '+' }"
+          >{{ type }}{{ formatNumber(transaction.amount) }}</span
+        >
       </div>
-    </div>
-    <div class="money">
-      <span class="spending-money" :class="{ 'text-blue': type === '+' }"
-        >{{ type }}{{ formatNumber(transaction.amount) }}</span
-      >
+
+      <Transition>
+        <div v-if="isModalShown" @click.self.stop="handleCloseModal" class="modal-wrapper">
+          <TransactionModal @close-modal="handleCloseModal" :transaction="transaction" />
+        </div>
+      </Transition>
     </div>
   </div>
 </template>
@@ -81,5 +102,18 @@ const findCategoryIcon = computed(() => {
 .text-gray {
   font-size: 0.875rem;
   color: #646464;
+}
+
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.v-enter-from {
+  opacity: 0;
+}
+
+.v-leave-to {
+  opacity: 0;
 }
 </style>

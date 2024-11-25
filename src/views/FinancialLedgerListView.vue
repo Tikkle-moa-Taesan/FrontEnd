@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, onUnmounted, ref, watch } from 'vue'
+import { onMounted, onUnmounted, provide, ref, watch } from 'vue'
 
 import LedgerTransaction from '@/components/financialLedger/LedgerTransaction.vue'
 
@@ -9,12 +9,14 @@ const props = defineProps({
   financialLedgerId: Number,
 })
 
+const hasModifyContent = ref(false)
+provide('hasModifyContent', hasModifyContent)
+
 const isLoading = ref(true)
 
 const transactions = ref({ budgetTransactions: [] })
 
 const page = ref(0)
-
 const isAvailableScroll = ref(false)
 const hasMoreData = ref(true)
 
@@ -64,6 +66,12 @@ watch(
     immediate: true,
   },
 )
+
+watch(hasModifyContent, async () => {
+  await fetchFinancialLedger()
+
+  hasModifyContent.value = false
+})
 
 onUnmounted(() => {
   removeEventListener('scroll', onScroll)

@@ -8,12 +8,13 @@ import FilterModal from '@/components/financialLedger/FilterModal.vue'
 
 import { postFreeAccount, postSavingAccount } from '@/utils/api'
 
+const isLoading = ref(true)
+
 const route = useRoute()
-
-const isModalShown = inject('isModalShown')
-
 const accountType = ref(route.params.type)
 const accountId = ref(route.params.id)
+
+const isModalShown = inject('isModalShown')
 
 const account = ref({ accountDetail: {}, transactions: [] })
 
@@ -46,13 +47,13 @@ const transactionTypeText = computed(() => {
 
 const page = ref(0)
 
-const isLoading = ref(false)
+const isAvailableScroll = ref(false)
 const hasMoreData = ref(true)
 
 const handleInfiniteScroll = async (fetchFunction) => {
-  if (isLoading.value || !hasMoreData.value) return
+  if (isAvailableScroll.value || !hasMoreData.value) return
 
-  isLoading.value = true
+  isAvailableScroll.value = true
 
   try {
     const res = await fetchFunction(accountId.value, page.value, filterCondition.value)
@@ -70,7 +71,7 @@ const handleInfiniteScroll = async (fetchFunction) => {
   } catch (error) {
     console.error(error)
   } finally {
-    isLoading.value = false
+    isAvailableScroll.value = false
   }
 }
 
@@ -84,7 +85,7 @@ const onScroll = () => {
   const scrollPosition = scrollY + innerHeight
   const bottomPosition = document.documentElement.scrollHeight
 
-  if (scrollPosition >= bottomPosition - 100 && !isLoading.value) fetchAccount()
+  if (scrollPosition >= bottomPosition - 100 && !isAvailableScroll.value) fetchAccount()
 }
 
 const handleSettingClick = () => {
@@ -103,8 +104,10 @@ const handleCloseModal = () => {
   isModalShown.value = false
 }
 
-onMounted(() => {
-  fetchAccount()
+onMounted(async () => {
+  await fetchAccount()
+
+  isLoading.value = false
 
   addEventListener('scroll', onScroll)
 })
@@ -124,7 +127,7 @@ onUnmounted(() => {
 
 <template>
   <div class="flex-one">
-    <div v-if="account" class="page-container">
+    <div v-if="!isLoading && account" class="page-container">
       <AccountInfo :account-info="account.accountDetail" :account-type="accountType" />
 
       <div class="transactions-container">
@@ -139,7 +142,7 @@ onUnmounted(() => {
         </div>
         <AccountTransaction :account-transaction="account.transactions" />
       </div>
-      <div v-if="isLoading" class="is-loading">loading...</div>
+      <div v-if="isAvailableScroll" class="is-loading">loading...</div>
     </div>
 
     <Transition>

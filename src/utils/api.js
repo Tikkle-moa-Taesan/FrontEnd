@@ -98,6 +98,23 @@ export const getExpenseStatistic = async () => {
   }
 }
 
+/**
+ * 거래내역 삭제
+ * @param {number} budgetTransactionId - 계좌 ID
+ * @returns {Promise<String>}
+ */
+export const deleteTransaction = async (budgetTransactionId) => {
+  try {
+    const response = instance.delete(`/api/member/transaction/${budgetTransactionId}`)
+
+    return response.data
+  } catch (error) {
+    if (error.status == 403) location.href = '/login'
+
+    console.error(error)
+  }
+}
+
 export const getBudgetStatistic = async () => {
   try {
     const response = await instance.get('/api/budget/rate')
