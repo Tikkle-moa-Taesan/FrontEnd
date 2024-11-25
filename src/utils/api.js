@@ -241,7 +241,22 @@ export const getChatbotForWhole = async () => {
 }
 
 /**
+ * 관리자 권한으로 목데이터 추가
+ * @returns {Promise<String>}
+ */
+export const postMock = async () => {
+  try {
+    const response = await instance.post('/api/mock/insert')
+
+    return response.data
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+/**
  * 관리자 권한으로 새로운 거래내역 생성
+ * @returns {Promise<Object>}
  */
 export const postNewTransaction = async (transactionData) => {
   try {
