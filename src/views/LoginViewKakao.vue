@@ -1,14 +1,19 @@
 <script setup>
-import router from '@/router'
-import { getLogin } from '@/utils/api'
-import { onMounted, ref } from 'vue'
+import { inject, onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
+
+import router from '@/router'
+import { getLogin, getProfile } from '@/utils/api'
 
 const route = useRoute()
 const code = ref(route.query.code)
 
+const profile = inject('profile')
+
 onMounted(async () => {
   await getLogin(code.value)
+
+  profile.value = await getProfile()
 
   setTimeout(() => {
     router.push({ name: 'home' })
