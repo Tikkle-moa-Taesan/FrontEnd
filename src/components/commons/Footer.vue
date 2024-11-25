@@ -1,4 +1,14 @@
-<script setup></script>
+<script setup>
+import { computed, inject, ref, watch } from 'vue'
+
+const profile = inject('profile')
+
+const isAdmin = ref(false)
+
+watch(profile, (newValue) => {
+  isAdmin.value = newValue.role === 'ROLE_ADMIN'
+})
+</script>
 
 <template>
   <div class="footer-container">
@@ -10,6 +20,9 @@
     </RouterLink>
     <RouterLink class="link" :to="{ name: 'financial-ledger-list' }">
       <img src="@/assets/icons/calendar.png" alt="가계부" />
+    </RouterLink>
+    <RouterLink v-if="isAdmin" class="link" :to="{ name: 'admin' }">
+      <img class="admin" src="@/assets/icons/admin.png" alt="관리자" />
     </RouterLink>
   </div>
 </template>
@@ -24,12 +37,20 @@
 }
 
 .link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 1.875rem;
   height: 1.875rem;
 }
 
-.link > img {
+.link img {
   width: 100%;
   height: 100%;
+}
+
+.link .admin {
+  width: 85%;
+  height: 85%;
 }
 </style>
