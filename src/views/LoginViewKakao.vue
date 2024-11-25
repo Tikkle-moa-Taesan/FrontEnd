@@ -3,7 +3,7 @@ import { inject, onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 
 import router from '@/router'
-import { getLogin, getProfile } from '@/utils/api'
+import { getProfile, postKaKaoLogin } from '@/utils/api'
 
 const route = useRoute()
 const code = ref(route.query.code)
@@ -11,7 +11,7 @@ const code = ref(route.query.code)
 const profile = inject('profile')
 
 onMounted(async () => {
-  await getLogin(code.value)
+  await postKaKaoLogin(code.value)
 
   profile.value = await getProfile()
 

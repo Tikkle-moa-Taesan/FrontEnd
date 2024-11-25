@@ -1,8 +1,10 @@
 import instance from './instance'
 
-export const getLogin = async (code) => {
+export const postKaKaoLogin = async (code) => {
   try {
-    const response = await instance.get(`/api/oauth/kakao/login/${code}`)
+    const response = await instance.post('/api/oauth/kakao/login', {
+      authorizationCode: code,
+    })
 
     return response.data
   } catch (error) {
