@@ -12,6 +12,18 @@ export const postKaKaoLogin = async (code) => {
   }
 }
 
+export const postGoogleLogin = async (code) => {
+  try {
+    const response = await instance.post('/api/oauth/google/login', {
+      authorizationCode: code,
+    })
+
+    return response.data
+  } catch (error) {
+    console.error(error)
+  }
+}
+
 export const getProfile = async () => {
   try {
     const response = await instance.get('/api/member/profile')

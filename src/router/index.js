@@ -14,6 +14,7 @@ import TotalBudgetSetView from '@/views/TotalBudgetSetView.vue'
 
 import { postBudgetUpdate } from '@/utils/api'
 import AdminView from '@/views/AdminView.vue'
+import LoginViewGoogle from '@/views/LoginViewGoogle.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -102,6 +103,12 @@ const router = createRouter({
       path: '/login/kakao/code',
       name: 'login-kakao',
       component: LoginViewKakao,
+      meta: { layout: 'none' },
+    },
+    {
+      path: '/login/google/code',
+      name: 'login-google',
+      component: LoginViewGoogle,
       meta: { layout: 'none' },
     },
     {
