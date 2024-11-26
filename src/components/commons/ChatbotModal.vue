@@ -38,14 +38,14 @@ watch(selectedOption, async (newValue) => {
       conversation.value.push({
         type: 'bot',
         modalType: 'text',
-        msg: '이번 달 지출, 지난 달 지출, 가계부 데이터를 바탕으로 분석중입니다. 잠시만 기다려주세요.',
+        msg: '이번 달 및 지난 달 지출, 가계부 데이터를 바탕으로 분석중입니다. 잠시만 기다려주세요.',
       })
       break
     case '모든 데이터에 대한 자산 분석':
       conversation.value.push({
         type: 'bot',
         modalType: 'text',
-        msg: '최근 6개월의 모든 데이터를 바탕으로 분석중입니다. 잠시만 기다려주세요.',
+        msg: '이번 달의 모든 데이터를 바탕으로 분석중입니다. 잠시만 기다려주세요.',
       })
       break
   }
@@ -58,7 +58,7 @@ watch(selectedOption, async (newValue) => {
       const latestData = await getChatbotForLatest()
       answerOfChatbot.value = latestData.text
       break
-    case '모든 데이터에 대한 자산 분석':
+    case '정밀 자산 분석':
       const wholeData = await getChatbotForWhole()
       answerOfChatbot.value = wholeData.text
       break
