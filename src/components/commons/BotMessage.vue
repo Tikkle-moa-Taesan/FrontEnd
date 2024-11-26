@@ -9,16 +9,16 @@ defineProps({
 
 <template>
   <div class="message-container">
-    <div v-if="modalType === 'text'" class="text">{{ msg }}</div>
+    <div v-if="modalType === 'text'" class="text" v-html="msg"></div>
 
     <div v-else class="option-container">
       <div>
-        <input v-model="model" type="radio" id="latest" value="최근 6개월에 대한 자산 분석" />
-        <label for="latest"> 최근 6개월에 대한 자산 분석 </label>
+        <input v-model="model" type="radio" id="latest" value="간편 자산 분석" />
+        <label for="latest">간편 자산 분석</label>
       </div>
       <div>
-        <input v-model="model" type="radio" id="whole" value="전체 기간에 대한 자산 분석" />
-        <label for="whole"> 전체 기간에 대한 자산 분석 </label>
+        <input v-model="model" type="radio" id="whole" value="모든 데이터에 대한 자산 분석" />
+        <label class="whole" for="whole">모든 데이터에 대한 자산 분석 (유료)</label>
       </div>
     </div>
 
@@ -71,6 +71,12 @@ defineProps({
   color: white;
 }
 
+.option-container .whole {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
 .img-container {
   display: flex;
   justify-content: center;
@@ -84,5 +90,20 @@ defineProps({
 
 .img-container img {
   width: 70%;
+}
+</style>
+
+<style>
+.ai-response {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.ai-response ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-left: 1.5rem;
 }
 </style>
