@@ -147,6 +147,23 @@ export const postBudgetCreate = async (monthBudget) => {
   }
 }
 
+/**
+ * 총 예산 수정
+ * @param {Number} totalBudget
+ * @returns {Promise<Object>}
+ */
+export const putBudget = async (totalBudget) => {
+  try {
+    const response = await instance.put('/api/budget', {
+      budgetAmount: totalBudget,
+    })
+
+    return response.data
+  } catch (error) {
+    if (error.status == 403) location.href = '/login'
+  }
+}
+
 export const postBudgetUpdate = async () => {
   try {
     const response = await instance.post('/api/budget/download')
