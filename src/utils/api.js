@@ -12,6 +12,18 @@ export const postKaKaoLogin = async (code) => {
   }
 }
 
+export const postGoogleLogin = async (code) => {
+  try {
+    const response = await instance.post('/api/oauth/google/login', {
+      authorizationCode: code,
+    })
+
+    return response.data
+  } catch (error) {
+    console.error(error)
+  }
+}
+
 export const getProfile = async () => {
   try {
     const response = await instance.get('/api/member/profile')
@@ -267,6 +279,8 @@ export const postMock = async () => {
 
     return response.data
   } catch (error) {
+    if (error.status == 403) location.href = '/login'
+
     console.error(error)
   }
 }
@@ -281,6 +295,25 @@ export const postNewTransaction = async (transactionData) => {
 
     return response.data
   } catch (error) {
+    if (error.status == 403) location.href = '/login'
+
+    console.error(error)
+  }
+}
+
+/**
+ * 관리자 권한으로 새로운 계좌 생성
+ * @param {Object} accountData
+ * @returns {Promise<String>}
+ */
+export const postNewAccount = async (accountData) => {
+  try {
+    const response = await instance.post('/api/admin/account', accountData)
+
+    return response.data
+  } catch (error) {
+    if (error.status == 403) location.href = '/login'
+
     console.error(error)
   }
 }

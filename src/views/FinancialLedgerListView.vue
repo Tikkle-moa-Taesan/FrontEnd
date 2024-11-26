@@ -58,8 +58,9 @@ onMounted(() => {
 
 watch(
   () => props.financialLedgerId,
-  () => {
-    fetchFinancialLedger()
+  async () => {
+    page.value = 0
+    await fetchFinancialLedger()
     isLoading.value = false
   },
   {

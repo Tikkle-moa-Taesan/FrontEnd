@@ -1,55 +1,60 @@
 <script setup>
 import { ref } from 'vue'
 
-import CATEGORY_CODE from '@/constants/categoryCode'
-import { postNewTransaction } from '@/utils/api'
+import { postNewAccount } from '@/utils/api'
 
 const INPUT_CONTENT = [
   {
-    model: 'accountId',
-    label: '계좌 ID',
-    type: 'number',
-    placeholder: '1',
-  },
-  {
-    model: 'transactionDatetime',
-    label: '결제시간',
-    type: 'datetime',
-    placeholder: '2024-10-11 09:30:00',
-  },
-  {
-    model: 'amount',
-    label: '결제금액',
-    type: 'number',
-    placeholder: '10000',
-  },
-  {
-    model: 'merchantName',
-    label: '결제명',
+    model: 'accountNumber',
+    label: '계좌번호',
     type: 'text',
-    placeholder: '바나프레소',
+    placeholder: '111-11-111111',
+  },
+  {
+    model: 'accountName',
+    label: '계좌이름',
+    type: 'text',
+    placeholder: '자유입출금통장 1',
+  },
+  {
+    model: 'bankName',
+    label: '은행',
+    type: 'text',
+    placeholder: '하나은행',
+  },
+  {
+    model: 'interestRate',
+    label: '이자율',
+    type: 'number',
+    placeholder: '0',
+  },
+  {
+    model: 'maturityDate',
+    label: '만기일',
+    type: 'date',
   },
 ]
 
 const isMethodClicked = ref(false)
 
 const inputValue = ref({
-  accountId: 2,
-  categoryCode: 4,
-  transactionDatetime: new Date(),
-  amount: 500000,
-  merchantName: '정기적금',
-  transactionType: 'expense',
+  accountType: 'free',
+  accountNumber: null,
+  accountName: null,
+  bankName: null,
+  interestRate: 0,
+  maturityDate: null,
 })
 
 const handleMethodClick = () => {
   isMethodClicked.value = !isMethodClicked.value
 }
 
+// FIX: 자유입출금계좌 maturityDate를 null값으로 보내면 에러 발생
 const handleFormSubmit = async () => {
   inputValue.value.transactionDatetime = new Date(inputValue.value.transactionDatetime)
 
-  await postNewTransaction(inputValue.value)
+  await postNewAccount(inputValue.value)
 
   isMethodClicked.value = false
 }
@@ -57,9 +62,9 @@ const handleFormSubmit = async () => {
 
 <template>
   <div class="method-container">
-    <div @click="handleMethodClick" class="title-container">
+    <div @click.stop="handleMethodClick" class="title-container">
       <span class="type">POST</span>
-      <h2>거래 내역 추가</h2>
+      <h2>계좌 추가</h2>
     </div>
 
     <Transition>
@@ -77,19 +82,10 @@ const handleFormSubmit = async () => {
           </div>
 
           <div class="input-container">
-            <label for="transactionType">거래종류</label>
-            <select v-model="inputValue.transactionType" class="input" id="transactionType">
-              <option value="income">수입</option>
-              <option value="expense">지출</option>
-            </select>
-          </div>
-
-          <div class="input-container">
-            <label for="categoryCode">카테고리</label>
-            <select v-model="inputValue.categoryCode" class="input" id="categoryCode">
-              <option v-for="(code, category) in CATEGORY_CODE" :value="code">
-                {{ category }}
-              </option>
+            <label for="accountType">계좌종류</label>
+            <select v-model="inputValue.accountType" class="input" id="accountType">
+              <option value="free">자유입출금</option>
+              <option value="saving">적금</option>
             </select>
           </div>
         </div>

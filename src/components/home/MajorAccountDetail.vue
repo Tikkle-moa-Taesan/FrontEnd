@@ -15,7 +15,7 @@ const handleAccountClick = () => {
   router.push({ name: 'asset-detail', params: { type: 'free', id: props.account.accountId } })
 }
 
-const isPositive = ref(props.account.difference > 0 ? true : false)
+const isPositive = ref(props.account.balanceDifference > 0 ? true : false)
 </script>
 
 <template>
