@@ -17,8 +17,8 @@ defineProps({
         <label for="latest">간편 자산 분석</label>
       </div>
       <div>
-        <input v-model="model" type="radio" id="whole" value="모든 데이터에 대한 자산 분석" />
-        <label class="whole" for="whole">모든 데이터에 대한 자산 분석 (유료)</label>
+        <input v-model="model" type="radio" id="whole" value="정밀 자산 분석" />
+        <label class="whole" for="whole">정밀 자산 분석 (유료)</label>
       </div>
     </div>
 
