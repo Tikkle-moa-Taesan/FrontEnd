@@ -1,5 +1,29 @@
 <script setup>
-import formatNumber from '@/utils/formatNumber'
+import { onMounted, ref } from 'vue'
+
+import { getFinancialLedgerId } from '@/utils/api'
+
+const year = ref(new Date().getFullYear())
+const month = ref(new Date().getMonth() + 1)
+
+const lastStatistic = ref({
+  budgetId: 0,
+  monthExpense: 0,
+  monthIncome: 0,
+})
+
+onMounted(async () => {
+  if (month.value === 1) {
+    year.value--
+    month.value = 12
+  } else {
+    month.value--
+  }
+
+  lastStatistic.value = await getFinancialLedgerId(
+    `${year.value}${month.value.toString().padStart(2, '0')}`,
+  )
+})
 </script>
 
 <template>
@@ -10,14 +34,14 @@ import formatNumber from '@/utils/formatNumber'
       <div class="value-container">
         <span>지출</span>
         <span>
-          <span class="expense-value"> {{ formatNumber(2000000) }} </span>
+          <span class="expense-value"> {{ lastStatistic.monthExpense.toLocaleString() }} </span>
           원
         </span>
       </div>
       <div class="value-container">
         <span>수입</span>
         <span>
-          <span class="income-value"> {{ formatNumber(1000000) }} </span>
+          <span class="income-value"> {{ lastStatistic.monthIncome.toLocaleString() }} </span>
           원
         </span>
       </div>
