@@ -15,6 +15,7 @@ import TotalBudgetSetView from '@/views/TotalBudgetSetView.vue'
 import { postBudgetUpdate } from '@/utils/api'
 import AdminView from '@/views/AdminView.vue'
 import LoginViewGoogle from '@/views/LoginViewGoogle.vue'
+import NotFoundView from '@/views/NotFoundView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -118,6 +119,12 @@ const router = createRouter({
       meta: {
         hasLogo: true,
       },
+    },
+    {
+      path: '/:catchAll(.*)',
+      name: 'not-found',
+      component: NotFoundView,
+      meta: { layout: 'none' },
     },
   ],
 })
