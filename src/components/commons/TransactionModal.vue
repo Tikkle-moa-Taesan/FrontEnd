@@ -4,7 +4,7 @@ import { inject, ref, watch } from 'vue'
 import { formatDateForLedger } from '@/utils/formatDate'
 
 import CATEGORY_CODE from '@/constants/categoryCode'
-import { deleteTransaction } from '@/utils/api'
+import { deleteTransaction, modifyTransaction } from '@/utils/api'
 
 const props = defineProps({
   transaction: Object,
@@ -49,8 +49,11 @@ const handleDeleteBtnClick = async () => {
   emits('closeModal')
 }
 
-const handleModifyBtnClick = () => {
-  console.log('저장 버튼 클릭')
+const handleModifyBtnClick = async () => {
+  await modifyTransaction(props.transaction.budgetTransactionId, modifiedContent.value)
+
+  hasModifyContent.value = true
+  emits('closeModal')
 }
 </script>
 

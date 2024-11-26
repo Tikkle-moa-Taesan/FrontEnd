@@ -7,9 +7,7 @@ export const postKaKaoLogin = async (code) => {
     })
 
     return response.data
-  } catch (error) {
-    console.error(error)
-  }
+  } catch (error) {}
 }
 
 export const postGoogleLogin = async (code) => {
@@ -19,9 +17,7 @@ export const postGoogleLogin = async (code) => {
     })
 
     return response.data
-  } catch (error) {
-    console.error(error)
-  }
+  } catch (error) {}
 }
 
 export const getProfile = async () => {
@@ -29,9 +25,7 @@ export const getProfile = async () => {
     const response = await instance.get('/api/member/profile')
 
     return response.data
-  } catch (error) {
-    console.error(error)
-  }
+  } catch (error) {}
 }
 
 export const getTotalBalance = async () => {
@@ -41,8 +35,6 @@ export const getTotalBalance = async () => {
     return response.data
   } catch (error) {
     if (error.status == 403) location.href = '/login'
-
-    console.error(error)
   }
 }
 
@@ -53,8 +45,6 @@ export const getFreeAccountList = async () => {
     return response.data
   } catch (error) {
     if (error.status == 403) location.href = '/login'
-
-    console.error(error)
   }
 }
 
@@ -65,8 +55,6 @@ export const postFreeAccount = async (accountId, page, condition) => {
     return response.data
   } catch (error) {
     if (error.status == 403) location.href = '/login'
-
-    console.error(error)
   }
 }
 
@@ -77,8 +65,6 @@ export const getSavingAccountList = async () => {
     return response.data
   } catch (error) {
     if (error.status == 403) location.href = '/login'
-
-    console.error(error)
   }
 }
 
@@ -92,8 +78,6 @@ export const postSavingAccount = async (accountId, page, condition) => {
     return response.data
   } catch (error) {
     if (error.status == 403) location.href = '/login'
-
-    console.error(error)
   }
 }
 
@@ -105,14 +89,31 @@ export const getExpenseStatistic = async () => {
   } catch (error) {
     if (error.status == 403) location.href = '/login'
     else if (error.response.data.code === 'B001') return -1
+  }
+}
 
-    console.error(error)
+/**
+ * 거래내역 수정
+ * @param {Number} budgetTransactionId
+ * @param {Object} modifyContent
+ * @returns {Promise<String>}
+ */
+export const modifyTransaction = async (budgetTransactionId, modifyContent) => {
+  try {
+    const response = await instance.put(
+      `/api/member/transaction/${budgetTransactionId}`,
+      modifyContent,
+    )
+
+    return response.data
+  } catch (error) {
+    if (error.status == 403) location.href = '/login'
   }
 }
 
 /**
  * 거래내역 삭제
- * @param {number} budgetTransactionId - 계좌 ID
+ * @param {Number} budgetTransactionId - 계좌 ID
  * @returns {Promise<String>}
  */
 export const deleteTransaction = async (budgetTransactionId) => {
@@ -122,8 +123,6 @@ export const deleteTransaction = async (budgetTransactionId) => {
     return response.data
   } catch (error) {
     if (error.status == 403) location.href = '/login'
-
-    console.error(error)
   }
 }
 
@@ -135,8 +134,6 @@ export const getBudgetStatistic = async () => {
   } catch (error) {
     if (error.status == 403) location.href = '/login'
     else if (error.response.data.code === 'B001') return -1
-
-    console.error(error)
   }
 }
 
@@ -147,8 +144,6 @@ export const postBudgetCreate = async (monthBudget) => {
     })
   } catch (error) {
     if (error.status == 403) location.href = '/login'
-
-    console.error(error)
   }
 }
 
@@ -214,8 +209,6 @@ export const getFinancialLedgerId = async (date) => {
 
     if (error.status == 403) location.href = '/login'
     else if (error.response.data.code === 'B001') return -1
-
-    console.error(error)
   }
 }
 
@@ -226,8 +219,6 @@ export const getFinancialLedger = async (budgetId, page) => {
     return response.data
   } catch (error) {
     if (error.status == 403) location.href = '/login'
-
-    console.error(error)
   }
 }
 
@@ -238,8 +229,6 @@ export const getAllFinancialLedger = async (budgetId) => {
     return response.data
   } catch (error) {
     if (error.status == 403) location.href = '/login'
-
-    console.error(error)
   }
 }
 
@@ -251,8 +240,6 @@ export const getChatbotForLatest = async () => {
   } catch (error) {
     if (error.status == 403) location.href = '/login'
     else if (error.response.data.code === 'B001') return -1
-
-    console.error(error)
   }
 }
 
@@ -264,8 +251,6 @@ export const getChatbotForWhole = async () => {
   } catch (error) {
     if (error.status == 403) location.href = '/login'
     else if (error.response.data.code === 'B001') return -1
-
-    console.error(error)
   }
 }
 
@@ -280,8 +265,6 @@ export const postMock = async () => {
     return response.data
   } catch (error) {
     if (error.status == 403) location.href = '/login'
-
-    console.error(error)
   }
 }
 
@@ -296,8 +279,6 @@ export const postNewTransaction = async (transactionData) => {
     return response.data
   } catch (error) {
     if (error.status == 403) location.href = '/login'
-
-    console.error(error)
   }
 }
 
@@ -313,7 +294,5 @@ export const postNewAccount = async (accountData) => {
     return response.data
   } catch (error) {
     if (error.status == 403) location.href = '/login'
-
-    console.error(error)
   }
 }
