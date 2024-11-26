@@ -1,15 +1,18 @@
 <script setup>
-import { computed, ref, watch } from 'vue'
+import { computed, provide, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 
 import FloatingNav from '@/components/commons/FloatingNav.vue'
 import MonthlySummary from '@/components/financialLedger/MonthlySummary.vue'
 import Loading from '@/components/commons/Loading.vue'
 
-import { getFinancialLedgerId } from '@/utils/api'
+import { getFinancialLedgerId, postBudgetUpdate } from '@/utils/api'
 import router from '@/router'
 
 const isLoading = ref(true)
+
+const hasModifyContent = ref(false)
+provide('hasModifyContent', hasModifyContent)
 
 const route = useRoute()
 
@@ -45,6 +48,13 @@ watch(
   },
   { immediate: true },
 )
+
+watch(hasModifyContent, async (newValue) => {
+  if (!newValue) return
+
+  await postBudgetUpdate()
+  await fetchFinancialLedgerInfo()
+})
 </script>
 
 <template>
@@ -59,7 +69,11 @@ watch(
       <div v-if="isBudget || financialLedgerInfo != null">
         <RouterView v-slot="{ Component }">
           <Transition>
-            <component :is="Component" :financial-ledger-id="financialLedgerInfo?.budgetId" />
+            <component
+              :is="Component"
+              :displayed-date="date"
+              :financial-ledger-info="financialLedgerInfo"
+            />
           </Transition>
         </RouterView>
       </div>

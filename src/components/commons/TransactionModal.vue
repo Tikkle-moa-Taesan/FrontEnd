@@ -42,10 +42,7 @@ const handleCloseIconClick = () => {
   emits('closeModal')
 }
 
-// FIX: 삭제 후 새로고침을 해야 바뀐 데이터가 반영됨
 const handleDeleteBtnClick = async () => {
-  console.log('삭제 버튼 클릭')
-
   await deleteTransaction(props.transaction.budgetTransactionId)
 
   hasModifyContent.value = true

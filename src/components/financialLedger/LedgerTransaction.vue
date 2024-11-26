@@ -1,5 +1,5 @@
 <script setup>
-import { computed, watch } from 'vue'
+import { computed } from 'vue'
 
 import LedgerTransactionDay from './LedgerTransactionDay.vue'
 
