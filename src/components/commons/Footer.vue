@@ -1,13 +1,21 @@
 <script setup>
-import { computed, inject, ref, watch } from 'vue'
+import { inject, ref, watch } from 'vue'
 
 const profile = inject('profile')
 
 const isAdmin = ref(false)
 
-watch(profile, (newValue) => {
-  isAdmin.value = newValue.role === 'ROLE_ADMIN'
-})
+watch(
+  profile,
+  (newValue) => {
+    if (newValue === null) return
+
+    console.log(newValue.role)
+
+    isAdmin.value = newValue.role === 'ROLE_ADMIN'
+  },
+  { immediate: true },
+)
 </script>
 
 <template>
