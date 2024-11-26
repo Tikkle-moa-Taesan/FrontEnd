@@ -33,21 +33,32 @@ watch(selectedOption, async (newValue) => {
     msg: newValue,
   })
 
-  conversation.value.push({
-    type: 'bot',
-    modalType: 'text',
-    msg: '데이터 분석중입니다. 잠시만 기다려주세요.',
-  })
+  switch (newValue) {
+    case '간편 자산 분석':
+      conversation.value.push({
+        type: 'bot',
+        modalType: 'text',
+        msg: '이번 달 지출, 지난 달 지출, 가계부 데이터를 바탕으로 분석중입니다. 잠시만 기다려주세요.',
+      })
+      break
+    case '모든 데이터에 대한 자산 분석':
+      conversation.value.push({
+        type: 'bot',
+        modalType: 'text',
+        msg: '최근 6개월의 모든 데이터를 바탕으로 분석중입니다. 잠시만 기다려주세요.',
+      })
+      break
+  }
 
   await nextTick()
   containerRef.value.scrollTop = containerRef.value.scrollHeight
 
   switch (newValue) {
-    case '최근 6개월에 대한 자산 분석':
+    case '간편 자산 분석':
       const latestData = await getChatbotForLatest()
       answerOfChatbot.value = latestData.text
       break
-    case '전체 기간에 대한 자산 분석':
+    case '모든 데이터에 대한 자산 분석':
       const wholeData = await getChatbotForWhole()
       answerOfChatbot.value = wholeData.text
       break
