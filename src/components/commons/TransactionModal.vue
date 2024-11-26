@@ -18,17 +18,20 @@ const isSamePrevious = ref(true)
 
 const previousContent = ref({
   transactionType: props.transaction.transactionType,
-  category: CATEGORY_CODE[props.transaction.categoryName],
+  categoryCode: CATEGORY_CODE[props.transaction.categoryName],
   merchantName: props.transaction.merchantName,
   amount: props.transaction.amount,
 })
 
 const modifiedContent = ref({
   transactionType: props.transaction.transactionType,
-  category: CATEGORY_CODE[props.transaction.categoryName],
+  categoryCode: CATEGORY_CODE[props.transaction.categoryName],
   merchantName: props.transaction.merchantName,
   amount: props.transaction.amount,
 })
+
+const isCategoryClicked = ref(false)
+const selectedCategoryName = ref(props.transaction.categoryName)
 
 watch(
   modifiedContent,
@@ -40,6 +43,15 @@ watch(
 
 const handleCloseIconClick = () => {
   emits('closeModal')
+}
+
+const handleCategoryClick = () => {
+  isCategoryClicked.value = true
+}
+
+const handleCategoryInput = (category) => {
+  selectedCategoryName.value = category
+  isCategoryClicked.value = false
 }
 
 const handleDeleteBtnClick = async () => {
@@ -113,9 +125,23 @@ const handleModifyBtnClick = async () => {
 
       <div class="item-container">
         <span>카테고리</span>
-        <div class="item">
-          <span>{{ transaction.categoryName }}</span>
-          <img src="@/assets/icons/pencil.png" alt="수정" />
+        <div class="item category-wrapper">
+          <div v-if="!isCategoryClicked" @click.stop="handleCategoryClick" class="category-input">
+            <span>{{ selectedCategoryName }}</span>
+            <img src="@/assets/icons/pencil.png" alt="수정" />
+          </div>
+          <div v-else class="category-container">
+            <div class="category-selection" v-for="(code, category) in CATEGORY_CODE">
+              <input
+                v-model="modifiedContent.categoryCode"
+                type="radio"
+                @input.stop="handleCategoryInput(category)"
+                :id="category"
+                :value="code"
+              />
+              <label :for="category">{{ category }}</label>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -200,7 +226,7 @@ const handleModifyBtnClick = async () => {
 }
 
 .item-container {
-  height: 2rem;
+  min-height: 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -213,6 +239,11 @@ const handleModifyBtnClick = async () => {
   justify-content: space-between;
   align-items: center;
   gap: 1rem;
+}
+
+.item-container .category-wrapper {
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
 .item-label {
@@ -243,6 +274,28 @@ const handleModifyBtnClick = async () => {
 
 .item img {
   height: 1rem;
+}
+
+.category-input {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.category-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.category-selection {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.category-selection input {
+  flex: none;
 }
 
 .btn-container {
