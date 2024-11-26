@@ -1,12 +1,12 @@
 <script setup>
-import { onMounted, onUnmounted, ref, watch } from 'vue'
+import { onMounted, onUnmounted, ref, toRef, watch } from 'vue'
 
 import LedgerTransaction from '@/components/financialLedger/LedgerTransaction.vue'
 
 import { getFinancialLedger } from '@/utils/api'
 
 const props = defineProps({
-  financialLedgerId: Number,
+  financialLedgerInfo: Object,
 })
 
 const isLoading = ref(true)
@@ -14,19 +14,18 @@ const isLoading = ref(true)
 const transactions = ref({ budgetTransactions: [] })
 
 const page = ref(0)
-
 const isAvailableScroll = ref(false)
 const hasMoreData = ref(true)
 
 const fetchFinancialLedger = async () => {
-  if (props.financialLedgerId === undefined) return
+  if (!props.financialLedgerInfo.budgetId) return
 
   if (isAvailableScroll.value || !hasMoreData.value) return
 
   isAvailableScroll.value = true
 
   try {
-    const res = await getFinancialLedger(props.financialLedgerId, page.value)
+    const res = await getFinancialLedger(props.financialLedgerInfo.budgetId, page.value)
 
     if (res.budgetTransactions.length === 0) {
       hasMoreData.value = false
@@ -55,13 +54,17 @@ onMounted(() => {
 })
 
 watch(
-  () => props.financialLedgerId,
+  props,
   async () => {
     page.value = 0
+    transactions.value = { budgetTransactions: [] }
+
     await fetchFinancialLedger()
+
     isLoading.value = false
   },
   {
+    deep: true,
     immediate: true,
   },
 )

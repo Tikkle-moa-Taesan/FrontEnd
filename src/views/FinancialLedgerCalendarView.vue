@@ -8,7 +8,8 @@ import { getAllFinancialLedger } from '@/utils/api'
 import { formatDate } from '@/utils/formatDate'
 
 const props = defineProps({
-  financialLedgerId: Number,
+  displayedDate: Array,
+  financialLedgerInfo: Object,
 })
 
 const allTransactions = ref([])
@@ -16,9 +17,9 @@ const allTransactions = ref([])
 const selectedDate = ref(null)
 
 const fetchAllFinancialLedger = async () => {
-  if (!props.financialLedgerId) return
+  if (!props.financialLedgerInfo.budgetId) return
 
-  const res = await getAllFinancialLedger(props.financialLedgerId)
+  const res = await getAllFinancialLedger(props.financialLedgerInfo.budgetId)
   allTransactions.value = res.budgetTransactions
 }
 
@@ -70,7 +71,11 @@ watch(
 
 <template>
   <div class="calendar-page-container">
-    <Calendar @click-date="handleDateClick" :financial-data="financialData" />
+    <Calendar
+      @click-date="handleDateClick"
+      :displayed-date="displayedDate"
+      :financial-data="financialData"
+    />
 
     <Transition>
       <div v-if="selectedDate" :key="selectedDate" class="transition-container">

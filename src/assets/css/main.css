@@ -9,7 +9,8 @@
   font-style: normal;
 }
 
-body {
+body,
+input {
   font-family: 'Poppins', 'Pretendard-Regular', 'sans-serif';
 }
 

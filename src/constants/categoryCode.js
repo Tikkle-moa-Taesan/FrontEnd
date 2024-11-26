@@ -1,3 +1,6 @@
+/**
+ * DB에 저장된 카테고리 번호와 이름 매칭
+ */
 const CATEGORY_CODE = Object.freeze({
   식비: 1,
   생활: 2,
