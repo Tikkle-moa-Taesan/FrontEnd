@@ -1,7 +1,8 @@
 <script setup>
+import { computed } from 'vue'
+
 import { formatHour } from '@/utils/formatDate'
 import formatNumber from '@/utils/formatNumber'
-import { computed } from 'vue'
 
 const props = defineProps({
   transaction: Object,
@@ -13,16 +14,18 @@ const type = computed(() => {
 </script>
 
 <template>
-  <div class="detail-container">
-    <div class="description">
-      <span>{{ transaction.merchantName }}</span>
-      <span class="text-gray">{{ formatHour(transaction.transactionDatetime) }}</span>
-    </div>
-    <div class="money">
-      <span class="spending-money" :class="{ 'text-blue': type === '+' }"
-        >{{ type }}{{ formatNumber(transaction.amount) }}</span
-      >
-      <span class="text-gray">잔액 {{ formatNumber(transaction.balanceAfter) }}</span>
+  <div>
+    <div class="detail-container">
+      <div class="description">
+        <span>{{ transaction.merchantName }}</span>
+        <span class="text-gray">{{ formatHour(transaction.transactionDatetime) }}</span>
+      </div>
+      <div class="money">
+        <span class="spending-money" :class="{ 'text-blue': type === '+' }"
+          >{{ type }}{{ formatNumber(transaction.amount) }}</span
+        >
+        <span class="text-gray">잔액 {{ transaction.balanceAfter.toLocaleString() }}</span>
+      </div>
     </div>
   </div>
 </template>

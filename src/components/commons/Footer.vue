@@ -10,8 +10,6 @@ watch(
   (newValue) => {
     if (newValue === null) return
 
-    console.log(newValue.role)
-
     isAdmin.value = newValue.role === 'ROLE_ADMIN'
   },
   { immediate: true },

@@ -5,6 +5,7 @@ import formatNumber from '@/utils/formatNumber'
 import { formatDate } from '@/utils/formatDate'
 
 const props = defineProps({
+  displayedDate: Array,
   financialData: Object,
 })
 
@@ -46,9 +47,16 @@ const handleDateClick = (date) => {
   emits('clickDate', formattedDate)
 }
 
-watch(props, () => {
-  updateCalendar()
-})
+watch(
+  () => props.displayedDate,
+  () => {
+    selectedYear.value = props.displayedDate[0]
+    selectedMonth.value = props.displayedDate[1] - 1
+
+    updateCalendar()
+  },
+  { immediate: true, deep: true },
+)
 
 watch([selectedYear, selectedMonth], updateCalendar)
 </script>

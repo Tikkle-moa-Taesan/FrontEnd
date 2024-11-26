@@ -22,6 +22,15 @@ const freeAccountList = ref([])
 const monthlySpending = ref({})
 const monthlyBudget = ref({})
 
+const handleAddBtnClick = async () => {
+  await postBudgetUpdate()
+
+  const balance = await getTotalBalance()
+  totalBalance.value = balance.total
+
+  freeAccountList.value = await getFreeAccountList()
+}
+
 onMounted(async () => {
   await postBudgetUpdate()
 
@@ -41,7 +50,7 @@ onMounted(async () => {
   <div class="flex-one">
     <div v-if="!isLoading" class="page-container">
       <ToTalBalance :total-balance="totalBalance" />
-      <MajorAccounts :free-account-list="freeAccountList" />
+      <MajorAccounts @add-btn-click="handleAddBtnClick" :free-account-list="freeAccountList" />
       <SpendingStatistic :monthly-spending="monthlySpending" :monthly-budget="monthlyBudget" />
     </div>
   </div>
