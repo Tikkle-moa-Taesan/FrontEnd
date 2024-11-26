@@ -9,7 +9,7 @@ defineProps({
 
 <template>
   <div class="message-container">
-    <div v-if="modalType === 'text'" class="text">{{ msg }}</div>
+    <div v-if="modalType === 'text'" class="text" v-html="msg"></div>
 
     <div v-else class="option-container">
       <div>
@@ -90,5 +90,20 @@ defineProps({
 
 .img-container img {
   width: 70%;
+}
+</style>
+
+<style>
+.ai-response {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.ai-response ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-left: 1.5rem;
 }
 </style>
