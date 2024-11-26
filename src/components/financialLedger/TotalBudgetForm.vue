@@ -1,8 +1,8 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 
 import router from '@/router'
-import { postBudgetCreate } from '@/utils/api'
+import { postBudgetCreate, putBudget } from '@/utils/api'
 
 const props = defineProps({
   previousBudget: Number,
@@ -11,6 +11,8 @@ const props = defineProps({
 const totalBudgetString = ref(props.previousBudget.toLocaleString())
 const totalBudgetNumber = ref()
 
+const isSamePrevious = ref(true)
+
 const handleInput = (e) => {
   totalBudgetNumber.value = e.target.value.replace(/,/g, '')
 
@@ -18,14 +20,23 @@ const handleInput = (e) => {
 }
 
 const fetchBudgetCreate = async () => {
-  try {
-    await postBudgetCreate(totalBudgetNumber.value)
+  if (props.previousBudget === 0) await postBudgetCreate(totalBudgetNumber.value)
+  else await putBudget(Number(totalBudgetNumber.value))
 
-    router.replace({ name: 'category-budget-set' })
-  } catch (error) {
-    console.error('가계부 생성에 실패하였습니다.', error)
-  }
+  router.replace({ name: 'category-budget-set' })
 }
+
+watch(
+  () => props.previousBudget,
+  () => {
+    totalBudgetNumber.value = props.previousBudget
+  },
+  { immediate: true },
+)
+
+watch(totalBudgetNumber, (newValue) => {
+  isSamePrevious.value = newValue == props.previousBudget
+})
 </script>
 
 <template>
@@ -45,7 +56,13 @@ const fetchBudgetCreate = async () => {
       </div>
 
       <div class="btn-container">
-        <button class="submit-btn" type="submit">예산 설정</button>
+        <button
+          class="submit-btn"
+          type="submit"
+          :disabled="isSamePrevious || totalBudgetNumber == 0"
+        >
+          예산 설정
+        </button>
       </div>
     </form>
   </div>
@@ -117,5 +134,9 @@ const fetchBudgetCreate = async () => {
   border: none;
   background-color: #3396f4;
   color: white;
+}
+
+.submit-btn:disabled {
+  background-color: #a5a5a5;
 }
 </style>
