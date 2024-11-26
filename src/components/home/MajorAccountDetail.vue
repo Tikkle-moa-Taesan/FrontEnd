@@ -31,7 +31,7 @@ const isPositive = ref(props.account.balanceDifference > 0 ? true : false)
       </div>
     </div>
 
-    <div class="difference">
+    <div v-if="account.balanceDifference" class="difference">
       <img v-if="isPositive" src="@/assets/icons/triangle-up.png" alt="상향삼각형" />
       <img v-else src="@/assets/icons/triangle-down.png" alt="하향삼각형" />
       <span :class="isPositive ? 'text-blue' : 'text-red'">{{

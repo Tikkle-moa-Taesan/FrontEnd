@@ -24,7 +24,7 @@ const type = computed(() => {
         <span class="spending-money" :class="{ 'text-blue': type === '+' }"
           >{{ type }}{{ formatNumber(transaction.amount) }}</span
         >
-        <span class="text-gray">잔액 {{ formatNumber(transaction.balanceAfter) }}</span>
+        <span class="text-gray">잔액 {{ transaction.balanceAfter.toLocaleString() }}</span>
       </div>
     </div>
   </div>
