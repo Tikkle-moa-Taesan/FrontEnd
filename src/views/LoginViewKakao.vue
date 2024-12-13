@@ -1,25 +1,60 @@
 <script setup>
-import router from '@/router'
-import instance from '@/utils/instance'
-import { onMounted, ref } from 'vue'
+import { inject, onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
+
+import router from '@/router'
+import { getProfile, postKaKaoLogin } from '@/utils/api'
 
 const route = useRoute()
 const code = ref(route.query.code)
 
-onMounted(async () => {
-  try {
-    await instance.get(`/api/oauth/kakao/login/${code.value}`)
-  } catch (error) {
-    console.error(error)
-  }
+const profile = inject('profile')
 
-  router.push({ name: 'home' })
+onMounted(async () => {
+  await postKaKaoLogin(code.value)
+
+  profile.value = await getProfile()
+
+  setTimeout(() => {
+    router.push({ name: 'home' })
+  }, 1000)
 })
 </script>
 
 <template>
-  <h1>카카오 인가코드 확인 페이지</h1>
+  <div class="login-loading-container">
+    <img class="ghost-img" src="@/assets/images/ghost.webp" alt="유령" />
+    <span class="loading-msg">잠시만 기다려주세요</span>
+  </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.login-loading-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 3rem;
+  height: 100vh;
+  background-color: #f2f2f2;
+}
+
+.loading-msg {
+  font-weight: 600;
+}
+
+.ghost-img {
+  width: 13rem;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+}
+</style>

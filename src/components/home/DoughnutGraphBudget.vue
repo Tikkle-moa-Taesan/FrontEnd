@@ -5,40 +5,30 @@ import { computed, ref } from 'vue'
 
 const props = defineProps({
   monthlyBudget: Object,
+  centerText: String,
 })
 
-const restBudget = computed(
-  () => props.monthlyBudget.monthBudget - props.monthlyBudget.monthExpense,
-)
+const restBudget = computed(() => {
+  if (!props.monthlyBudget) return 0
+
+  return props.monthlyBudget.thisMonthBudget - props.monthlyBudget.thisMonthExpense
+})
 
 Chart.register(ArcElement, Tooltip, Legend)
 
-const centerTextPlugin = {
-  id: 'centerText',
-  beforeDraw(chart) {
-    const ctx = chart.ctx
-    const { width, height } = chart.chartArea
-    ctx.save()
-    ctx.font = '14px Poppins'
-    ctx.fillStyle = '#646464'
-    ctx.textAlign = 'center'
-    ctx.textBaseline = 'middle'
-    ctx.fillText('예산', width / 2, height / 2)
-    ctx.restore()
-  },
-}
-
 const chartLabels = ref(['남은 예산', '지출'])
 
-const chartData = ref({
-  labels: chartLabels.value,
-  datasets: [
-    {
-      data: [restBudget.value, props.monthlyBudget.monthExpense],
-      backgroundColor: ['#36A2EB', '#646464'],
-      hoverBackgroundColor: ['#36A2EB', '#646464'],
-    },
-  ],
+const chartData = computed(() => {
+  return {
+    labels: chartLabels.value,
+    datasets: [
+      {
+        data: [restBudget.value, props.monthlyBudget?.thisMonthExpense || 0],
+        backgroundColor: ['#36A2EB', '#646464'],
+        hoverBackgroundColor: ['#36A2EB', '#646464'],
+      },
+    ],
+  }
 })
 
 const chartOptions = ref({
@@ -52,9 +42,32 @@ const chartOptions = ref({
         pointStyle: 'circle',
       },
     },
-    centerText: {},
+    centerText: {
+      text: props.centerText,
+    },
   },
 })
+
+const centerTextPlugin = {
+  id: 'centerText',
+  beforeDraw: (chart) => {
+    const { ctx, chartArea, config } = chart
+
+    ctx.restore()
+
+    ctx.font = `1rem Pretendard-Regular`
+    ctx.fillStyle = '#646464'
+    ctx.textAlign = 'center'
+    ctx.textBaseline = 'middle'
+
+    const text = config.options.plugins.centerText.text
+    const textX = (chartArea.left + chartArea.right) / 2
+    const textY = (chartArea.top + chartArea.bottom) / 2
+
+    ctx.fillText(text, textX, textY)
+    ctx.save()
+  },
+}
 
 Chart.register(centerTextPlugin)
 </script>

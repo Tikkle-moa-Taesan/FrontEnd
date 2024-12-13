@@ -1,81 +1,76 @@
 <script setup>
 import { computed, ref } from 'vue'
+import router from '@/router'
+
 import MajorAccountDetail from './MajorAccountDetail.vue'
+
 import formatNumber from '@/utils/formatNumber'
+import { postMock } from '@/utils/api'
 
-const response = ref([
-  {
-    accountId: 1,
-    balance: 1300000,
-    bankName: '하나은행',
-    accountName: '뱅크월렛 카카오통장',
-    difference: -26000,
-  },
-  {
-    accountId: 2,
-    balance: 500000,
-    bankName: '우리은행',
-    accountName: 'WEWE 우리통장',
-    difference: 3000,
-  },
-  {
-    accountId: 3,
-    balance: 84651254,
-    bankName: '카카오뱅크',
-    accountName: '어피치 분홍통장',
-    difference: 15120,
-  },
-  {
-    accountId: 4,
-    balance: 51254,
-    bankName: '은행1',
-    accountName: '통장1',
-    difference: -87322,
-  },
-  {
-    accountId: 5,
-    balance: 394554,
-    bankName: '은행2',
-    accountName: '통장2',
-    difference: 15120,
-  },
-  {
-    accountId: 6,
-    balance: 1963552,
-    bankName: '은행3',
-    accountName: '통장3',
-    difference: 15120,
-  },
-])
+const props = defineProps({
+  freeAccountList: Array,
+})
 
-const majorAccountList = computed(() => response.value.slice(0, 3))
-const restAccountList = computed(() => response.value.slice(3))
+const emits = defineEmits(['addBtnClick'])
+
+const majorAccountList = computed(() => {
+  return props.freeAccountList ? props.freeAccountList.slice(0, 3) : []
+})
+
+const restAccountList = computed(() => {
+  return props.freeAccountList ? props.freeAccountList.slice(3) : []
+})
 
 const restTotalBalance = computed(() =>
   restAccountList.value.reduce((sum, account) => sum + account.balance, 0),
 )
+
+const isAddBtnClicked = ref(false)
+
+const handleEtcClick = () => {
+  router.push({ name: 'asset' })
+}
+
+const handleAddBtnClick = async () => {
+  isAddBtnClicked.value = true
+
+  await postMock()
+
+  emits('addBtnClick')
+}
 </script>
 
 <template>
   <div class="major-accounts-container">
     <h2>자유 입출금 계좌</h2>
 
-    <span>전날 대비</span>
+    <span v-if="freeAccountList.length > 0">전날 대비</span>
 
-    <div class="account-list">
+    <div v-if="freeAccountList.length > 0" class="account-list">
       <MajorAccountDetail
         v-for="account in majorAccountList"
         :key="account.accountId"
         :account="account"
       />
 
-      <div class="rest-info-container">
-        <img class="etc-img" src="@/assets/images/etc.png" alt="기타" />
+      <div v-if="restAccountList.length > 0" @click="handleEtcClick" class="rest-info-container">
+        <img class="etc-img" src="@/assets/images/etc.webp" alt="기타" />
         <div class="rest-info">
           <span>{{ formatNumber(restTotalBalance) }} 원</span>
           <span class="rest-count">그 외 {{ restAccountList.length }}개</span>
         </div>
       </div>
+    </div>
+
+    <div v-if="freeAccountList.length === 0" class="empty-container">
+      <button
+        v-show="!isAddBtnClicked"
+        class="mock-btn"
+        @click.stop="handleAddBtnClick"
+        type="button"
+      >
+        데이터 추가하기
+      </button>
     </div>
   </div>
 </template>
@@ -104,6 +99,7 @@ const restTotalBalance = computed(() =>
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  font-size: 0.875rem;
 }
 
 .rest-info-container {
@@ -115,7 +111,7 @@ const restTotalBalance = computed(() =>
 .rest-info {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 0.5rem;
 }
 
 .rest-info .rest-count {
@@ -125,5 +121,26 @@ const restTotalBalance = computed(() =>
 .etc-img {
   width: 2.75rem;
   height: 2.75rem;
+}
+
+.empty-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 16rem;
+  padding: 2rem;
+  background-image: url('/src/assets/images/no-account.webp');
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.mock-btn {
+  padding: 0.75rem 1.25rem;
+  border: none;
+  border-radius: 5px;
+  background-color: #3396f4;
+  color: white;
+  font-weight: 700;
 }
 </style>

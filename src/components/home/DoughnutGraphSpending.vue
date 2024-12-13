@@ -1,28 +1,15 @@
 <script setup>
-import { Doughnut } from 'vue-chartjs'
-import { ArcElement, Chart, Legend, Tooltip } from 'chart.js'
 import { computed, ref } from 'vue'
 
+import { Doughnut } from 'vue-chartjs'
+import { ArcElement, Chart, Legend, Tooltip } from 'chart.js'
+
 const props = defineProps({
-  monthlyExpenses: Object,
+  categoryExpenses: Object,
+  centerText: String,
 })
 
 Chart.register(ArcElement, Tooltip, Legend)
-
-const centerTextPlugin = {
-  id: 'centerText',
-  beforeDraw(chart) {
-    const ctx = chart.ctx
-    const { width, height } = chart.chartArea
-    ctx.save()
-    ctx.font = '14px Poppins'
-    ctx.fillStyle = '#646464'
-    ctx.textAlign = 'center'
-    ctx.textBaseline = 'middle'
-    ctx.fillText('지출', width / 2, height / 2)
-    ctx.restore()
-  },
-}
 
 const chartLabels = ref([
   '식비',
@@ -35,37 +22,43 @@ const chartLabels = ref([
   '반려동물',
   '경조/선물',
 ])
-const chartDatasets = computed(() => Object.values(props.monthlyExpenses.category))
+const chartDatasets = computed(() => {
+  if (!props.categoryExpenses) return []
 
-const chartData = ref({
-  labels: chartLabels.value,
-  datasets: [
-    {
-      data: chartDatasets.value,
-      backgroundColor: [
-        '#4BC0C0',
-        '#36A2EB',
-        '#FF6384',
-        '#FF9F40',
-        '#FFCD56',
-        '#C9CBCF',
-        '#9966FF',
-        '#FF9F40',
-        '#FF6384',
-      ],
-      hoverBackgroundColor: [
-        '#4BC0C0',
-        '#36A2EB',
-        '#FF6384',
-        '#FF9F40',
-        '#FFCD56',
-        '#C9CBCF',
-        '#9966FF',
-        '#FF9F40',
-        '#FF6384',
-      ],
-    },
-  ],
+  return Object.values(props.categoryExpenses)
+})
+
+const chartData = computed(() => {
+  return {
+    labels: chartLabels.value,
+    datasets: [
+      {
+        data: chartDatasets.value,
+        backgroundColor: [
+          '#4BC0C0',
+          '#36A2EB',
+          '#FF6384',
+          '#FF9F40',
+          '#FFCD56',
+          '#C9CBCF',
+          '#9966FF',
+          '#FF9F40',
+          '#FF6384',
+        ],
+        hoverBackgroundColor: [
+          '#4BC0C0',
+          '#36A2EB',
+          '#FF6384',
+          '#FF9F40',
+          '#FFCD56',
+          '#C9CBCF',
+          '#9966FF',
+          '#FF9F40',
+          '#FF6384',
+        ],
+      },
+    ],
+  }
 })
 
 const chartOptions = ref({
@@ -79,9 +72,32 @@ const chartOptions = ref({
         pointStyle: 'circle',
       },
     },
-    centerText: {},
+    centerText: {
+      text: props.centerText,
+    },
   },
 })
+
+const centerTextPlugin = {
+  id: 'centerText',
+  beforeDraw: (chart) => {
+    const { ctx, chartArea, config } = chart
+
+    ctx.restore()
+
+    ctx.font = `1rem Pretendard-Regular`
+    ctx.fillStyle = '#646464'
+    ctx.textAlign = 'center'
+    ctx.textBaseline = 'middle'
+
+    const text = config.options.plugins.centerText.text
+    const textX = (chartArea.left + chartArea.right) / 2
+    const textY = (chartArea.top + chartArea.bottom) / 2
+
+    ctx.fillText(text, textX, textY)
+    ctx.save()
+  },
+}
 
 Chart.register(centerTextPlugin)
 </script>

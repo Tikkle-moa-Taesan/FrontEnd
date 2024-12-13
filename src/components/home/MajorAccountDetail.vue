@@ -1,18 +1,29 @@
 <script setup>
-import formatNumber from '@/utils/formatNumber'
 import { ref } from 'vue'
+
+import router from '@/router'
+import formatNumber from '@/utils/formatNumber'
+
+import BANK from '@/constants/bank'
+import ghostFace from '@/assets/images/ghost-face.webp'
 
 const props = defineProps({
   account: Object,
 })
 
-const isPositive = ref(props.account.difference > 0 ? true : false)
+const handleAccountClick = () => {
+  router.push({ name: 'asset-detail', params: { type: 'free', id: props.account.accountId } })
+}
+
+const isPositive = ref(props.account.balanceDifference > 0 ? true : false)
 </script>
 
 <template>
-  <div class="account-container">
+  <div @click="handleAccountClick" class="account-container">
     <div class="account-info-container">
-      <div class="bank-img-container"></div>
+      <div class="bank-img-container">
+        <img :src="BANK[account.bankName] || ghostFace" alt="은행아이콘" />
+      </div>
 
       <div class="account-info">
         <span>{{ formatNumber(account.balance) }}원</span>
@@ -20,11 +31,11 @@ const isPositive = ref(props.account.difference > 0 ? true : false)
       </div>
     </div>
 
-    <div class="difference">
+    <div v-if="account.balanceDifference" class="difference">
       <img v-if="isPositive" src="@/assets/icons/triangle-up.png" alt="상향삼각형" />
       <img v-else src="@/assets/icons/triangle-down.png" alt="하향삼각형" />
       <span :class="isPositive ? 'text-blue' : 'text-red'">{{
-        formatNumber(account.difference)
+        formatNumber(account.balanceDifference)
       }}</span>
     </div>
   </div>
@@ -44,16 +55,23 @@ const isPositive = ref(props.account.difference > 0 ? true : false)
 }
 
 .bank-img-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 2.75rem;
   height: 2.75rem;
   border-radius: 999px;
   background-color: #e8e8e8;
 }
 
+.bank-img-container img {
+  width: 60%;
+}
+
 .account-info {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 0.5rem;
 }
 
 .account-info .account-name {

@@ -1,20 +1,26 @@
 <script setup>
 import formatNumber from '@/utils/formatNumber'
-import { ref } from 'vue'
 
-const userName = ref('소샤이')
+import defaultProfileImg from '@/assets/images/ghost.webp'
+import { inject } from 'vue'
 
-const totalBalance = ref(1234567890)
+defineProps({
+  totalBalance: Number,
+})
+
+const profile = inject('profile')
 </script>
 
 <template>
   <div class="total-balance-container">
     <div class="info-container">
-      <span class="title">{{ userName }}님의 총 자산</span>
+      <span class="title">{{ profile?.memberName }}님의 총 자산</span>
       <span class="total-balance">{{ formatNumber(totalBalance) }} 원</span>
     </div>
 
-    <div class="img-container"></div>
+    <div class="img-container">
+      <img class="profile-img" :src="profile?.picture || defaultProfileImg" alt="프로필 사진" />
+    </div>
   </div>
 </template>
 
@@ -48,5 +54,10 @@ const totalBalance = ref(1234567890)
   height: 3.25rem;
   border-radius: 999px;
   background-color: white;
+  overflow: hidden;
+}
+
+.profile-img {
+  width: 100%;
 }
 </style>
