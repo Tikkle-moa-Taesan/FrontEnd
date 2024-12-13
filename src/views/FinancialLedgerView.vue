@@ -66,7 +66,7 @@ watch(hasModifyContent, async (newValue) => {
         :financial-ledger-info="financialLedgerInfo"
       />
 
-      <div v-if="isBudget || financialLedgerInfo != null">
+      <div v-if="financialLedgerInfo?.monthExpense > 0 && financialLedgerInfo?.monthIncome > 0">
         <RouterView v-slot="{ Component }">
           <Transition>
             <component
@@ -78,7 +78,7 @@ watch(hasModifyContent, async (newValue) => {
         </RouterView>
       </div>
       <div v-else class="empty-container">
-        <Loading msg="가계부 내역이 존재하지 않아요." />
+        <Loading msg="이번 달 내역이 존재하지 않아요." />
       </div>
 
       <FloatingNav class="floating-nav" />
